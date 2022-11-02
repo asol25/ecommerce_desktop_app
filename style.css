@@ -140,7 +140,6 @@ ul {
     font-family: "Exo", sans-serif;
     font-size: 6.5em;
     font-weight: 900;
-    width: -webkit-min-content;
     width: -moz-min-content;
     width: min-content;
     margin: auto;
