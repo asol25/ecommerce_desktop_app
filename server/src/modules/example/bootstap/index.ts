@@ -6,4 +6,4 @@ import { Module } from '@nestjs/common';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AuthModule {}
+export class ExpampleModule {}
