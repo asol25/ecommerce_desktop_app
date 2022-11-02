@@ -189,48 +189,6 @@ ul {
     transition: 1s;
 }
 
-@media screen and (max-width: 600px) {
-
-    .nav {
-        position: relative;
-        top: 0;
-        right: -78px;
-        width: 100vw;
-        z-index: 10;
-        transition: .5s;
-    }
-
-    .nav__list {
-        /* display: none; */
-        position: absolute;
-        z-index: 10;
-        width: 100vw;
-        height: 100vh;
-        background-color: #1a1a1a;
-        flex-direction: column;
-        top: -15px;
-        right: -33px;
-    }
-
-    .toggle__close {
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: 99;
-        color: white;
-    }
-
-    .toggle__open {
-        color: white;
-    }
-}
-
-@media screen and (min-width: 768px) {
-    .banner>.banner__container>h1 {
-        font-size: 6.5rem;
-    }
-}
-
 /* COURSES */
 .courses {
     padding-top: 5em;
@@ -316,22 +274,6 @@ span {
     color: black;
 }
 
-@media screen and (max-width: 600px) {
-    .courses__populated {
-        border: none !important;
-    }
-
-    .courses>.courses__populated>.courses_list {
-        overflow-x: hidden;
-        /* flex-wrap: nowrap; */
-        justify-content: flex-start;
-        touch-action: pan-left, pan-right;
-    }
-
-    .courses>.courses__populated>.content {
-        display: none;
-    }
-}
 
 /* HOW TO USE */
 .building {
@@ -365,17 +307,6 @@ span {
     height: 100px;
 }
 
-
-@media screen and (max-width: 600px) {
-    .building .logo {
-        width: 200px;
-        height: 129px;
-    }
-
-    .building .logo img {
-        object-fit: contain;
-    }
-}
 
 /* CONTRIBUTE */
 .contribute {
@@ -412,13 +343,6 @@ span {
     row-gap: .5em;
     justify-content: center;
     align-items: center;
-}
-
-@media screen and (max-width: 600px) {
-    .contribute .contribute_people {
-        flex-wrap: wrap;
-        row-gap: 3em;
-    }
 }
 
 footer {
@@ -474,4 +398,73 @@ footer p {
 
 footer p span {
     color: #04AA6D;
+}
+
+
+@media screen and (max-width: 600px) {
+    .nav {
+        position: relative;
+        top: 0;
+        right: -78px;
+        width: 100vw;
+        z-index: 10;
+        transition: .5s;
+    }
+
+    .nav__list {
+        /* display: none; */
+        position: absolute;
+        z-index: 10;
+        width: 100vw;
+        height: 100vh;
+        background-color: #1a1a1a;
+        flex-direction: column;
+        top: -15px;
+        right: -33px;
+    }
+
+    .toggle__close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 99;
+        color: white;
+    }
+
+    .toggle__open {
+        color: white;
+    }
+
+    .banner>.banner__container>h1 {
+        font-size: 6.5rem;
+    }
+
+    .courses__populated {
+        border: none !important;
+    }
+
+    .courses>.courses__populated>.courses_list {
+        overflow-x: hidden;
+        /* flex-wrap: nowrap; */
+        justify-content: flex-start;
+        touch-action: pan-left, pan-right;
+    }
+
+    .courses>.courses__populated>.content {
+        display: none;
+    }
+
+    .building .logo {
+        width: 200px;
+        height: 129px;
+    }
+
+    .building .logo img {
+        object-fit: contain;
+    }
+
+    .contribute .contribute_people {
+        flex-wrap: wrap;
+        row-gap: 3em;
+    }
 }
