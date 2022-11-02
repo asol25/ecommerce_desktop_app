@@ -18,5 +18,26 @@ const app = (() => {
         });
     }
     
+    const toggleClose = () => {
+        const nodeClose = $('.toggle__close');
+        const nodeMenu = $('.nav');
+        nodeClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.target.classList.add('show');
+            nodeMenu.classList.add('show');
+        })
+    }
+
+    const toggleOpen = () => {
+        const nodeOpen = $('.toggle__open');
+        const nodeMenu = $('.nav');
+        nodeOpen.addEventListener('click', (e) => {
+            e.preventDefault();
+            nodeMenu.classList.remove('show');
+        });
+    }
+
+    toggleOpen();
+    toggleClose();
     handleActive();
 })();

@@ -22,6 +22,7 @@ body {
     font-size: 42px;
     line-height: 51px;
 }
+
 img {
     width: 100%;
     height: 100%;
@@ -183,6 +184,47 @@ ul {
     transition: 1s;
 }
 
+.show {
+    top: -100em !important;
+    transition: 1s;
+}
+
+@media screen and (max-width: 600px) {
+
+    .nav {
+        position: relative;
+        top: 0;
+        right: -78px;
+        width: 100vw;
+        z-index: 10;
+        transition: .5s;
+    }
+
+    .nav__list {
+        /* display: none; */
+        position: absolute;
+        z-index: 10;
+        width: 100vw;
+        height: 100vh;
+        background-color: #1a1a1a;
+        flex-direction: column;
+        top: -15px;
+        right: -33px;
+    }
+
+    .toggle__close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 99;
+        color: white;
+    }
+
+    .toggle__open {
+        color: white;
+    }
+}
+
 @media screen and (min-width: 768px) {
     .banner>.banner__container>h1 {
         font-size: 6.5rem;
@@ -323,6 +365,18 @@ span {
     height: 100px;
 }
 
+
+@media screen and (max-width: 600px) {
+    .building .logo {
+        width: 200px;
+        height: 129px;
+    }
+
+    .building .logo img {
+        object-fit: contain;
+    }
+}
+
 /* CONTRIBUTE */
 .contribute {
     text-align: center;
@@ -344,7 +398,7 @@ span {
     column-gap: 2em;
 }
 
-.contribute .contribute_people img{
+.contribute .contribute_people img {
     width: 100px;
     height: 100px;
     display: block;
@@ -352,7 +406,7 @@ span {
     border-radius: 100%;
 }
 
-.contribute .contribute_people .author{
+.contribute .contribute_people .author {
     display: flex;
     flex-direction: column;
     row-gap: .5em;
@@ -362,10 +416,11 @@ span {
 
 @media screen and (max-width: 600px) {
     .contribute .contribute_people {
-    flex-wrap: wrap;
-    row-gap: 3em;
+        flex-wrap: wrap;
+        row-gap: 3em;
     }
 }
+
 footer {
     background-color: #1a1a1a;
     margin-top: 5em;
@@ -382,18 +437,19 @@ footer h6 {
 footer form {
     position: relative;
     width: 300px;
-    margin:  0 auto;
+    margin: 0 auto;
     padding: 20px 0;
 }
 
 footer input {
-    border: 1px solid rgba(84, 84, 84, .65);;
+    border: 1px solid rgba(84, 84, 84, .65);
+    ;
     border-radius: 8px;
     padding: 11px 128px 11px 16px;
     font-size: 16px;
     color: rgba(255, 255, 255, .87);
     background-color: inherit;
-    transition: border-color .25s,background-color .25s;
+    transition: border-color .25s, background-color .25s;
     outline: none;
 }
 
@@ -412,7 +468,7 @@ footer button {
 
 footer p {
     font-weight: 600;
-    color:rgba(255, 255, 255, .87);
+    color: rgba(255, 255, 255, .87);
 
 }
 
