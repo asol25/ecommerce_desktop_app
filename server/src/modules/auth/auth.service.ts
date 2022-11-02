@@ -14,7 +14,7 @@ export class AuthService {
         if (user && password === user.password) {
             const { password, ...result } = user;
             return result;
-        } 
+        }
         return null;
     }
     async login(account: any) {
