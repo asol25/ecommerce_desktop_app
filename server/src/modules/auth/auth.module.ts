@@ -16,7 +16,7 @@ import { jwtConstants } from './constants';
       signOptions: { expiresIn: '60s' },
     })
   ],
-  controllers: [AuthController, LocalStrategy, JwtStrategy],
+  controllers: [AuthController],
   providers: [AuthService],
 })
 export class AuthModule { }
