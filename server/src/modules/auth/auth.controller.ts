@@ -1,19 +1,22 @@
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtStrategy } from "./strategies/jwt.strategy";
 import { LocalStrategy } from "./strategies/local.strategy";
-import { Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
+import { AuthGuard } from "@nestjs/passport";
+import { LocalAuthGuard } from "./guards/local-auth.guard";
 
-@Controller()
+@Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
-  @UseGuards(LocalStrategy)
-  @Post("auth/login")
-  async login(@Request() req) {
-    return this.authService.login(req.user);
+  @UseGuards(LocalAuthGuard)
+  @Post("login")
+  async login(@Request() req, @Body() body) {
+    return this.authService.login(body);
   }
 
-  @UseGuards(JwtStrategy)
+  @UseGuards(JwtAuthGuard)
   @Get("profile")
   getProfile(@Request() req) {
     return req.user;

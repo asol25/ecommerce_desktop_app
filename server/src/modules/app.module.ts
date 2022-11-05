@@ -1,17 +1,24 @@
+import configuration from "src/config/configuration"
+import { ConfigModule } from '@nestjs/config';
 import { Module } from "@nestjs/common";
 import { AuthModule } from "./auth/auth.module";
 import { ExpampleModule } from "./example/bootstap";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersModule } from "./user/users.module";
+import { DataSource } from "typeorm";
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [configuration],
+    }),
     TypeOrmModule.forRoot({
       type: "mysql",
-      host: "localhost",
-      port: 3306,
-      username: "root",
-      password: "01284375954",
-      database: "web2041",
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT, 10) || 3306,
+      username: process.env.DATABASE_USER || 'root',
+      password: process.env.DATABASE_PASS || "01284375954",
+      database: process.env.DATABSE_NAME || "web2041",
       entities: [],
       synchronize: true,
     }),
@@ -22,4 +29,6 @@ import { UsersModule } from "./user/users.module";
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) { }
+}
