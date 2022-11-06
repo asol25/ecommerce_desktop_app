@@ -1,5 +1,5 @@
 import { jwtConstants } from './constants';
-import { UsersService } from "../user/users.service";
+import { UsersService } from "../accounts/user/users.service";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
