@@ -4,7 +4,6 @@ import configuration from "src/config/configuration"
 import { ConfigModule } from '@nestjs/config';
 import { Module } from "@nestjs/common";
 import { AuthModule } from "./auth/auth.module";
-import { ExpampleModule } from "./example/bootstap";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersModule } from "./accounts/user/users.module";
 import { DataSource } from "typeorm";
@@ -29,7 +28,6 @@ import { Administrator } from "src/modules/accounts/admin/entity/admin.entity";
     }),
     AuthModule,
     UsersModule,
-    ExpampleModule,
   ],
   controllers: [],
   providers: [],
