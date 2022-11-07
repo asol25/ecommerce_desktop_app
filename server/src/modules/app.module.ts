@@ -1,3 +1,4 @@
+import { SuppoterModule } from './accounts/suppoter/suppoter.module';
 import { Mod } from './accounts/mod/entity/mod.entity';
 import { Suppoter } from './accounts/suppoter/entity/suppoter.entity';
 import configuration from "src/config/configuration"
@@ -28,6 +29,7 @@ import { Administrator } from "src/modules/accounts/admin/entity/admin.entity";
     }),
     AuthModule,
     UsersModule,
+    SuppoterModule
   ],
   controllers: [],
   providers: [],

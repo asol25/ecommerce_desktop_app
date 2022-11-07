@@ -1,4 +1,4 @@
-import { Controller, forwardRef, Get, Inject, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, forwardRef, Get, Inject, Param, Post, Request, UseGuards } from '@nestjs/common';
 import { User } from './entity/user.entity';
 import { UsersService } from './users.service';
 
@@ -11,5 +11,10 @@ export class UserController {
     @Get()
     async findAll(): Promise<User[]> {
         return await this.usersService.findAll();
+    }
+
+    @Post(":key")
+    async findOne(@Param() params) {
+        return await this.usersService.findOne(params);
     }
 }

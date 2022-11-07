@@ -2,15 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entity/user.entity';
+import { optionsFindOneAccount } from '../type';
 
-type optionsFindOneUser = {
-  id?: number;
-  username?: string;
-  password?: string;
-  email?: string
-  accessToken?: string
-  refresshToken?: string
-}
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -22,7 +16,7 @@ export class UsersService {
     return await this.usersRepository.find();
   }
 
-  async findOne(options: optionsFindOneUser): Promise<User> {
+  async findOne(options: optionsFindOneAccount): Promise<User> {
     const { id,
       username,
       password,
