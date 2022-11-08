@@ -1,0 +1,4 @@
+[submodule "ecommerce_desktop_app"]
+	path = server
+	url = https://github.com/asol25/ecommerce_desktop_app.git
+	branch = test
