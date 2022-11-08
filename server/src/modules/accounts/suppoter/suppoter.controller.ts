@@ -1,6 +1,6 @@
 import { Suppoter } from './entity/suppoter.entity';
 import { SuppoterService } from './suppoter.service';
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 
 @Controller('suppoter')
 export class SuppoterController {
@@ -12,8 +12,8 @@ export class SuppoterController {
         return await this.suppoterService.findAll();
     }
 
-    @Post(":key")
-    async findOne(@Param() params) {
-        return await this.suppoterService.findOne(params);
+    @Post("findOne")
+    async findOne(@Body() body): Promise<Suppoter> {
+        return await this.suppoterService.findOne(body);
     }
 }

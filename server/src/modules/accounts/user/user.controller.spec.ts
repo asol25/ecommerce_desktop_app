@@ -1,14 +1,13 @@
+import { DataSource, Repository } from 'typeorm';
 import { User } from './entity/user.entity';
 import { UsersService } from './users.service';
 import { UserController } from './user.controller';
-import { Repository } from 'typeorm';
-
 describe('userController', () => {
     let controller: UserController;
     let service: UsersService;
-
+    let dataSource: DataSource;
     beforeEach(() => {
-        service = new UsersService((User as unknown as Repository<User>));
+        service = new UsersService((User as unknown as Repository<User>), dataSource);
         controller = new UserController(service);
     });
 
@@ -23,7 +22,7 @@ describe('userController', () => {
                 "refresshToken": "[value-6]"
             }];
 
-            jest.spyOn(service, 'findAll').mockImplementation(async () => await result);
+            jest.spyOn(service, 'findAll').mockImplementation(async () => result);
             expect(await controller.findAll()).toBe(result);
         });
     });

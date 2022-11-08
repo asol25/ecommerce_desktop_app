@@ -17,4 +17,9 @@ export class UserController {
     async findOne(@Param() params) {
         return await this.usersService.findOne(params);
     }
+
+    @Post("delete/:id")
+    async deleteOne(@Param() params) {
+        return await this.usersService.deleteOne(params);
+    }
 }
