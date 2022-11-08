@@ -13,6 +13,14 @@ export class User {
     @Length(8, 20)
     password: string;
 
+    @Column()
+    @Length(1, 3)
+    verified: string;
+
+    @Column()
+    @Length(1, 10)
+    status: string;
+
     @Column({ unique: true })
     @IsEmail()
     email: string

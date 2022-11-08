@@ -14,8 +14,17 @@ export class UsersService {
     private dataSource: DataSource
   ) { }
 
-  async findAll(): Promise<User[]> {
-    return await this.usersRepository.find();
+  async findAll(options): Promise<User[]> {
+    const { page, order } = options;
+    const skip = Number(page) === 0 ? 0 : Number(page + 1) + 4;
+    const take = skip + 5;
+    return await this.usersRepository.find({
+      order: {
+        id: order,
+      },
+      skip: skip,
+      take: take,
+    });
   }
 
   async findOne(options: optionsFindOneAccount): Promise<User> {
