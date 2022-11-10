@@ -1,14 +1,9 @@
-import { Courses } from './../../courses/entity/course.entity';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-Entity()
+@Entity()
 export class Analytic {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @OneToOne(() => Courses)
-    @JoinColumn()
-    course: Courses
 
     @Column()
     viewCount: number

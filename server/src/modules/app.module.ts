@@ -1,5 +1,4 @@
 import { Videos } from './videos/entity/video.entity';
-import { Courses } from './courses/entity/course.entity';
 import { Orders } from './orders/entity/orders.entity';
 import { Roles } from './accounts/entity/roles.entity';
 import { Tokens } from './accounts/entity/tokens.entity';
@@ -16,8 +15,9 @@ import { Categorys } from './categorys/entity/categorys.entity';
 import { CategorysModule } from './categorys/categorys.module';
 import { AccountsModule } from './accounts/accounts.module';
 import { AccountDetails } from './accounts/entity/accountDetails.entity';
-import { Analytic } from './analytic/entity/analytic.entity';
 import { Comments } from './comments/entity/comments.entity';
+import { Analytic } from './analytic/entity/analytic.entity';
+import { Courses } from './courses/entity/courses.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -31,7 +31,7 @@ import { Comments } from './comments/entity/comments.entity';
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASS || "01284375954",
       database: process.env.DATABSE_NAME || "web2041",
-      entities: [Accounts, Tokens, Roles, Categorys, Rating, AccountDetails, Orders, Courses, Videos, Analytic, Comments],
+      entities: [Accounts, Tokens, Roles, Categorys, Rating, AccountDetails, Orders, Courses, Videos, Analytic , Comments],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -44,7 +44,5 @@ import { Comments } from './comments/entity/comments.entity';
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {
-    console.log(process.env.PORT);
-
   }
 }
