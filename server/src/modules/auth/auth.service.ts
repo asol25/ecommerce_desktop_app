@@ -1,12 +1,12 @@
 import { jwtConstants } from './constants';
-import { AccountsService } from "../accounts/user/users.service";
+// import { AccountsService } from "../accounts/user/users.service";
 import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: AccountsService,
+    // private readonly usersService: AccountsService,
     private readonly jwtService: JwtService,
   ) { }
 

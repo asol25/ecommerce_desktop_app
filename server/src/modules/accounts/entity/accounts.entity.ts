@@ -1,7 +1,8 @@
 import { Comments } from './../../comments/entity/comments.entity';
 import { Orders } from './../../orders/entity/orders.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
 import { IsEmail, Length } from "class-validator";
+import { Roles } from './roles.entity';
 @Entity()
 export class Accounts {
     @PrimaryGeneratedColumn()
@@ -27,9 +28,6 @@ export class Accounts {
     @IsEmail()
     email: string
 
-    @OneToMany(() => Orders, (order) => order.id)
-    orders: Orders[]
-
-    @OneToMany(() => Comments, (comment) => comment.id)
-    comments: Comments[]
+    @ManyToOne(() => Roles, (role) => role.id)
+    role: Roles;
 }
