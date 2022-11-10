@@ -1,8 +1,7 @@
 import { Accounts } from './../entity/accounts.entity';
-import { createQueryBuilder, DataSource, EqualOperator, FindOperator, FindOptionsWhere, Repository } from 'typeorm';
+import { DataSource, DeepPartial, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Roles } from '../entity/roles.entity';
 '../type';
 
 enum UserEnum {
@@ -17,10 +16,8 @@ export class UsersService {
   ) { }
 
   async findAll({ page }): Promise<Accounts[]> {
-    const ROWN_NUMBER = 24;
-    const skip = Number(page) === 0 ? 0 : Number(page) + ROWN_NUMBER;
-    const take = skip + ROWN_NUMBER;
-
+    const skip = Number(page) === 0 ? 0 : Number(page + 1) + 24;
+    const take = skip + 25;
     const response = await this.dataSource.getRepository(Accounts).find({
       relations: {
         role: true,
@@ -47,12 +44,37 @@ export class UsersService {
     return (response as unknown as Promise<Accounts>);
   }
 
-  async deleteOne({ id }): Promise<boolean> {
+  async deleteOne({ id, page }): Promise<Accounts[] | string> {
     try {
       const deleteQuery = await this.accountsRepository.delete(id);
-      return deleteQuery.affected ? true : false;
+      if (deleteQuery.affected) {
+        const response = await this.findAll({ page: page });
+        return response;
+      }
+
+      return "Error delete Account User";
     } catch (error) {
       console.error(error || error.message?.data || error.data?.message);
     }
+  }
+
+  async createUser(options): Promise<Accounts[] | string> {
+    const { username, password, email, verified, status, page} = options;
+    
+    const newRow = this.accountsRepository.create({
+      username: username,
+      password: password,
+      email: email,
+      verified: verified,
+      status: status,
+      role: (4 as DeepPartial<Accounts>)
+    })
+
+    const response = await this.accountsRepository.insert(newRow);
+
+    if (response.identifiers) {
+      return await this.findAll({ page: page });
+    }
+    return "Error create Account User";
   }
 }

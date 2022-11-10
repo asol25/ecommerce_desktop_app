@@ -1,4 +1,4 @@
-import { Controller, Get, Inject, Param, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 
 
@@ -17,7 +17,12 @@ export class UserController {
         return await this.usersService.findOne(params);
     }
 
-    @Post("delete/:id")
+    @Put("create")
+    async creteUser(@Body() body) {
+        return await this.usersService.createUser(body);
+    }
+
+    @Delete("delete/:id/page/:page")
     async deleteOne(@Param() params) {
         return await this.usersService.deleteOne(params);
     }

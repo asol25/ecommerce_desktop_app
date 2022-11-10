@@ -22,6 +22,7 @@ import {
   Popover,
   MenuItem,
 } from '@mui/material';
+import { NewUser } from '../components/user/NewUser';
 import * as apis from '../apis/apis';
 // components
 import Label from '../components/label';
@@ -75,7 +76,6 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
-  const [isChecked, setIsChecked] = useState(false);
   const [keyRow, setKeyRow] = useState();
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -89,15 +89,10 @@ export default function UserPage() {
   useEffect(() => {
     let isChecked = true;
 
+    console.log(users);
     if (isChecked) {
       const fetchData = async () => {
-        const query = {
-          page,
-          order,
-          selected,
-          orderBy,
-        }
-        const response = await apis.user.find(query);
+        const response = await apis.user.find(page);
         const { data, status } = response;
         if (status === 200 && data.length > 0) {
           setUsers(data.map(({ id, username, password, email, verified, status }) => ({ id, username, password, email, verified, status })));
@@ -108,7 +103,7 @@ export default function UserPage() {
     return () => {
       isChecked = false;
     }
-  }, [isChecked, page, order, selected, orderBy]);
+  }, [page]);
 
   const handleOpenMenu = (event, id) => {
     setKeyRow(id);
@@ -119,15 +114,17 @@ export default function UserPage() {
     setOpen(null);
   };
 
-  const handleDeleteById = async () => {
-    const response = await apis.user.deleteById(keyRow);
-    if (response) {
-      console.log(response);
-      return setIsChecked(!isChecked);
+  const handleDeleteById = async (id, page) => {
+    const response = await apis.user.deleteById(id, page);
+    const { data, status } = response;
+    if (status === 200) {
+      handleCloseMenu();
+      return setUsers(data);
     }
 
     return 0;
   }
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -155,6 +152,7 @@ export default function UserPage() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
+    console.log(newSelected);
     setSelected(newSelected);
   };
 
@@ -189,9 +187,7 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New User
-          </Button>
+          <NewUser setUsers={setUsers} page={page}/>
         </Stack>
 
         <Card>
@@ -302,7 +298,9 @@ export default function UserPage() {
               Edit
             </MenuItem>
 
-            <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteById}>
+            <MenuItem sx={{ color: 'error.main' }} onClick={() => {
+              handleDeleteById(keyRow, page)
+            }}>
               <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
               Delete
             </MenuItem>
