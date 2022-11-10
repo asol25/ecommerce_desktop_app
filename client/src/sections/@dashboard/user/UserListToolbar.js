@@ -39,7 +39,6 @@ UserListToolbar.propTypes = {
 };
 
 export default function UserListToolbar({ numSelected, filterName, onFilterusername }) {
-  console.log(typeof(onFilterusername));
   return (
     <StyledRoot
       sx={{

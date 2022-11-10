@@ -1,24 +1,23 @@
+import { Accounts } from './../entity/accounts.entity';
 import { DataSource, FindOptionsWhere } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entity/user.entity';
 import { optionsFindOneAccount } from '../type';
 
 
 @Injectable()
-export class UsersService {
+export class AccountsService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private accountsRepository: Repository<Accounts>,
     private dataSource: DataSource
   ) { }
 
-  async findAll(options): Promise<User[]> {
+  async findAll(options): Promise<Accounts[]> {
     const { page, order } = options;
     const skip = Number(page) === 0 ? 0 : Number(page + 1) + 4;
     const take = skip + 5;
-    return await this.usersRepository.find({
+    return await this.accountsRepository.find({
       order: {
         id: order,
       },
@@ -27,19 +26,18 @@ export class UsersService {
     });
   }
 
-  async findOne(options: optionsFindOneAccount): Promise<User> {
+  async findOne(options: optionsFindOneAccount): Promise<Accounts> {
     const { id,
       username,
       password,
-      email,
-      accessToken,
-      refresshToken } = options;
-    return await this.usersRepository.findOneBy({ id, username, password, email, accessToken, refresshToken });
+      email } = options;
+    return await this.accountsRepository.findOneBy({ id, username, password, email });
   }
 
-  async deleteOne(id: number | string): Promise<boolean> {
+  async deleteOne(params): Promise<boolean> {
+    const { id } = params;
     try {
-      const deleteQuery = await this.usersRepository.delete(id);
+      const deleteQuery = await this.accountsRepository.delete(id);
       return deleteQuery.affected ? true : false;
     } catch (error) {
       console.error(error || error.message?.data || error.data?.message);

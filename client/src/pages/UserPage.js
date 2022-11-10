@@ -10,10 +10,8 @@ import {
   Paper,
   Avatar,
   Button,
-  Popover,
   Checkbox,
   TableRow,
-  MenuItem,
   TableBody,
   TableCell,
   Container,
@@ -21,12 +19,15 @@ import {
   IconButton,
   TableContainer,
   TablePagination,
+  Popover,
+  MenuItem,
 } from '@mui/material';
-import * as apis from '../apis/user';
+import * as apis from '../apis/apis';
 // components
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
+import UserMenuMore from '../components/user/UserMoreMenu';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
@@ -74,34 +75,29 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
+  const [isChecked, setIsChecked] = useState(false);
+  const [keyRow, setKeyRow] = useState();
   const [users, setUsers] = useState([]);
-
-  const [open, setOpen] = useState(null);
-
+  const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
-
   const [order, setOrder] = useState('asc');
-
   const [selected, setSelected] = useState([]);
-
   const [orderBy, setOrderBy] = useState('username');
-
   const [filterusername, setFilterusername] = useState('');
-
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
   useEffect(() => {
     let isChecked = true;
 
     if (isChecked) {
       const fetchData = async () => {
-
         const query = {
           page,
           order,
           selected,
           orderBy,
         }
-        const response = await apis.find(query);
+        const response = await apis.user.find(query);
         const { data, status } = response;
         if (status === 200 && data.length > 0) {
           setUsers(data.map(({ id, username, password, email, verified, status }) => ({ id, username, password, email, verified, status })));
@@ -112,10 +108,10 @@ export default function UserPage() {
     return () => {
       isChecked = false;
     }
-  }, [page, order, selected, orderBy]);
+  }, [isChecked, page, order, selected, orderBy]);
 
-
-  const handleOpenMenu = (event) => {
+  const handleOpenMenu = (event, id) => {
+    setKeyRow(id);
     setOpen(event.currentTarget);
   };
 
@@ -123,6 +119,15 @@ export default function UserPage() {
     setOpen(null);
   };
 
+  const handleDeleteById = async () => {
+    const response = await apis.user.deleteById(keyRow);
+    if (response) {
+      console.log(response);
+      return setIsChecked(!isChecked);
+    }
+
+    return 0;
+  }
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -155,18 +160,15 @@ export default function UserPage() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    console.log(event);
   };
 
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
-    console.log(event);
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
   const handleFilterByusername = (event) => {
     setPage(0);
-    console.log(event.target.value);
     setFilterusername(event.target.value);
   };
 
@@ -236,7 +238,7 @@ export default function UserPage() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
+                          <IconButton size="large" color="inherit" onClick={(event) => handleOpenMenu(event, id)}>
                             <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
                         </TableCell>
@@ -277,6 +279,35 @@ export default function UserPage() {
             </TableContainer>
           </Scrollbar>
 
+          <Popover
+            open={Boolean(open)}
+            anchorEl={open}
+            onClose={handleCloseMenu}
+            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            PaperProps={{
+              sx: {
+                p: 1,
+                width: 140,
+                '& .MuiMenuItem-root': {
+                  px: 1,
+                  typography: 'body2',
+                  borderRadius: 0.75,
+                },
+              },
+            }}
+          >
+            <MenuItem>
+              <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
+              Edit
+            </MenuItem>
+
+            <MenuItem sx={{ color: 'error.main' }} onClick={handleDeleteById}>
+              <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+              Delete
+            </MenuItem>
+          </Popover>
+
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
@@ -289,34 +320,7 @@ export default function UserPage() {
         </Card>
       </Container>
 
-      <Popover
-        open={Boolean(open)}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            '& .MuiMenuItem-root': {
-              px: 1,
-              typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <MenuItem>
-          <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
 
-        <MenuItem sx={{ color: 'error.main' }}>
-          <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover>
     </>
   );
 }
