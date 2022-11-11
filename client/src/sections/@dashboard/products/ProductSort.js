@@ -7,20 +7,29 @@ import Iconify from '../../../components/iconify';
 // ----------------------------------------------------------------------
 
 const SORT_BY_OPTIONS = [
-  { value: 'featured', label: 'Featured' },
-  { value: 'newest', label: 'Newest' },
-  { value: 'priceDesc', label: 'Price: High-Low' },
-  { value: 'priceAsc', label: 'Price: Low-High' },
+  { value: 'featured', label: 'A - Z', },
+  { value: 'newest', label: 'Z - A', },
+  { value: 'priceDesc', label: 'Price: High-Low', },
+  { value: 'priceAsc', label: 'Price: Low-High', },
 ];
 
-export default function ShopProductSort() {
-  const [open, setOpen] = useState(null);
+export default function ShopProductSort({ handleSort }) {
+  const [selectedSort, setSelectedSort] = useState(SORT_BY_OPTIONS[0].label);
 
+
+  const [open, setOpen] = useState(null);
+  const caseSortProducts = {
+    featured: "featured",
+    newest: "newest",
+    priceDesc: "priceDesc",
+    priceAsc: "priceAsc"
+  }
   const handleOpen = (event) => {
+
     setOpen(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
     setOpen(null);
   };
 
@@ -34,7 +43,7 @@ export default function ShopProductSort() {
       >
         Sort By:&nbsp;
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          Newest
+          {selectedSort}
         </Typography>
       </Button>
       <Menu
@@ -48,8 +57,11 @@ export default function ShopProductSort() {
         {SORT_BY_OPTIONS.map((option) => (
           <MenuItem
             key={option.value}
-            selected={option.value === 'newest'}
-            onClick={handleClose}
+            selected={option.value === 'A - Z'}
+            onClick={() => {
+              setSelectedSort(option.label);
+              handleSort(caseSortProducts, option.value)
+            }}
             sx={{ typography: 'body2' }}
           >
             {option.label}

@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet-async';
+import React, { useState } from 'react';
 import { faker } from '@faker-js/faker';
 // @mui
 import { useTheme } from '@mui/material/styles';
@@ -22,7 +23,6 @@ import {
 
 export default function DashboardAppPage() {
   const theme = useTheme();
-
   return (
     <>
       <Helmet>
@@ -54,19 +54,19 @@ export default function DashboardAppPage() {
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
               title="Website Visits"
-              subheader="(+43%) than last year"
+              subheader="(+43%) than now year"
               chartLabels={[
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
+                '01/11/2022',
+                '02/11/2022',
+                '03/11/2022',
+                '04/11/2022',
+                '05/11/2022',
+                '06/11/2022',
+                '07/11/2022',
+                '08/11/2022',
+                '09/11/2022',
+                '10/11/2022',
+                '11/11/2022',
               ]}
               chartData={[
                 {

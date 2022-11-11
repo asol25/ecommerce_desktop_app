@@ -28,13 +28,11 @@ import * as apis from '../apis/apis';
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
-import UserMenuMore from '../components/user/UserMoreMenu';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
+import { usersLength } from './DashboardAppPage';
 // mock
-
 // ----------------------------------------------------------------------
-
 const TABLE_HEAD = [
   { id: 'username', label: 'Username', alignRight: false },
   { id: 'password', label: 'Password', alignRight: false },
@@ -89,7 +87,6 @@ export default function UserPage() {
   useEffect(() => {
     let isChecked = true;
 
-    console.log(users);
     if (isChecked) {
       const fetchData = async () => {
         const response = await apis.user.find(page);
@@ -187,7 +184,7 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <NewUser setUsers={setUsers} page={page}/>
+          <NewUser handleSetUser={setUsers} />
         </Stack>
 
         <Card>

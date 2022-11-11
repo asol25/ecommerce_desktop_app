@@ -1,4 +1,3 @@
-import { Courses } from "src/modules/courses/entity/courses.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -8,7 +7,4 @@ export class Categorys {
 
     @Column()
     name: string;
-
-    @OneToMany(() => Courses, (course) => course.id)
-    order: Courses[]
 }

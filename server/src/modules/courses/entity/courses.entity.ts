@@ -18,18 +18,23 @@ export class Courses {
     @Column()
     thumbnailUrl: string
 
+    @Column()
+    oddPrice: number;
+
+    @Column()
+    newPrice: number;
+
     @OneToOne(() => Rating)
     @JoinColumn()
-    rating: Rating
+    rating: Rating;
 
     @OneToOne(() => Analytic)
     @JoinColumn()
     analytic: Analytic
-    
 
     @OneToMany(() => Orders, (order) => order.id)
-    order: Orders[]
+    order: Orders[];
 
     @ManyToOne(() => Categorys, (category) => category.id)
-    category: Categorys
+    category: Categorys;
 }

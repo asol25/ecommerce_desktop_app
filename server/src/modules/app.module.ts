@@ -1,3 +1,4 @@
+import { CoursesModule } from './courses/courses.module';
 import { Videos } from './videos/entity/video.entity';
 import { Orders } from './orders/entity/orders.entity';
 import { Roles } from './accounts/entity/roles.entity';
@@ -15,6 +16,7 @@ import { AccountsModule } from './accounts/accounts.module';
 import { Comments } from './comments/entity/comments.entity';
 import { Analytic } from './analytic/entity/analytic.entity';
 import { Courses } from './courses/entity/courses.entity';
+import { SteamModule } from './steam/steam.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,8 +34,10 @@ import { Courses } from './courses/entity/courses.entity';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    CoursesModule,
     AccountsModule,
     CategorysModule,
+    SteamModule,
   ],
   controllers: [],
   providers: [],

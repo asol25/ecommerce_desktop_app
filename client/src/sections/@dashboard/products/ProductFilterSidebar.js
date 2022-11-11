@@ -1,3 +1,4 @@
+import { useEffect, useState, React } from 'react';
 import PropTypes from 'prop-types';
 // @mui
 import {
@@ -19,7 +20,7 @@ import {
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
 import { ColorMultiPicker } from '../../../components/color-utils';
-
+import * as apis from '../../../apis/apis';
 // ----------------------------------------------------------------------
 
 export const SORT_BY_OPTIONS = [
@@ -56,12 +57,29 @@ ShopFilterSidebar.propTypes = {
 };
 
 export default function ShopFilterSidebar({ openFilter, onOpenFilter, onCloseFilter }) {
+  const [filterCategoryOptions, setFilterCategoryOptions] = useState([]);
+
+  useEffect(() => {
+    let isChecked = true;
+    if (isChecked) {
+      const fetchData = async () => {
+        const response = await apis.categorys.find();
+        const { data, status } = response;
+        if (status === 200) {
+          setFilterCategoryOptions(data.map(({ name }) => name))
+        }
+      }
+      fetchData();
+    }
+    return () => {
+      isChecked = false;
+    }
+  }, [])
   return (
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
         Filters&nbsp;
       </Button>
-
       <Drawer
         anchor="right"
         open={openFilter}
@@ -85,37 +103,13 @@ export default function ShopFilterSidebar({ openFilter, onOpenFilter, onCloseFil
           <Stack spacing={3} sx={{ p: 3 }}>
             <div>
               <Typography variant="subtitle1" gutterBottom>
-                Gender
-              </Typography>
-              <FormGroup>
-                {FILTER_GENDER_OPTIONS.map((item) => (
-                  <FormControlLabel key={item} control={<Checkbox />} label={item} />
-                ))}
-              </FormGroup>
-            </div>
-
-            <div>
-              <Typography variant="subtitle1" gutterBottom>
                 Category
               </Typography>
               <RadioGroup>
-                {FILTER_CATEGORY_OPTIONS.map((item) => (
+                {filterCategoryOptions.map((item) => (
                   <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
                 ))}
               </RadioGroup>
-            </div>
-
-            <div>
-              <Typography variant="subtitle1" gutterBottom>
-                Colors
-              </Typography>
-              <ColorMultiPicker
-                name="colors"
-                selected={[]}
-                colors={FILTER_COLOR_OPTIONS}
-                onChangeColor={(color) => [].includes(color)}
-                sx={{ maxWidth: 38 * 4 }}
-              />
             </div>
 
             <div>

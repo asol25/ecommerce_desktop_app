@@ -1,17 +1,37 @@
 import { Helmet } from 'react-helmet-async';
-import { useState } from 'react';
+import { useState, useEffect, React } from 'react';
 // @mui
 import { Container, Stack, Typography } from '@mui/material';
 // components
-import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
+import { ProductSort, ProductList, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
-import PRODUCTS from '../_mock/products';
+import * as apis from '../apis/apis';
 
 // ----------------------------------------------------------------------
 
 export default function ProductsPage() {
+  const [products, setProducts] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
 
+  useEffect(() => {
+    let isChecked = true;
+
+    if (isChecked) {
+      const fetchData = async () => {
+        const response = await apis.courses.find();
+        const { data, status } = response;
+        if (status === 200 && data.length > 0) {
+          setProducts(data.map(({ id, title, description, thumbnailUrl, newPrice, oddPrice }) => ({ id, title, description, thumbnailUrl, newPrice, oddPrice })));
+        }
+      }
+      fetchData();
+    }
+
+    return () => {
+      isChecked = false;
+    }
+  }, []);
+  
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -19,6 +39,49 @@ export default function ProductsPage() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
+
+  const sortName = (array) => {
+    return array.sort((a, b) => {
+      const nameA = a.title.toUpperCase();
+      const nameB = b.title.toUpperCase();
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+
+      return 0;
+    });
+  }
+
+  const filteredProducts = async (options, key) => {
+    let featured;
+    let newest;
+    let priceDesc
+    let priceAsc;
+    await setProducts([]);
+    switch (key) {
+      case options.featured:
+        featured = await sortName(products);
+        await setProducts(featured);
+        break;
+      case options.newest:
+        newest = await products.sort((a, b) => a.title - b.title);
+        await setProducts(newest);
+        break;
+      case options.priceDesc:
+        priceDesc = await products.sort((a, b) => a.newPrice - b.newPrice);
+        await setProducts(priceDesc);
+        break;
+      case options.priceAsc:
+        priceAsc = await products.sort((a, b) => b.newPrice - a.newPrice);
+        await setProducts(priceAsc);
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <>
@@ -38,12 +101,11 @@ export default function ProductsPage() {
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
             />
-            <ProductSort />
+            <ProductSort handleSort={filteredProducts} />
           </Stack>
         </Stack>
 
-        <ProductList products={PRODUCTS} />
-        <ProductCartWidget />
+        <ProductList products={products} />
       </Container>
     </>
   );
