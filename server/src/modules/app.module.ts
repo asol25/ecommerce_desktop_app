@@ -16,8 +16,8 @@ import { AccountsModule } from './accounts/accounts.module';
 import { Comments } from './comments/entity/comments.entity';
 import { Analytic } from './analytic/entity/analytic.entity';
 import { Courses } from './courses/entity/courses.entity';
-import { SteamModule } from './steam/steam.module';
 import { VideosModule } from './videos/videos.module';
+import { StreamModule } from './stream/stream.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,6 +27,7 @@ import { VideosModule } from './videos/videos.module';
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DATABASE_HOST,
+
       port: parseInt(process.env.DATABASE_PORT, 10) || 3306,
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASS || "01284375954",
@@ -38,8 +39,8 @@ import { VideosModule } from './videos/videos.module';
     CoursesModule,
     AccountsModule,
     CategorysModule,
-    SteamModule,
     VideosModule,
+    StreamModule,
   ],
   controllers: [],
   providers: [],
