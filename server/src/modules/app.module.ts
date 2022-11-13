@@ -17,6 +17,7 @@ import { Comments } from './comments/entity/comments.entity';
 import { Analytic } from './analytic/entity/analytic.entity';
 import { Courses } from './courses/entity/courses.entity';
 import { SteamModule } from './steam/steam.module';
+import { VideosModule } from './videos/videos.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,6 +39,7 @@ import { SteamModule } from './steam/steam.module';
     AccountsModule,
     CategorysModule,
     SteamModule,
+    VideosModule,
   ],
   controllers: [],
   providers: [],

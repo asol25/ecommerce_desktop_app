@@ -1,7 +1,7 @@
+import { Courses } from '../../courses/entity/courses.entity';
 import { Videos } from './../../videos/entity/video.entity';
 import { Accounts } from './../../accounts/entity/accounts.entity';
 import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Courses } from 'src/modules/courses/entity/courses.entity';
 
 @Entity()
 export class Orders {

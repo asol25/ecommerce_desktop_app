@@ -1,8 +1,8 @@
-import { Orders } from "src/modules/orders/entity/orders.entity";
+import { Orders } from './../../orders/entity/orders.entity';
+import { Categorys } from './../../categorys/entity/categorys.entity';
+import { Analytic } from './../../analytic/entity/analytic.entity';
+import { Rating } from './../../ratings/entity/rating.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Categorys } from 'src/modules/categorys/entity/categorys.entity';
-import { Rating } from "src/modules/ratings/entity/rating.entity";
-import { Analytic } from "src/modules/analytic/entity/analytic.entity";
 
 @Entity()
 export class Courses {

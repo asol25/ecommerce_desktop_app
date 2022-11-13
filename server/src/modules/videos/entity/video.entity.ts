@@ -1,5 +1,5 @@
-import { Courses } from "src/modules/courses/entity/courses.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Courses } from './../../courses/entity/courses.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Videos {
@@ -20,7 +20,4 @@ export class Videos {
 
     @ManyToOne(() => Courses, (course) => course.id)
     course: Courses
-
-    @OneToMany(() => Videos, (video) => video.id)
-    videos: Videos[]
 }

@@ -1,37 +1,79 @@
-const products = [
-    {
-            id: 3,
-            title: "Os with mose",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-            thumbnailUrl: "https://yt3.ggpht.com/tBEPr-zTNXEeae7VZKSZYfiy6azzs9OHowq5ZvogJeHoVtKtEw2PXSwzMBKVR7W0MI7gyND8=s88-c-k-c0x00ffffff-no-rj",
-            newPrice: 1,
-            oddPrice: 7678
-    },
-    {
-            id: 3,
-            title: "Os with mose",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-            thumbnailUrl: "https://yt3.ggpht.com/tBEPr-zTNXEeae7VZKSZYfiy6azzs9OHowq5ZvogJeHoVtKtEw2PXSwzMBKVR7W0MI7gyND8=s88-c-k-c0x00ffffff-no-rj",
-            newPrice: 4,
-            oddPrice: 7678
-    },
-    {
-            id: 3,
-            title: "Os with mose",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-            thumbnailUrl: "https://yt3.ggpht.com/tBEPr-zTNXEeae7VZKSZYfiy6azzs9OHowq5ZvogJeHoVtKtEw2PXSwzMBKVR7W0MI7gyND8=s88-c-k-c0x00ffffff-no-rj",
-            newPrice: 5,
-            oddPrice: 7678
-    },
-    {
-            id: 3,
-            title: "Os with mose",
-            description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-            thumbnailUrl: "https://yt3.ggpht.com/tBEPr-zTNXEeae7VZKSZYfiy6azzs9OHowq5ZvogJeHoVtKtEw2PXSwzMBKVR7W0MI7gyND8=s88-c-k-c0x00ffffff-no-rj",
-            newPrice: 3,
-            oddPrice: 7678
-    }
-];
+const data = [
+        {
+                "id": 4,
+                "username": "Alma Boehm",
+                "password": "123",
+                "verified": "no",
+                "status": "banned",
+                "email": "AlmaBoehm@gmail.com",
+                "role": {
+                        "id": 4,
+                        "name": "user"
+                }
+        },
+        {
+                "id": 5,
+                "username": "Alvin Mildler",
+                "password": "123",
+                "verified": "yes",
+                "status": "banned",
+                "email": "AlvinMicslle@gmail.com",
+                "role": {
+                        "id": 4,
+                        "name": "user"
+                }
+        },
+        {
+                "id": 9,
+                "username": "Alvin Mhildler",
+                "password": "123",
+                "verified": "yes",
+                "status": "banned",
+                "email": "AlvinMicsjlle@gmail.com",
+                "role": {
+                        "id": 4,
+                        "name": "user"
+                }
+        },
+        {
+                "id": 30,
+                "username": "thinh",
+                "password": "thinh",
+                "verified": "yes",
+                "status": "active",
+                "email": "thinh@gmail.com",
+                "role": {
+                        "id": 4,
+                        "name": "user"
+                }
+        },
+        {
+                "id": 31,
+                "username": "cuop",
+                "password": "cuop",
+                "verified": "no",
+                "status": "active",
+                "email": "cuop@gmail.com",
+                "role": {
+                        "id": 4,
+                        "name": "user"
+                }
+        },
+        {
+                "id": 32,
+                "username": "Nguyen Thi Hoang Phuc",
+                "password": "01284375954",
+                "verified": "yes",
+                "status": "active",
+                "email": "cuop@gmail.com",
+                "role": {
+                        "id": 4,
+                        "name": "user"
+                }
+        }
+]
 
-products.sort((a, b) => b.newPrice - a.newPrice);
-console.log(products);
+const searchString = "cuop@gmail.com";
+const user  = data.filter((user) => user.email.toLocaleLowerCase().indexOf(searchString) !== -1)
+
+console.log(user);

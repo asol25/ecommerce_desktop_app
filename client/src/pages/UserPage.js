@@ -30,7 +30,6 @@ import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 // sections
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
-import { usersLength } from './DashboardAppPage';
 // mock
 // ----------------------------------------------------------------------
 const TABLE_HEAD = [
@@ -67,8 +66,10 @@ function applySortFilter(array, comparator, query) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
+
   if (query) {
-    return filter(array, (_user) => _user.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    const user = filter(array, (word) => word.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return user;
   }
   return stabilizedThis.map((el) => el[0]);
 }
