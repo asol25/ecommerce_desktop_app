@@ -10,7 +10,7 @@ export class StreamController {
   ) { }
 
   @Get(':id')
-  async findAll(  
+  async getStreamVideo(
     @Param('id') id: number,
     @Req() req: Request,
     @Res() res: Response,
@@ -30,6 +30,8 @@ export class StreamController {
         videoSize,
       );
 
+      console.log({headers, start, end});
+      
       res.writeHead(206, headers);
 
       const videoStream = this.videosService.getVideoStream(

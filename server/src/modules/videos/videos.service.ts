@@ -3,7 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import * as fs from 'fs';
 @Injectable()
 export class VideosService {
@@ -61,7 +61,8 @@ export class VideosService {
 
   getVideoSizeByPath(path: string): number | undefined {
     try {
-      console.log(fs.statSync(path));
+
+      const path = "C:/Users/Thinh/Desktop/ecommerce_exe_app/ecommerce_desktop_app/server/src/modules/videos/entity/314991201_6440002129365721_7220200907466328562_n.mp4";
       return fs.statSync(path).size;
     } catch (error) {
       console.error(error.message);
