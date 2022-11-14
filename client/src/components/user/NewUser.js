@@ -50,7 +50,7 @@ export function NewUser({ setUsers, page }) {
 
     const handleClose = async () => {
         setOpen(false);
-        const response = await user.intertUser(username, password, email, verified, statusSec, page )
+        const response = await user.intertUser(username, password, email, verified, statusSec, page)
         const { data, status } = await response;
         if (status === 200) {
             setUsers(data);

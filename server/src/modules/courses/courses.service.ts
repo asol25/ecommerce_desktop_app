@@ -14,6 +14,7 @@ export class CoursesService {
         const response = await this.coursesRepository.find({
             relations: {
                 rating: true,
+                category: true,
             },
         });
         return response;

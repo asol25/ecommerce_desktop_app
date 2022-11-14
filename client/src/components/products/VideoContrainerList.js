@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import { Grid } from '@mui/material';
 import VideoCard from './Video';
-import VideoLiveCard from './VideoLive';
+import VideoSteamCard from './VideoLive';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === '#1A2027',
@@ -62,7 +62,7 @@ export function VideoContainerList({
                 <CloseIcon />
               </IconButton>
               <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                Video Contrainer List
+                Course
               </Typography>
             </Toolbar>
           </AppBar>
@@ -71,7 +71,7 @@ export function VideoContainerList({
         <Grid container sx={{ mt: 5 }} justifyContent="center"
           alignItems="flex-start">
           <Grid item xs={12} md={8} sx={{ pr: 2 }}>
-            <Item><VideoLiveCard video={videoLive} /></Item>
+            <Item><VideoSteamCard video={videoLive} /></Item>
           </Grid>
           <Grid container rowSpacing={2} justifyContent="center"
             alignItems="center" item md={4}>

@@ -26,7 +26,7 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function VideoLiveCard({ video }) {
+export default function VideoSteamCard({ video }) {
   const { description, thumbanailUrl, title, videoUrl } = video;
   const [expanded, setExpanded] = React.useState(false);
 
@@ -47,7 +47,7 @@ export default function VideoLiveCard({ video }) {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title={title}
         subheader="September 14, 2016"
       />
       <CardMedia

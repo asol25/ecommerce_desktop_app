@@ -1,17 +1,56 @@
 import { Helmet } from 'react-helmet-async';
+import { filter } from 'lodash';
 import { useState, useEffect, React } from 'react';
 // @mui
-import { Container, Stack, Typography } from '@mui/material';
+import { alpha, Container, InputAdornment, OutlinedInput, Stack, styled, Typography } from '@mui/material';
 // components
 import { ProductSort, ProductList, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
 import * as apis from '../apis/apis';
-
+import Iconify from '../components/iconify';
 // ----------------------------------------------------------------------
+
+const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
+  width: 240,
+  transition: theme.transitions.create(['box-shadow', 'width'], {
+    easing: theme.transitions.easing.easeInOut,
+    duration: theme.transitions.duration.shorter,
+  }),
+  '&.Mui-focused': {
+    width: 320,
+    boxShadow: theme.customShadows.z8,
+  },
+  '& fieldset': {
+    borderWidth: `1px !important`,
+    borderColor: `${alpha(theme.palette.grey[500], 0.32)} !important`,
+  },
+}));
+
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
+  const [filterProductCategory, setFilterCategoryOptions] = useState(null);
+  const [filterProductPrice, setFilterProductPriceOptions] = useState(null);
+  const [filterProductRating, setFilterProductRatingOptions] = useState(null);
+  const [searchNameCourse, setSearchCourse] = useState(null);
+
+  const applySortFilter = (array, price, rating, search, course) => {
+    let stabilizedThis = array;
+    if (course) {
+      stabilizedThis = filter(stabilizedThis, (_node) => _node.title.toUpperCase().indexOf(course.toUpperCase()) !== -1);
+    }
+    if (price) {
+      stabilizedThis = filter(stabilizedThis, (_node) => Number(_node.newPrice) < Number(price));
+    }
+
+    if (search) {
+      return filter(stabilizedThis, (_node) => _node.category.id === search);
+    }
+
+    return stabilizedThis;
+  }
+  const filterProducts = products ? applySortFilter(products, filterProductPrice, filterProductRating, filterProductCategory, searchNameCourse) : null;
 
   useEffect(() => {
     let isChecked = true;
@@ -38,6 +77,10 @@ export default function ProductsPage() {
 
   const handleCloseFilter = () => {
     setOpenFilter(false);
+  };
+
+  const handleFilterByusername = (event) => {
+    setSearchCourse(event.target.value);
   };
 
   const sortName = (array) => {
@@ -96,18 +139,34 @@ export default function ProductsPage() {
           Courses
         </Typography>
 
+        <StyledSearch
+          value={searchNameCourse}
+          onChange={handleFilterByusername}
+          placeholder="Search user..."
+          startAdornment={
+            <InputAdornment position="start">
+              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+            </InputAdornment>
+          }
+        />
+
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
             <ProductFilterSidebar
               openFilter={openFilter}
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
+              handleFilter={{
+                setFilterCategoryOptions,
+                setFilterProductPriceOptions,
+                setFilterProductRatingOptions
+              }}
             />
             <ProductSort handleSort={filteredProducts} />
           </Stack>
         </Stack>
 
-        <ProductList products={products} />
+        <ProductList products={filterProducts} />
       </Container>
     </>
   );

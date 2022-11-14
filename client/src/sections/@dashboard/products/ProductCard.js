@@ -31,7 +31,7 @@ export default function ShopProductCard({ product, handleClickOpenVideoContainer
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover" onClick={() => handleClickOpenVideoContainerList(id)}>
+        <Link color="inherit" underline="hover" sx={{cursor: 'pointer'}} onClick={() => handleClickOpenVideoContainerList(id)}>
           <Typography variant="h5" noWrap>
             {title}
           </Typography>

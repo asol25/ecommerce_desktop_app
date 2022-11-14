@@ -56,11 +56,11 @@ export default function ProductList({ products, ...other }) {
         ))}
       </Grid>
 
-      <VideoContainerList
+      {courseVideos && <VideoContainerList
         open={openVideoContainerList}
         handleClose={handleCloseVideoContainerList}
         videos={courseVideos}
-      />
+      />}
     </>
   );
 }
