@@ -37,9 +37,9 @@ export class VideosService {
     }
   }
 
-  async getVideoPathById(id: number ): Promise<string> {
+  async getVideoPathById(id: string ): Promise<string> {
     try {
-      const video = await this.videosRepository.findOneBy({id: id});
+      const video = await this.videosRepository.findOneBy({id: (id as unknown as number)});
       if (!video) {
         throw new NotFoundException(`Video with id ${id} is not existed`);
       }

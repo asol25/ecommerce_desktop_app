@@ -9,8 +9,6 @@ import {
   Drawer,
   Rating,
   Divider,
-  Checkbox,
-  FormGroup,
   IconButton,
   Typography,
   RadioGroup,
@@ -19,7 +17,6 @@ import {
 // components
 import Iconify from '../../../components/iconify';
 import Scrollbar from '../../../components/scrollbar';
-import { ColorMultiPicker } from '../../../components/color-utils';
 import * as apis from '../../../apis/apis';
 // ----------------------------------------------------------------------
 

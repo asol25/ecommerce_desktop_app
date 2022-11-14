@@ -19,6 +19,7 @@ export class UserController {
 
     @Put("create")
     async creteUser(@Body() body) {
+        console.log(body);
         return await this.usersService.createUser(body);
     }
 

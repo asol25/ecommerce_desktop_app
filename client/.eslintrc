@@ -43,6 +43,7 @@
     "no-restricted-exports": 0,
     "react/no-children-prop": 0,
     "react/forbid-prop-types": 0,
+    "import/no-named-as-default": 0,
     "jsx-a11y/anchor-is-valid": 0,
     "react/react-in-jsx-scope": 0,
     "react/no-array-index-key": 0,
@@ -82,5 +83,5 @@
         "array": false
       }
     ]
-  }
+  },
 }

@@ -1,6 +1,4 @@
-import { Comments } from './../../comments/entity/comments.entity';
-import { Orders } from './../../orders/entity/orders.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { IsEmail, Length } from "class-validator";
 import { Roles } from './roles.entity';
 @Entity()

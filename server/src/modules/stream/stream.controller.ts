@@ -11,7 +11,7 @@ export class StreamController {
 
   @Get(':id')
   async getStreamVideo(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Req() req: Request,
     @Res() res: Response,
   ) {

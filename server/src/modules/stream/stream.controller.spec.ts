@@ -5,12 +5,12 @@ import { Request, Response } from 'express';
 describe('StreamController', () => {
   let controller: StreamController;
   let service: VideosService;
-  let id = 1;
+  let id = '1';
   let req: Request;
   let res: Response;
-    beforeEach(async () => {
-      controller = new StreamController(service);
-    });
+  beforeEach(async () => {
+    controller = new StreamController(service);
+  });
 
   describe('getStreamVideo', () => {
     it('should return an attributed of video', async () => {

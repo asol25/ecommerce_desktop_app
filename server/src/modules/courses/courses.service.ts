@@ -8,10 +8,18 @@ export class CoursesService {
     constructor(
         @InjectRepository(Courses)
         private coursesRepository: Repository<Courses>,
-    ){}
+    ) { }
 
     async findAll(): Promise<Courses[]> {
-        const response = await this.coursesRepository.find();
+        const response = await this.coursesRepository.find({
+            relations: {
+                rating: true,
+            },
+        });
         return response;
+    }
+
+    getCoursesRepository(): Repository<Courses> {
+        return this.coursesRepository;
     }
 }

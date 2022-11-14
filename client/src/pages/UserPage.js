@@ -1,5 +1,4 @@
 import { Helmet } from 'react-helmet-async';
-import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 // @mui
@@ -8,8 +7,6 @@ import {
   Table,
   Stack,
   Paper,
-  Avatar,
-  Button,
   Checkbox,
   TableRow,
   TableBody,
@@ -61,14 +58,16 @@ function getComparator(order, orderBy) {
 
 function applySortFilter(array, comparator, query) {
   const stabilizedThis = array.map((el, index) => [el, index]);
+  console.log({ stabilizedThis });
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
+    console.log({ a, b }, { data: a[0], data1: b[0] });
     if (order !== 0) return order;
     return a[1] - b[1];
   });
 
   if (query) {
-    const user = filter(array, (word) => word.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    const user = array.filter((element) => element.username.toLowerCase().indexOf(query.toLowerCase()) !== -1);
     return user;
   }
   return stabilizedThis.map((el) => el[0]);
@@ -185,7 +184,7 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <NewUser handleSetUser={setUsers} />
+          <NewUser handleSetUser={setUsers} page={page}/>
         </Stack>
 
         <Card>

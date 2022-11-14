@@ -5,8 +5,6 @@ import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 // components
-import Label from '../../../components/label';
-import { ColorPreview } from '../../../components/color-utils';
 
 // ----------------------------------------------------------------------
 
@@ -24,8 +22,8 @@ ShopProductCard.propTypes = {
   product: PropTypes.object,
 };
 
-export default function ShopProductCard({ product }) {
-  const { title, description, thumbnailUrl, newPrice, oddPrice } = product;
+export default function ShopProductCard({ product, handleClickOpenVideoContainerList}) {
+  const { id,title, description, thumbnailUrl, newPrice, oddPrice } = product;
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -33,7 +31,7 @@ export default function ShopProductCard({ product }) {
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover">
+        <Link color="inherit" underline="hover" onClick={() => handleClickOpenVideoContainerList(id)}>
           <Typography variant="h5" noWrap>
             {title}
           </Typography>

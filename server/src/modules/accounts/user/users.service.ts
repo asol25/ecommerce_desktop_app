@@ -1,12 +1,8 @@
 import { Accounts } from './../entity/accounts.entity';
 import { DataSource, DeepPartial, Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-'../type';
 
-enum UserEnum {
-  USER = 4,
-}
 @Injectable()
 export class UsersService {
   constructor(
@@ -16,32 +12,47 @@ export class UsersService {
   ) { }
 
   async findAll({ page }): Promise<Accounts[]> {
-    const skip = Number(page) === 0 ? 0 : Number(page + 1) + 24;
-    const take = skip + 25;
-    const response = await this.dataSource.getRepository(Accounts).find({
-      relations: {
-        role: true,
-      },
-      where: {
-        role: {
-          id: 4,
-          name: "user",
+    try {
+      const skip = Number(page) === 0 ? 0 : Number(page + 1) + 24;
+      const take = skip + 25;
+      const response = await this.dataSource.getRepository(Accounts).find({
+        relations: {
+          role: true,
         },
-      },
-      skip: skip,
-      take: take,
-    })
-    return response;
+        where: {
+          role: {
+            id: 4,
+            name: "user",
+          },
+        },
+        skip: skip,
+        take: take,
+      })
+
+      if (!response)
+        throw new NotFoundException("The action was not found users");
+      return response;
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    }
   }
 
   async findOne({ id }): Promise<Accounts> {
-    const response = await this.dataSource.getRepository(Accounts).find({
-      where: {
-        id: id,
-      }
-    })
+    try {
+      const response = await this.dataSource.getRepository(Accounts).find({
+        where: {
+          id: id,
+        }
+      })
+      if (!response)
+        throw new NotFoundException(`The action find #${id} invalid`);
 
-    return (response as unknown as Promise<Accounts>);
+      return (response as unknown as Promise<Accounts>);
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    }
   }
 
   async deleteOne({ id, page }): Promise<Accounts[] | string> {
@@ -59,22 +70,29 @@ export class UsersService {
   }
 
   async createUser(options): Promise<Accounts[] | string> {
-    const { username, password, email, verified, status, page} = options;
-    
-    const newRow = this.accountsRepository.create({
-      username: username,
-      password: password,
-      email: email,
-      verified: verified,
-      status: status,
-      role: (4 as DeepPartial<Accounts>)
-    })
+    try {
+      const { username, password, email, verified, status, page } = options;
 
-    const response = await this.accountsRepository.insert(newRow);
+      const newRow = this.accountsRepository.create({
+        username: username,
+        password: password,
+        email: email,
+        verified: verified,
+        status: status,
+        role: (4 as DeepPartial<Accounts>)
+      })
 
-    if (response.identifiers) {
-      return await this.findAll({ page: page });
+      const response = await this.accountsRepository.insert(newRow);
+
+      if (!response) 
+        throw new BadRequestException("The action created have failed");
+        
+      if (response.identifiers) {
+        return await this.findAll({ page: page });
+      }
+    } catch (error) {
+      console.error(error.message);
+      throw error;
     }
-    return "Error create Account User";
   }
 }

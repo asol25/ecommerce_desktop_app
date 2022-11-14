@@ -21,7 +21,7 @@ export default function ProductsPage() {
         const response = await apis.courses.find();
         const { data, status } = response;
         if (status === 200 && data.length > 0) {
-          setProducts(data.map(({ id, title, description, thumbnailUrl, newPrice, oddPrice }) => ({ id, title, description, thumbnailUrl, newPrice, oddPrice })));
+          setProducts(data);
         }
       }
       fetchData();
@@ -31,7 +31,7 @@ export default function ProductsPage() {
       isChecked = false;
     }
   }, []);
-  
+
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -56,6 +56,7 @@ export default function ProductsPage() {
   }
 
   const filteredProducts = async (options, key) => {
+    console.log(options, key);
     let featured;
     let newest;
     let priceDesc
@@ -71,11 +72,12 @@ export default function ProductsPage() {
         await setProducts(newest);
         break;
       case options.priceDesc:
-        priceDesc = await products.sort((a, b) => a.newPrice - b.newPrice);
+
+        priceDesc = await products.sort((a, b) => b.newPrice - a.newPrice);
         await setProducts(priceDesc);
         break;
       case options.priceAsc:
-        priceAsc = await products.sort((a, b) => b.newPrice - a.newPrice);
+        priceAsc = await products.sort((a, b) => a.newPrice - b.newPrice);
         await setProducts(priceAsc);
         break;
       default:
@@ -86,12 +88,12 @@ export default function ProductsPage() {
   return (
     <>
       <Helmet>
-        <title> Dashboard: Products | Minimal UI </title>
+        <title> Dashboard: Courses | Minimal UI </title>
       </Helmet>
 
       <Container>
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Products
+          Courses
         </Typography>
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>

@@ -1,4 +1,4 @@
-import { DataSource, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CoursesController } from './courses.controller';
 import { CoursesService } from './courses.service';
 import { Courses } from './entity/courses.entity';
