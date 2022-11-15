@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { AnnalyticService } from './analytic.service';
+import { Analytic } from './entity/analytic.entity';
 
-@Controller('annalytic')
-export class AnalyticController {}
+@Controller('analytic')
+export class AnalyticController {
+    constructor(private analyticsServices: AnnalyticService) { }
+
+    @Get()
+    async findAll() {
+        return await this.analyticsServices.getListInformationAnalytic();
+    }
+}

@@ -19,6 +19,7 @@ import { Courses } from './courses/entity/courses.entity';
 import { VideosModule } from './videos/videos.module';
 import { StreamModule } from './stream/stream.module';
 import { CommentesModule } from './comments/commentes.module';
+import { AnnalyticModule } from './analytic/analytic.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -42,7 +43,8 @@ import { CommentesModule } from './comments/commentes.module';
     CategorysModule,
     VideosModule,
     StreamModule,
-    CommentesModule
+    CommentesModule,
+    AnnalyticModule
   ],
   controllers: [],
   providers: [],

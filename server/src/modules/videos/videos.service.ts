@@ -19,10 +19,6 @@ export class VideosService {
     try {
       console.log(`This action returns all #${id} video`);
       const response = await this.videosRepository.find({
-        relations: {
-          course: false,
-          
-        },
         where: {
           course: {
             id: id,

@@ -1,4 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Comments } from "src/modules/comments/entity/comments.entity";
+import { Courses } from "src/modules/courses/entity/courses.entity";
+import { Videos } from "src/modules/videos/entity/video.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Analytic {
@@ -13,4 +16,14 @@ export class Analytic {
 
     @Column()
     bookingCount: number
+
+    @OneToOne(() => Courses)
+    @JoinColumn()
+    course: Courses
+
+    @OneToMany(() => Videos, (video) => video.analytic)
+    videos: Videos[]
+
+    // @OneToMany(() => Comments, (comment) => comment.analytic)
+    // comments: Comments[]
 }
