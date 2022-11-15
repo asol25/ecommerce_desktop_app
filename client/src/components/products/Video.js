@@ -7,6 +7,7 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 
 export default function VideoCard({ video, handleVideoLive }) {
   const { id, title, description, thumbanailUrl, videoUrl } = video;
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardActionArea>
@@ -27,7 +28,7 @@ export default function VideoCard({ video, handleVideoLive }) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary" onClick={ () => handleVideoLive(video)}>
+        <Button size="small" color="primary" onClick={() => handleVideoLive(video)}>
           Watch
         </Button>
       </CardActions>

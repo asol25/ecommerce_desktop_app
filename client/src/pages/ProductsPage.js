@@ -33,7 +33,7 @@ export default function ProductsPage() {
   const [filterProductCategory, setFilterCategoryOptions] = useState(null);
   const [filterProductPrice, setFilterProductPriceOptions] = useState(null);
   const [filterProductRating, setFilterProductRatingOptions] = useState(null);
-  const [searchNameCourse, setSearchCourse] = useState(null);
+  const [searchNameCourse, setSearchCourse] = useState('');
 
   const applySortFilter = (array, price, rating, search, course) => {
     let stabilizedThis = array;

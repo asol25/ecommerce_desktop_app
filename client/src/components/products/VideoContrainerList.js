@@ -77,7 +77,8 @@ export function VideoContainerList({
             alignItems="center" item md={4}>
             {videos.map((video) => (
               <Grid item key={video.id}>
-                <Item ><VideoCard video={video} handleVideoLive={handleSetVideoLive} /></Item>
+                <Item ><VideoCard video={video} handleVideoLive={handleSetVideoLive} />
+                </Item>
               </Grid>
             ))}
           </Grid>

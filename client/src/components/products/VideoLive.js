@@ -14,6 +14,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Comment from './comment';
+import MenuMoreList from './MenuMoreList';
+import * as apis from '../../apis/apis';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,8 +30,38 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function VideoSteamCard({ video }) {
-  const { description, thumbanailUrl, title, videoUrl } = video;
+  const { id, description, thumbanailUrl, title, videoUrl } = video;
   const [expanded, setExpanded] = React.useState(false);
+  const [comments, setComments] = React.useState([]);
+  const [open, setOpen] = React.useState(false);
+  
+  const handleOpenMenu = (event) => {
+    setOpen(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setOpen(null);
+  };
+
+  React.useEffect(() => {
+    setComments([]);
+
+    let isChecked = true;
+    console.log({ id });
+    if (isChecked) {
+      const fetchData = async () => {
+        const response = await apis.comment.find(id);
+        const { data, status } = response;
+        if (status === 200 && data.length > 0) {
+          setComments(data);
+        }
+      }
+      fetchData();
+    }
+    return () => {
+      isChecked = false;
+    }
+  }, [id]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -44,7 +77,7 @@ export default function VideoSteamCard({ video }) {
         }
         action={
           <IconButton aria-label="settings">
-            <MoreVertIcon />
+            <MoreVertIcon onClick={handleOpenMenu} />
           </IconButton>
         }
         title={title}
@@ -82,11 +115,13 @@ export default function VideoSteamCard({ video }) {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            {description}
-          </Typography>
+          <Typography paragraph dangerouslySetInnerHTML={{ __html: description }} />
         </CardContent>
       </Collapse>
+      <Comment comments={comments} />
+      {
+        open && <MenuMoreList open={open} handleCloseMenu={handleCloseMenu} />
+      }
     </Card>
   );
 }

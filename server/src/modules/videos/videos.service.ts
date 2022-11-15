@@ -21,6 +21,7 @@ export class VideosService {
       const response = await this.videosRepository.find({
         relations: {
           course: false,
+          
         },
         where: {
           course: {
