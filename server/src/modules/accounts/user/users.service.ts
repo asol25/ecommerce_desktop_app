@@ -84,9 +84,9 @@ export class UsersService {
 
       const response = await this.accountsRepository.insert(newRow);
 
-      if (!response) 
+      if (!response)
         throw new BadRequestException("The action created have failed");
-        
+
       if (response.identifiers) {
         return await this.findAll({ page: page });
       }
@@ -94,5 +94,15 @@ export class UsersService {
       console.error(error.message);
       throw error;
     }
+  }
+
+  async getCountUsers(): Promise<number> {
+    const userCount = await this.accountsRepository.countBy({
+      role: {
+        id: 4
+      }
+    })
+
+    return userCount
   }
 }

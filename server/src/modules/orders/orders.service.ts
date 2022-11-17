@@ -12,14 +12,24 @@ export class OrdersService {
         private readonly dataSource: DataSource
     ) { }
 
-    async getAnalyticOrdersByYear() {
+    async getTotalBought(): Promise<number> {
+        try {
+            const response = await this.ordersRepository.count();
+            return response;
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+    async getAnalyticOrdersByNowMonth(_month: number): Promise<Orders[]> {
         try {
             const response = await this.dataSource
                 .getRepository(Orders)
                 .createQueryBuilder('order')
                 .select(`CONCAT(order.createdDate)`, 'date')
                 .addSelect(`COUNT(order.createdDate)`, 'sales')
+                .where("extract(DAY FROM order.createdDate)= :month", { month: _month })
                 .groupBy(`order.createdDate`)
+                .orderBy('order.createdDate', "ASC")
                 .getRawMany()
 
             return response;

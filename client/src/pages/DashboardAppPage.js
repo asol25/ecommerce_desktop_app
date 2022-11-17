@@ -5,6 +5,7 @@ import { faker } from '@faker-js/faker';
 import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
 // components
+import axios from 'axios';
 import Iconify from '../components/iconify';
 // sections
 import {
@@ -24,13 +25,15 @@ import * as apis from '../apis/apis'
 export default function DashboardAppPage() {
   const [chartLabelsFlowMonth, setChartLabelsFlowMonth] = React.useState([]);
   const [chartDataIntoChartLabelsFlowMonth, setChartDataIntoChartLabelsFlowMonth] = React.useState([]);
+  const [chartInformation, setChartInformation] = React.useState({});
 
   React.useEffect(() => {
     let isChecked = true;
 
     if (isChecked) {
       const fetchData = async () => {
-        const response = await apis.analytic.getAnalyticFlowMonth();
+        const month = new Date().getMonth();
+        const response = await apis.analytic.getAnalyticFlowNowMonth(month);
         const { data, status } = await response;
         if (status === 200 && data.length > 0) {
           data.map((node) => {
@@ -40,10 +43,22 @@ export default function DashboardAppPage() {
               setChartDataIntoChartLabelsFlowMonth(oldArray => [...oldArray, node.sales])
             ];
           })
-
         }
       }
+
+      const fetchInformation = async () => {
+        try {
+          const urls = apis.dashboard.urls();
+          console.log(urls);
+          const data = await Promise.all(urls.map(url => axios.get(url).catch(err => err)))
+          setChartInformation(data.map((node) => node.data))
+        } catch (err) {
+          console.log(err)
+        }
+      }
+      
       fetchData();
+      fetchInformation();
     }
 
     return () => {
@@ -56,7 +71,6 @@ export default function DashboardAppPage() {
       <Helmet>
         <title> Dashboard | Minimal UI </title>
       </Helmet>
-
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
@@ -64,15 +78,15 @@ export default function DashboardAppPage() {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={714000} icon={'ant-design:android-filled'} />
+            <AppWidgetSummary title="Weekly Sales" total={chartInformation[0]} icon={'ant-design:android-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={1352831} color="info" icon={'ant-design:apple-filled'} />
+            <AppWidgetSummary title="New Users" total={chartInformation[1]} color="info" icon={'ant-design:apple-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={1723315} color="warning" icon={'ant-design:windows-filled'} />
+            <AppWidgetSummary title="Item Orders" total={chartInformation[2]} color="warning" icon={'ant-design:windows-filled'} />
           </Grid>
 
           <Grid item xs={12} sm={6} md={3}>
@@ -92,11 +106,11 @@ export default function DashboardAppPage() {
                   data: chartDataIntoChartLabelsFlowMonth,
                 },
               ]}
-             
+
             />
           </Grid>
           {
-            console.log({chartDataIntoChartLabelsFlowMonth, chartLabelsFlowMonth})
+            console.log({ chartDataIntoChartLabelsFlowMonth, chartLabelsFlowMonth })
           }
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits

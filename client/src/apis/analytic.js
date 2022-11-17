@@ -5,7 +5,7 @@ export const find = async () => {
     return response;
 }
 
-export const getAnalyticFlowMonth = async () => {
-    const response = await axios.get(`http://localhost:5000/orders/`);
+export const getAnalyticFlowNowMonth = async (month) => {
+    const response = await axios.get(`http://localhost:5000/orders/${month}`);
     return response;
 }

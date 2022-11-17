@@ -5,6 +5,11 @@ export const find = async (page) => {
     return response;
 }
 
+export const getCountUsers = async () => {
+    const response = await axios.get(`http://localhost:5000/user/countUsers`);
+    return response;
+}
+
 export const intertUser = async (username, password, email, verified, status, page ) => {
     const response = await axios.put(`http://localhost:5000/user/create`, {
         username,
@@ -16,6 +21,7 @@ export const intertUser = async (username, password, email, verified, status, pa
     });
     return response;
 }
+
 
 export const deleteById = async (id, page) => {
     const response = await axios.delete(`http://localhost:5000/user/delete/${id}/page/${page}`);

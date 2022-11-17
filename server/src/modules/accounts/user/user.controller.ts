@@ -7,6 +7,10 @@ export class UserController {
     constructor(
         private readonly usersService: UsersService) { }
 
+    @Get("countUsers")
+    async getCountUsers(@Param() params) {
+        return await this.usersService.getCountUsers();
+    }
     @Get(":page")
     async findAll(@Param() params) {
         return await this.usersService.findAll(params);
