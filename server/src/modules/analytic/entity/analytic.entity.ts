@@ -23,7 +23,4 @@ export class Analytic {
 
     @OneToMany(() => Videos, (video) => video.analytic)
     videos: Videos[]
-
-    // @OneToMany(() => Comments, (comment) => comment.analytic)
-    // comments: Comments[]
 }

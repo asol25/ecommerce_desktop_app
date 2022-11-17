@@ -1,5 +1,5 @@
 import { Videos } from './entity/video.entity';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,7 +11,7 @@ export class VideosService {
     @InjectRepository(Videos)
     private videosRepository: Repository<Videos>,
   ) { }
-  create(createVideoDto: CreateVideoDto) {
+  create(_createVideoDto: CreateVideoDto) {
     return 'This action adds a new video';
   }
 
@@ -56,7 +56,7 @@ export class VideosService {
     }
   }
 
-  getVideoSizeByPath(path: string): number | undefined {
+  getVideoSizeByPath(_path: string): number | undefined {
     try {
 
       const path = "C:/Users/Thinh/Desktop/ecommerce_exe_app/ecommerce_desktop_app/server/src/modules/videos/entity/314991201_6440002129365721_7220200907466328562_n.mp4";
@@ -93,7 +93,7 @@ export class VideosService {
     }
   }
 
-  update(id: number, updateVideoDto: UpdateVideoDto) {
+  update(id: number, _updateVideoDto: UpdateVideoDto) {
     return `This action updates a #${id} video`;
   }
 
@@ -103,7 +103,7 @@ export class VideosService {
       const response = await this.videosRepository.delete({ id: id });
 
       if (!response.affected) {
-        throw new Error(
+        throw new BadRequestException(
           `Have error deleting video ${id}`,
         );
       }
@@ -111,6 +111,7 @@ export class VideosService {
       return response;
     } catch (error) {
       console.error(error.message);
+      throw error;
     }
   }
 }

@@ -20,6 +20,13 @@ export class CoursesService {
         return response;
     }
 
+    async getTotalLengthCourses(): Promise<number> {
+        const response = await this.coursesRepository.count();
+        console.log(response);
+        
+        return response;
+    }
+
     getCoursesRepository(): Repository<Courses> {
         return this.coursesRepository;
     }

@@ -14,13 +14,60 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
+function descendingComparator(a, b, orderBy) {
+  if (typeof a[orderBy] === 'object') {
+    const values = Object.values(a[orderBy]);
+    a[orderBy] = values.toString();
+    b[orderBy] = values.toString();
+  }
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
+}
+
+function applySortFilter(array, comparator, query) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  if (query) {
+    return array.filter((element) => element.course.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+  }
+  return stabilizedThis.map((el) => el[0]);
+}
+
 function Row(props) {
   const { row } = props;
-  const [open, setOpen] = React.useState(false);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('comments');
+  const [isCheckedOrder, setIsCheckedOrder] = React.useState(false);
 
+  const handleRequestSort = (order, property) => {
+    const isAsc = order
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+    setIsCheckedOrder(!isCheckedOrder);
+  };
+
+  const [open, setOpen] = React.useState(false);
+  const filterVideos = row.videos ? applySortFilter(row.videos, getComparator(order, orderBy, null)) : null;
+  console.log(filterVideos);
   return (
     <>
-      <TableRow sx={{ '& > *': { } }}>
+      <TableRow sx={{ '& > *': {} }}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -31,7 +78,7 @@ function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.course.title}
+          {row.course}
         </TableCell>
         <TableCell align="right">{row.viewCount}</TableCell>
         <TableCell align="right">{row.bookingCount}</TableCell>
@@ -47,26 +94,28 @@ function Row(props) {
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
-                  <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Course</TableCell>
-                    <TableCell align="right">Comments</TableCell>
-                    <TableCell align="right">Views</TableCell>
+                  <TableRow sx={{ cursor: 'pointer' }}>
+                    <TableCell onClick={() => handleRequestSort(isCheckedOrder, "createdDate")}>Date</TableCell>
+                    <TableCell onClick={() => handleRequestSort(isCheckedOrder, "title")}>Course</TableCell>
+                    <TableCell onClick={() => handleRequestSort(isCheckedOrder, "comments")} align="right">Comments</TableCell>
+                    <TableCell  align="right">Views</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.videos.map((video) => (
-                    <TableRow key={video.id}>
-                      <TableCell component="th" scope="row">
-                        {video.createdDate}
-                      </TableCell>
-                      <TableCell>{video.title}</TableCell>
-                      <TableCell align="right">{video.comments}</TableCell>
-                      <TableCell align="right">
-                        {993}
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {filterVideos.map((video) => {
+                    return (
+                      <TableRow key={video.id} onClick={() => () => handleRequestSort(isCheckedOrder, "title")}>
+                        <TableCell component="th" scope="row">
+                          {video.createdDate}
+                        </TableCell>
+                        <TableCell>{video.title}</TableCell>
+                        <TableCell align="right">{video.comments}</TableCell>
+                        <TableCell align="right">
+                          {993}
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })}
                 </TableBody>
               </Table>
             </Box>
@@ -77,22 +126,35 @@ function Row(props) {
   );
 }
 
-export default function AnalyticCourse({ analytic }) {
+export default function AnalyticCourse({ analytic, search }) {
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('course');
+  const [isCheckedOrder, setIsCheckedOrder] = React.useState(false);
+
+  const handleRequestSort = (order, property) => {
+    const isAsc = order
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+    setIsCheckedOrder(!isCheckedOrder);
+  };
+
+  const filterSort = analytic ? applySortFilter(analytic, getComparator(order, orderBy), search) : null;
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ cursor: 'pointer' }}>
             <TableCell />
-            <TableCell>Course (Title)</TableCell>
-            <TableCell align="right">Views</TableCell>
-            <TableCell align="right">Bookings</TableCell>
-            <TableCell align="right">Like</TableCell>
-            <TableCell align="right">Dislike</TableCell>
+            <TableCell onClick={() => handleRequestSort(isCheckedOrder, "course")} >Course</TableCell>
+            <TableCell onClick={() => handleRequestSort(isCheckedOrder, "viewCount")} align="right">Views</TableCell>
+            <TableCell onClick={() => handleRequestSort(isCheckedOrder, "bookingCount")} align="right">Bookings</TableCell>
+            <TableCell onClick={() => handleRequestSort(isCheckedOrder, "watchTime")} align="right">Like</TableCell>
+            <TableCell >Dislike</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {analytic.map((row) => (
+          {filterSort.map((row) => (
             <Row key={row.id} row={row} />
           ))}
         </TableBody>

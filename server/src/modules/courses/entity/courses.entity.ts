@@ -32,8 +32,8 @@ export class Courses {
     @JoinColumn()
     analytic: Analytic
 
-    @OneToMany(() => Orders, (order) => order.id)
-    order: Orders[];
+    @OneToMany(() => Orders, (order) => order.courses)
+    orders: Orders[];
 
     @ManyToOne(() => Categorys, (category) => category.id)
     category: Categorys;

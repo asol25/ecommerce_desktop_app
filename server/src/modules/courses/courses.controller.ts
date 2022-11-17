@@ -10,4 +10,9 @@ export class CoursesController {
     async findAll() {
         return await this.coursesService.findAll();
     }
+
+    @Get('totalCourseCount')
+    async getTotalLengthCourses() {
+        return await this.coursesService.getTotalLengthCourses();
+    }
 }

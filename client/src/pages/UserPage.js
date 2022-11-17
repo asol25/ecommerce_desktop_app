@@ -51,6 +51,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
+  console.log({order, orderBy});
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -58,10 +59,8 @@ function getComparator(order, orderBy) {
 
 function applySortFilter(array, comparator, query) {
   const stabilizedThis = array.map((el, index) => [el, index]);
-  console.log({ stabilizedThis });
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    console.log({ a, b }, { data: a[0], data1: b[0] });
     if (order !== 0) return order;
     return a[1] - b[1];
   });

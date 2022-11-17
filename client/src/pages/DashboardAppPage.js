@@ -18,10 +18,38 @@ import {
   AppCurrentSubject,
   AppConversionRates,
 } from '../sections/@dashboard/app';
-
+import * as apis from '../apis/apis'
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
+  const [chartLabelsFlowMonth, setChartLabelsFlowMonth] = React.useState([]);
+  const [chartDataIntoChartLabelsFlowMonth, setChartDataIntoChartLabelsFlowMonth] = React.useState([]);
+
+  React.useEffect(() => {
+    let isChecked = true;
+
+    if (isChecked) {
+      const fetchData = async () => {
+        const response = await apis.analytic.getAnalyticFlowMonth();
+        const { data, status } = await response;
+        if (status === 200 && data.length > 0) {
+          data.map((node) => {
+            const convertDate = new Date(node.date).toLocaleDateString("en-US");
+            return [
+              setChartLabelsFlowMonth(oldArray => [...oldArray, convertDate]),
+              setChartDataIntoChartLabelsFlowMonth(oldArray => [...oldArray, node.sales])
+            ];
+          })
+
+        }
+      }
+      fetchData();
+    }
+
+    return () => {
+      isChecked = false;
+    }
+  }, []);
   const theme = useTheme();
   return (
     <>
@@ -53,44 +81,23 @@ export default function DashboardAppPage() {
 
           <Grid item xs={12} md={6} lg={8}>
             <AppWebsiteVisits
-              title="Website Visits"
-              subheader="(+43%) than now year"
-              chartLabels={[
-                '01/11/2022',
-                '02/11/2022',
-                '03/11/2022',
-                '04/11/2022',
-                '05/11/2022',
-                '06/11/2022',
-                '07/11/2022',
-                '08/11/2022',
-                '09/11/2022',
-                '10/11/2022',
-                '11/11/2022',
-              ]}
+              title="Bought Courses"
+              subheader="(+43%) than now month"
+              chartLabels={chartLabelsFlowMonth}
               chartData={[
                 {
-                  name: 'Team A',
+                  name: 'Month',
                   type: 'column',
                   fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
+                  data: chartDataIntoChartLabelsFlowMonth,
                 },
               ]}
+             
             />
           </Grid>
-
+          {
+            console.log({chartDataIntoChartLabelsFlowMonth, chartLabelsFlowMonth})
+          }
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentVisits
               title="Current Visits"

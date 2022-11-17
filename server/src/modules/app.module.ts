@@ -20,6 +20,7 @@ import { VideosModule } from './videos/videos.module';
 import { StreamModule } from './stream/stream.module';
 import { CommentesModule } from './comments/commentes.module';
 import { AnnalyticModule } from './analytic/analytic.module';
+import { OrdersModule } from './orders/orders.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -44,7 +45,8 @@ import { AnnalyticModule } from './analytic/analytic.module';
     VideosModule,
     StreamModule,
     CommentesModule,
-    AnnalyticModule
+    AnnalyticModule,
+    OrdersModule
   ],
   controllers: [],
   providers: [],
