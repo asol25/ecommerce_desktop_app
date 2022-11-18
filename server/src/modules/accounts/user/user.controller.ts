@@ -16,9 +16,10 @@ export class UserController {
         return await this.usersService.findAll(params);
     }
 
-    @Post("findOne/:id")
+    @Post("findOne/:username")
     async findOne(@Param() params) {
-        return await this.usersService.findOne(params);
+        const { username } = params;
+        return await this.usersService.findOne(username);
     }
 
     @Put("create")

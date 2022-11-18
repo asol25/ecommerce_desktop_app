@@ -1,48 +1,40 @@
 import { jwtConstants } from './constants';
-// import { AccountsService } from "../accounts/user/users.service";
-import { Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
+import { UsersService } from '../accounts/user/users.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    // private readonly usersService: AccountsService,
+    @Inject(forwardRef(() => UsersService))
+    private usersService: UsersService,
     private readonly jwtService: JwtService,
   ) { }
 
   async validateUser(username: string, password: string): Promise<any> {
-    // const user = await this.usersService.findOne(username);
-    // if (user && password === user.password) {
-    //   const { password, ...result } = user;
-    //   return result;
-    // }
+    const user = await this.usersService.findOne(username);
+
+    if (user[0] && password === user[0].password) {
+      const { password, ...result } = user;
+      return result;
+    }
     return null;
   }
 
   async login(user: any) {
-    const payload = { username: user.username, sub: user.userId };
-    return await this.getTokens(payload);
-  }
+    const payload = { username: user.username, password: user.password };
+    const token = await this.getTokens(payload);
+    const account = await this.usersService.setToken(token.accessToken, token.refreshToken, payload.password);
+    console.log(account);
 
-  async getTokens(payload: any) {
-    const optionForRefreshToken = {
-      secret: jwtConstants.secret,
-      expiresIn: '7d',
+    if (account) {
+      return token;
     }
-
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(payload),
-      this.jwtService.signAsync(payload, optionForRefreshToken),
-    ]);
-    
-    return {
-      accessToken,
-      refreshToken,
-    };
+    return null;
   }
 
   async register(user: any) {
-    const payload = { username: user.username, sub: user.userId, password: user.password };
+    const payload = { username: user.username, password: user.password };
     const isCheckedExist = await this.validateUser(payload.username, payload.password);
     if (!isCheckedExist)
       return {
@@ -55,8 +47,31 @@ export class AuthService {
     }
   }
 
+  async getTokens(payload: any) {
+    const optionForRefreshToken = {
+      secret: jwtConstants.secret,
+      expiresIn: '7d',
+    }
+
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload),
+      this.jwtService.signAsync(payload, optionForRefreshToken),
+    ]);
+
+    return {
+      accessToken,
+      refreshToken,
+    };
+  }
+
   async refreshToken(user: any) {
-    const payload = { username: user.username, sub: user.userId };
-    return await this.getTokens(payload);
+    const payload = { username: user.username, password: user.password };
+    
+    const token = await this.getTokens(payload);
+    const account = await this.usersService.setToken(token.accessToken, token.refreshToken, payload.password);
+    if (account) {
+      return token;
+    }
+    return null;
   }
 }

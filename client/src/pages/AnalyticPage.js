@@ -4,7 +4,7 @@ import { useState, useEffect, React } from 'react';
 import { Container, Typography, styled, InputAdornment, OutlinedInput, alpha } from '@mui/material';
 // components
 // mock
-import AnalyticCourse from '../components/Analytic/AnalyticCourse';
+import AnalyticCourse from '../components/analytic/AnalyticCourse';
 import Iconify from '../components/iconify/Iconify';
 import * as apis from '../apis/apis';
 // ----------------------------------------------------------------------

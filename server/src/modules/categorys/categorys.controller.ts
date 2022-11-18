@@ -21,5 +21,5 @@ export class CategorysController {
             console.error(error.message);
             throw error;
         }
-    }
+    }   
 }

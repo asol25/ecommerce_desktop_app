@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 import { IsEmail, Length } from "class-validator";
 import { Roles } from './roles.entity';
-import { Orders } from 'src/modules/orders/entity/orders.entity';
-import { Area } from 'src/modules/area/entities/area.entity';
-import { Country } from 'src/modules/country/entities/country.entity';
+import { Orders } from '../../orders/entity/orders.entity';
+import { Area } from '../../area/entities/area.entity';
+import { Country } from '../../country/entities/country.entity';
 @Entity()
 export class Accounts {
     @PrimaryGeneratedColumn()
@@ -40,4 +40,10 @@ export class Accounts {
 
     @ManyToOne(() => Country, (country) => country.accounts)
     country: Country;
+
+    @Column()
+    accessToken: string;
+
+    @Column()
+    refreshToken: string;
 }

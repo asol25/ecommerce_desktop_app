@@ -1,4 +1,4 @@
-import { Accounts } from "src/modules/accounts/entity/accounts.entity";
+import { Accounts } from "../../accounts/entity/accounts.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
 
 @Entity()

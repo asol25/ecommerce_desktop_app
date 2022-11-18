@@ -1,6 +1,5 @@
-import { Comments } from "src/modules/comments/entity/comments.entity";
-import { Courses } from "src/modules/courses/entity/courses.entity";
-import { Videos } from "src/modules/videos/entity/video.entity";
+import { Courses } from "../../courses/entity/courses.entity";
+import { Videos } from "../../videos/entity/video.entity";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

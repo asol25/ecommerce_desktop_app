@@ -1,12 +1,28 @@
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { Body, Controller, Get, Post, Request, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, HttpStatus, Post, Req, Request, UseGuards } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { LocalAuthGuard } from "./guards/local-auth.guard";
 import { RefreshTokenAuthGuard } from './guards/refreshToken-auth.guard';
+import { FacebookAuthGuard } from './guards/facebook-auth.gurard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
+
+  @UseGuards(FacebookAuthGuard)
+  @Get("facebook")
+  async facebookLogin(): Promise<any> {
+    return HttpStatus.OK;
+  }
+  
+  @UseGuards(FacebookAuthGuard)
+  @Get("facebook/redirect")
+  async facebookLoginRedirect(@Req() req): Promise<any> {
+    return {
+      statusCode: HttpStatus.OK,
+      data: req.user,
+    };
+  }
 
   @UseGuards(LocalAuthGuard)
   @Post("login")
@@ -21,10 +37,8 @@ export class AuthController {
 
   @UseGuards(RefreshTokenAuthGuard)
   @Get("refreshToken")
-  async refreshToken(@Body() body) {
-    console.log(body);
-    
-    return this.authService.refreshToken(body);
+  async refreshToken(@Request() req) {
+    return this.authService.refreshToken(req.user);
   }
 
   @UseGuards(JwtAuthGuard)

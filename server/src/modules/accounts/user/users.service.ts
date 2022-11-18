@@ -1,14 +1,17 @@
 import { Accounts } from './../entity/accounts.entity';
 import { DataSource, DeepPartial, Repository } from 'typeorm';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AuthService } from '../../auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
+    @Inject(forwardRef(() => AuthService))
     @InjectRepository(Accounts)
     private accountsRepository: Repository<Accounts>,
-    private dataSource: DataSource
+    private dataSource: DataSource,
+    private authService: AuthService,
   ) { }
 
   async findAll({ page }): Promise<Accounts[]> {
@@ -38,15 +41,38 @@ export class UsersService {
     }
   }
 
-  async findOne({ id }): Promise<Accounts> {
+  async setToken(access_token, refresh_token, _password) {
+    console.log({access_token: access_token, refresh_token: refresh_token, password: _password});
+    
+    try {
+      const user = await this.dataSource.getRepository(Accounts).createQueryBuilder('account')
+        .update(Accounts)
+        .set({
+          accessToken: access_token,
+          refreshToken: refresh_token
+        })
+        .where("refreshToken = :refreshToken OR password = :password", {
+          refreshToken: refresh_token,
+          password: _password
+        })
+        .execute()
+        
+      return user.affected ? true : false;
+    } catch (error) {
+      console.error(error.message);
+      throw error;
+    }
+  }
+
+  async findOne(_username): Promise<Accounts> {
     try {
       const response = await this.dataSource.getRepository(Accounts).find({
         where: {
-          id: id,
+          username: _username
         }
-      })
+      });
       if (!response)
-        throw new NotFoundException(`The action find #${id} invalid`);
+        throw new NotFoundException(`The action find #${_username} invalid`);
 
       return (response as unknown as Promise<Accounts>);
     } catch (error) {

@@ -2,7 +2,6 @@ import { CoursesModule } from './courses/courses.module';
 import { Videos } from './videos/entity/video.entity';
 import { Orders } from './orders/entity/orders.entity';
 import { Roles } from './accounts/entity/roles.entity';
-import { Tokens } from './accounts/entity/tokens.entity';
 import { Accounts } from './accounts/entity/accounts.entity';
 import { Rating } from './ratings/entity/rating.entity';
 import configuration from "src/config/configuration"
@@ -24,6 +23,7 @@ import { OrdersModule } from './orders/orders.module';
 import { AreaModule } from './area/area.module';
 import { Area } from './area/entities/area.entity';
 import { CountryModule } from './country/country.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,10 +38,11 @@ import { CountryModule } from './country/country.module';
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASS || "01284375954",
       database: process.env.DATABSE_NAME || "web2041",
-      entities: [Accounts, Tokens, Roles, Categorys, Rating, Orders, Courses, Videos, Analytic , Comments, Area],
+      entities: [Accounts, Roles, Categorys, Rating, Orders, Courses, Videos, Analytic , Comments, Area],
       synchronize: true,
       autoLoadEntities: true,
     }),
+    AuthModule,
     CoursesModule,
     AccountsModule,
     CategorysModule,

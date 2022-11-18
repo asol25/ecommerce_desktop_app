@@ -1,7 +1,7 @@
 import { Courses } from '../../courses/entity/courses.entity';
 import { Videos } from './../../videos/entity/video.entity';
 import { Accounts } from './../../accounts/entity/accounts.entity';
-import { CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Orders {
@@ -12,7 +12,7 @@ export class Orders {
         type: 'date',
     })
     createdDate: Date
-    
+
     @ManyToOne(() => Accounts, (account) => account.orders)
     accounts: Accounts
 

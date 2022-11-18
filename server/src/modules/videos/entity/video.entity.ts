@@ -1,7 +1,7 @@
 import { Courses } from './../../courses/entity/courses.entity';
 import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Analytic } from 'src/modules/analytic/entity/analytic.entity';
-import { Comments } from 'src/modules/comments/entity/comments.entity';
+import { Analytic } from './../../analytic/entity/analytic.entity';
+import { Comments } from './../../comments/entity/comments.entity';
 
 @Entity()
 export class Videos {
