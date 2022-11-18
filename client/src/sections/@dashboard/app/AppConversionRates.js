@@ -16,7 +16,7 @@ AppConversionRates.propTypes = {
 };
 
 export default function AppConversionRates({ title, subheader, chartData, ...other }) {
-  const chartLabels = chartData.map((i) => i.label);
+  const chartLabels = chartData.map((i) => i.name);
 
   const chartSeries = chartData.map((i) => i.value);
 

@@ -3,6 +3,7 @@ import { IsEmail, Length } from "class-validator";
 import { Roles } from './roles.entity';
 import { Orders } from 'src/modules/orders/entity/orders.entity';
 import { Area } from 'src/modules/area/entities/area.entity';
+import { Country } from 'src/modules/country/entities/country.entity';
 @Entity()
 export class Accounts {
     @PrimaryGeneratedColumn()
@@ -36,4 +37,7 @@ export class Accounts {
 
     @ManyToOne(() => Area, (area) => area.accounts)
     area: Area;
+
+    @ManyToOne(() => Country, (country) => country.accounts)
+    country: Country;
 }

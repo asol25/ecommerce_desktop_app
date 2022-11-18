@@ -9,7 +9,6 @@ import axios from 'axios';
 import Iconify from '../components/iconify';
 // sections
 import {
-  AppTasks,
   AppNewsUpdate,
   AppOrderTimeline,
   AppCurrentVisits,
@@ -56,7 +55,7 @@ export default function DashboardAppPage() {
           console.log(err)
         }
       }
-      
+
       fetchData();
       fetchInformation();
     }
@@ -77,77 +76,73 @@ export default function DashboardAppPage() {
         </Typography>
 
         <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Weekly Sales" total={chartInformation[0]} icon={'ant-design:android-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="New Users" total={chartInformation[1]} color="info" icon={'ant-design:apple-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Item Orders" total={chartInformation[2]} color="warning" icon={'ant-design:windows-filled'} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} md={3}>
-            <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppWebsiteVisits
-              title="Bought Courses"
-              subheader="(+43%) than now month"
-              chartLabels={chartLabelsFlowMonth}
-              chartData={[
-                {
-                  name: 'Month',
-                  type: 'column',
-                  fill: 'solid',
-                  data: chartDataIntoChartLabelsFlowMonth,
-                },
-              ]}
-
-            />
-          </Grid>
           {
-            console.log({ chartDataIntoChartLabelsFlowMonth, chartLabelsFlowMonth })
-          }
-          <Grid item xs={12} md={6} lg={4}>
-            <AppCurrentVisits
-              title="Current Visits"
-              chartData={[
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
-              ]}
-              chartColors={[
-                theme.palette.primary.main,
-                theme.palette.info.main,
-                theme.palette.warning.main,
-                theme.palette.error.main,
-              ]}
-            />
-          </Grid>
+            chartInformation[0] && chartInformation[1] && chartInformation[2] ?
+              <>
+                <Grid item xs={12} sm={6} md={3}>
+                  <AppWidgetSummary title="Weekly Sales" total={chartInformation[0]} icon={'ant-design:android-filled'} />
+                </Grid>
 
-          <Grid item xs={12} md={6} lg={8}>
-            <AppConversionRates
-              title="Conversion Rates"
-              subheader="(+43%) than last year"
-              chartData={[
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ]}
-            />
-          </Grid>
+                <Grid item xs={12} sm={6} md={3}>
+                  <AppWidgetSummary title="New Users" total={chartInformation[1]} color="info" icon={'ant-design:apple-filled'} />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                  <AppWidgetSummary title="Item Orders" total={chartInformation[2]} color="warning" icon={'ant-design:windows-filled'} />
+                </Grid>
+
+                <Grid item xs={12} sm={6} md={3}>
+                  <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+                </Grid>
+              </>
+              : null
+
+          }
+
+          {
+            chartLabelsFlowMonth && chartDataIntoChartLabelsFlowMonth ?
+              <Grid item xs={12} md={6} lg={8}>
+                <AppWebsiteVisits
+                  title="Bought Courses"
+                  subheader="(+43%) than now month"
+                  chartLabels={chartLabelsFlowMonth}
+                  chartData={[
+                    {
+                      name: 'Month',
+                      type: 'column',
+                      fill: 'solid',
+                      data: chartDataIntoChartLabelsFlowMonth,
+                    },
+                  ]}
+
+                />
+              </Grid> : null
+          }
+
+          {
+            chartInformation[3] ? <Grid item xs={12} md={6} lg={4}>
+              <AppCurrentVisits
+                title="Current Visits"
+                chartData={chartInformation[3]}
+                chartColors={[
+                  theme.palette.primary.main,
+                  theme.palette.info.main,
+                  theme.palette.warning.main,
+                  theme.palette.error.main,
+                ]}
+              />
+            </Grid> : null
+          }
+
+          {
+            chartInformation[4] ? <Grid item xs={12} md={6} lg={8}>
+              <AppConversionRates
+                title="Conversion Rates"
+                subheader="(+43%) than last year"
+                chartData={chartInformation[4]}
+              />
+            </Grid> : null
+          }
 
           <Grid item xs={12} md={6} lg={4}>
             <AppCurrentSubject
@@ -217,19 +212,6 @@ export default function DashboardAppPage() {
                   value: 443232,
                   icon: <Iconify icon={'eva:twitter-fill'} color="#1C9CEA" width={32} />,
                 },
-              ]}
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6} lg={8}>
-            <AppTasks
-              title="Tasks"
-              list={[
-                { id: '1', label: 'Create FireStone Logo' },
-                { id: '2', label: 'Add SCSS and JS files if required' },
-                { id: '3', label: 'Stakeholder Meeting' },
-                { id: '4', label: 'Scoping & Estimations' },
-                { id: '5', label: 'Sprint Showcase' },
               ]}
             />
           </Grid>

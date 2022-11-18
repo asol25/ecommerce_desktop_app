@@ -23,6 +23,7 @@ import { AnnalyticModule } from './analytic/analytic.module';
 import { OrdersModule } from './orders/orders.module';
 import { AreaModule } from './area/area.module';
 import { Area } from './area/entities/area.entity';
+import { CountryModule } from './country/country.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -49,7 +50,8 @@ import { Area } from './area/entities/area.entity';
     CommentesModule,
     AnnalyticModule,
     OrdersModule,
-    AreaModule
+    AreaModule,
+    CountryModule
   ],
   controllers: [],
   providers: [],
