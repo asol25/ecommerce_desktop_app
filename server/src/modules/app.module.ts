@@ -21,6 +21,8 @@ import { StreamModule } from './stream/stream.module';
 import { CommentesModule } from './comments/commentes.module';
 import { AnnalyticModule } from './analytic/analytic.module';
 import { OrdersModule } from './orders/orders.module';
+import { AreaModule } from './area/area.module';
+import { Area } from './area/entities/area.entity';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -35,7 +37,7 @@ import { OrdersModule } from './orders/orders.module';
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASS || "01284375954",
       database: process.env.DATABSE_NAME || "web2041",
-      entities: [Accounts, Tokens, Roles, Categorys, Rating, Orders, Courses, Videos, Analytic , Comments],
+      entities: [Accounts, Tokens, Roles, Categorys, Rating, Orders, Courses, Videos, Analytic , Comments, Area],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -46,7 +48,8 @@ import { OrdersModule } from './orders/orders.module';
     StreamModule,
     CommentesModule,
     AnnalyticModule,
-    OrdersModule
+    OrdersModule,
+    AreaModule
   ],
   controllers: [],
   providers: [],

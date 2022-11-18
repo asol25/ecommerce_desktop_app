@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'ty
 import { IsEmail, Length } from "class-validator";
 import { Roles } from './roles.entity';
 import { Orders } from 'src/modules/orders/entity/orders.entity';
+import { Area } from 'src/modules/area/entities/area.entity';
 @Entity()
 export class Accounts {
     @PrimaryGeneratedColumn()
@@ -32,4 +33,7 @@ export class Accounts {
 
     @OneToMany(() => Orders, (order) => order.accounts)
     orders: Orders[];
+
+    @ManyToOne(() => Area, (area) => area.accounts)
+    area: Area;
 }
