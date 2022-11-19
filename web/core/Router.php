@@ -1,6 +1,8 @@
 <?php
 namespace app\core;
 
+use app\core\exception\NotFoundException;
+
 class Router
 {
     private Request $request;
@@ -77,6 +79,9 @@ class Router
         return false;
     }
 
+    /**
+     * @throws NotFoundException
+     */
     public function resolve()
     {
         $method = $this->request->getMethod();
@@ -91,7 +96,7 @@ class Router
             }
         }
         if (is_string($callback)) {
-            return $this->renderView($callback);
+            $this->renderView($callback);
         }
         if (is_array($callback)) {
             $controller = new $callback[0];
@@ -106,9 +111,9 @@ class Router
         return call_user_func($callback, $this->request, $this->response);
     }
 
-    public function renderView($view, $params = [])
+    public function renderView($view, $params = []): void
     {
-        return Application::$app->view->renderView($view, $params);
+         Application::$app->view->renderView($view, $params);
     }
 
     public function renderViewOnly($view, $params = [])

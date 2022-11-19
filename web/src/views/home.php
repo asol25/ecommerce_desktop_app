@@ -1,4 +1,6 @@
 <?php
+/** @var mixed $key */
+var_dump($$key["name"]);
 ?>
 
 <div>

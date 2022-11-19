@@ -5,7 +5,6 @@ namespace app\core\controllers;
 
 
 use app\core\Controller;
-use app\core\middlewares\AuthMiddleware;
 
 class SiteController extends Controller
 {
@@ -14,10 +13,11 @@ class SiteController extends Controller
        $this->home();
     }
 
-    public function home(): string
+    public function home(): void
     {
-        return $this->render('home', [
-            'name' => 'TheCodeholic'
+        $this->render('home', [
+            'name' => 'TheCodeholic',
+            'age' => 24
         ]);
     }
 }

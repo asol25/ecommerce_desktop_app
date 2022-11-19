@@ -5,7 +5,7 @@ class View
 {
     public string $title = '';
 
-    public function renderView($view, array $params)
+    public function renderView($view, array $params): void
     {
         $layoutName = Application::$app->layout;
         if (Application::$app->controller) {
@@ -15,14 +15,13 @@ class View
         ob_start();
         include_once Application::$ROOT_DIR."/web/src/views/layouts/$layoutName.php";
         $layoutContent = ob_get_clean();
-        echo(str_replace('{{content}}', $viewContent, $layoutContent));
+         echo(str_replace('{{content}}', $viewContent, $layoutContent));
     }
 
     public function renderViewOnly($view, array $params)
     {
-        foreach ($params as $key => $value) {
-            $$key = $value;
-        }
+        /** @var mixed $key */
+        $$key = $params;
         ob_start();
         include_once Application::$ROOT_DIR."/web/src/views/$view.php";
         return ob_get_clean();

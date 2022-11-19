@@ -15,9 +15,9 @@ class Controller
         $this->layout = $layout;
     }
 
-    public function render($view, $params = []): string
+    public function render($view, $params = []): void
     {
-        return Application::$app->router->renderView($view, $params);
+        Application::$app->router->renderView($view, $params);
     }
 
     public function registerMiddleware(IMiddleware $middleware)
