@@ -1,0 +1,15 @@
+{
+    "name": "thinh/web",
+    "autoload": {
+        "psr-4": {
+            "app\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "asol25",
+            "email": "usool.203@gmail.com"
+        }
+    ],
+    "require": {}
+}
