@@ -31,8 +31,6 @@ class Application
         $this->router = new Router($this->request, $this->response);
         $this->session = new Session();
         $this->view = new View();
-
-        $userId = Application::$app->session->get('user');
     }
 
     public function run()

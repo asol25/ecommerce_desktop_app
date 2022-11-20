@@ -6,9 +6,9 @@ namespace app\services\apis\payments;
 
 class Payment
 {
+    public string $vnp_OrderType;
     public string $vnp_TxnRef;
     public string $vnp_OrderInfo;
-    public string $vnp_OrderType;
     public string $vnp_Amount;
     public string $vnp_Locale;
     public string $vnp_BankCode;
@@ -39,57 +39,48 @@ class Payment
      * Payment constructor.
      */
     public function __construct(
-        string $vnp_TxnRef,
-        string $vnp_OrderInfo,
         string $vnp_OrderType,
         string $vnp_Amount,
-        string $vnp_Locale,
+        string $vnp_OrderInfo,
         string $vnp_BankCode,
-        string $vnp_IpAddr,
-        string $vnp_ExpireDate,
-        string $vnp_Bill_Mobile,
-        string $vnp_Bill_Email,
+        string $vnp_Locale,
         string $full_Name,
+        string $vnp_Bill_Email,
+        string $vnp_Bill_Mobile,
         string $vnp_Bill_Address,
+        string $vnp_TxnRef,
         string $vnp_Bill_City,
-        string $vnp_Bill_Country,
         string $vnp_Bill_State,
-        string $vnp_Inv_Phone,
         string $vnp_Inv_Email,
         string $vnp_Inv_Customer,
         string $vnp_Inv_Address,
         string $vnp_Inv_Company,
         string $vnp_Inv_Taxcode,
-        string $vnp_Inv_Type,
-        string $vnp_Version,
     ) {
         $this->vnp_TxnRef = $vnp_TxnRef;
         $this->vnp_OrderInfo = $vnp_OrderInfo;
         $this->vnp_OrderType = $vnp_OrderType;
         $this->vnp_Locale = $vnp_Locale;
         $this->vnp_BankCode = $vnp_BankCode;
-        $this->vnp_IpAddr = $vnp_IpAddr;
-        $this->vnp_ExpireDate = $vnp_ExpireDate;
         $this->vnp_Bill_Mobile = $vnp_Bill_Mobile;
         $this->vnp_Bill_Email = $vnp_Bill_Email;
         $this->vnp_Bill_Address = $vnp_Bill_Address;
         $this->vnp_Bill_City = $vnp_Bill_City;
-        $this->vnp_Bill_Country = $vnp_Bill_Country;
         $this->vnp_Bill_State = $vnp_Bill_State;
-        $this->vnp_Inv_Phone = $vnp_Inv_Phone;
         $this->vnp_Inv_Email = $vnp_Inv_Email;
         $this->vnp_Inv_Customer = $vnp_Inv_Customer;
         $this->vnp_Inv_Address = $vnp_Inv_Address;
         $this->vnp_Inv_Company = $vnp_Inv_Company;
         $this->vnp_Inv_Taxcode = $vnp_Inv_Taxcode;
-        $this->vnp_Inv_Type = $vnp_Inv_Type;
-        $this->vnp_Version = $vnp_Version;
 
+        $this->setVnpIpAddr();
+        $this->setVnpCreateDate();
+        $this->setVnpExpireDate($this->vnp_CreateDate);
         $this->setVnpAmount($vnp_Amount);
         $this->setFullName($full_Name);
         $this->setVnpReturnUrl();
-        $this->setVnpExpireDate();
         $this->setVnpIpAddr();
+        $this->setVnpSecureHash();
     }
 
     /**
@@ -240,15 +231,7 @@ class Payment
         return $this->vnp_ExpireDate;
     }
 
-    /**
-     * Setter for vnp_Expire.
-     */
-    public function setVnpExpireDate(): void
-    {
-        $formatDate =  date('YmdHis', strtotime('+15 minutes', strtotime($this->vnp_CreateDate)));;
-
-        $this->vnp_ExpireDate = $formatDate;
-    }
+   
 
     /**
      * @return string
@@ -512,7 +495,7 @@ class Payment
     public function setVnpReturnUrl(): void
     {
         
-        $url = "{$_SERVER['HTTP_HOST']}/payment/callback";
+        $url = "{$_SERVER['HTTP_HOST']}/VnPayReturn";
         $this->vnp_ReturnUrl = $url;
     }
 
@@ -521,8 +504,17 @@ class Payment
      */
     public function setVnpCreateDate(): void
     {
-        $formatDate = date('YmdHis');
-        $this->vnp_CreateDate = $formatDate;
+        $startTime = date('YmdHis');
+        $this->vnp_CreateDate = date('YmdHis',strtotime('+420 minutes',strtotime(  $startTime )));
+        
+    }
+
+     /**
+     * Setter for vnp_Expire.
+     */
+    public function setVnpExpireDate($vnp_CreateDate): void
+    {
+        $this->vnp_ExpireDate = date('YmdHis',strtotime('+15 minutes',strtotime($this->vnp_CreateDate)));
     }
 
     /**
@@ -546,7 +538,7 @@ class Payment
      */
     public function setVnpSecureHash(): void
     {
-        $hash = "CNRCCZMEUTTKKDDSITDRUKTVVBWLOUVG";
+        $hash = "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO";
         $this->vnp_SecureHash = $hash;
     }
 }

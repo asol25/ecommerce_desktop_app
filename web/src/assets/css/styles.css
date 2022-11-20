@@ -1206,3 +1206,19 @@ body.dark-theme {
     right: 3rem;
   }
 }
+
+.payment {
+  padding-top: 100px;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.payment form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
+.payment .form-group input,  .payment .form-group input {
+  height: 30px;
+}

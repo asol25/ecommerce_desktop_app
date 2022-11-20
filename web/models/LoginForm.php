@@ -33,9 +33,4 @@ class LoginForm extends Model
             'password' => 'Password'
         ];
     }
-
-
-    public function login(): bool
-    {
-    }
 }
