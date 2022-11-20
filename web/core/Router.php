@@ -33,6 +33,13 @@ class Router
         return $this->routeMap[$method] ?? [];
     }
 
+    protected function matchKeyRoute($route)
+    {
+        if (preg_match_all('/\{(\w+)(:[^}]+)?}/', $route, $matches)) {
+           return $matches[1];
+        }
+    }
+
     public function getCallback()
     {
         $method = $this->request->getMethod();
@@ -42,7 +49,6 @@ class Router
 
         // Get all routes for current request method
         $routes = $this->getRouteMap($method);
-
         $routeParams = false;
 
         // Start iterating registed routes
@@ -56,9 +62,7 @@ class Router
             }
 
             // Find all route names from route and save in $routeNames
-            if (preg_match_all('/\{(\w+)(:[^}]+)?}/', $route, $matches)) {
-                $routeNames = $matches[1];
-            }
+            $routeNames = $this->matchKeyRoute($route);
 
             // Convert route name into regex pattern
             $routeRegex = "@^" . preg_replace_callback('/\{\w+(:([^}]+))?}/', fn($m) => isset($m[2]) ? "({$m[2]})" : '(\w+)', $route) . "$@";
@@ -66,12 +70,14 @@ class Router
             // Test and match current route against $routeRegex
             if (preg_match_all($routeRegex, $url, $valueMatches)) {
                 $values = [];
+
                 for ($i = 1; $i < count($valueMatches); $i++) {
                     $values[] = $valueMatches[$i][0];
+
                 }
                 $routeParams = array_combine($routeNames, $values);
-
                 $this->request->setRouteParams($routeParams);
+
                 return $callback;
             }
         }
@@ -90,7 +96,6 @@ class Router
         if (!$callback) {
 
             $callback = $this->getCallback();
-
             if ($callback === false) {
                 throw new NotFoundException();
             }
@@ -116,7 +121,7 @@ class Router
          Application::$app->view->renderView($view, $params);
     }
 
-    public function renderViewOnly($view, $params = [])
+    public function renderViewOnly($view, $params = []): bool|string
     {
         return Application::$app->view->renderViewOnly($view, $params);
     }
