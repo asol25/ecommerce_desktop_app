@@ -11,5 +11,7 @@
             "email": "usool.203@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-curl": "*"
+    }
 }

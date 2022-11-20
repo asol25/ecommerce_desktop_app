@@ -27,6 +27,22 @@ export class CoursesService {
         return response;
     }
 
+    async getCoursesLimmit(_limmit): Promise<Courses[] | Courses> {
+        const response = await this.coursesRepository.find({
+            relations: {
+                analytic: true
+            },
+            order: {
+                id: 'ASC',
+                analytic: {
+                    viewCount: "ASC"
+                }
+            },
+            take: _limmit,
+        });
+        return response;
+    }
+
     getCoursesRepository(): Repository<Courses> {
         return this.coursesRepository;
     }

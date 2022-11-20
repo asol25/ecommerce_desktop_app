@@ -5,7 +5,6 @@ namespace app\core\form;
 
 
 use app\core\Model;
-use JetBrains\PhpStorm\Pure;
 
 class Field extends BaseField
 {
@@ -14,7 +13,7 @@ class Field extends BaseField
     const TYPE_FILE = 'file';
 
 
-    #[Pure] public function __construct(Model $model, string $attribute)
+    public function __construct(Model $model, string $attribute)
     {
         $this->type = self::TYPE_TEXT;
         parent::__construct($model, $attribute);

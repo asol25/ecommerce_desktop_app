@@ -3,11 +3,7 @@
 
 namespace app\core;
 
-
-use JetBrains\PhpStorm\ArrayShape;
-use JetBrains\PhpStorm\Pure;
-
-class Model
+abstract class Model
 {
     const RULE_REQUIRED = 'required';
     const RULE_EMAIL = 'email';
@@ -26,29 +22,22 @@ class Model
         }
     }
 
-    public function attributes(): array
-    {
-        return [];
-    }
-
-    public function labels(): array
-    {
-        return [];
-    }
+    abstract public function rules(): array;
+    abstract public function attribute(): array;
+    abstract public function labels(): array;
 
     public function getLabel($attribute)
     {
+        echo "<pre>";
+        print_r($this->labels());
+        echo "</pre>";
+
         return $this->labels()[$attribute] ?? $attribute;
     }
 
-    public function rules(): array
-    {
-        return [];
-    }
 
     public function validate(): bool
     {
-        var_dump($this->rules());
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
             foreach ($rules as $rule) {
@@ -76,7 +65,7 @@ class Model
         return empty($this->errors);
     }
 
-    #[ArrayShape([self::RULE_REQUIRED => "string", self::RULE_EMAIL => "string", self::RULE_MIN => "string", self::RULE_MAX => "string", self::RULE_MATCH => "string", self::RULE_UNIQUE => "string"])] public function errorMessages(): array
+    public function errorMessages(): array
     {
         return [
             self::RULE_REQUIRED => 'This field is required',
@@ -84,7 +73,6 @@ class Model
             self::RULE_MIN => 'Min length of this field must be {min}',
             self::RULE_MAX => 'Max length of this field must be {max}',
             self::RULE_MATCH => 'This field must be the same as {match}',
-            self::RULE_UNIQUE => 'Record with with this {field} already exists',
         ];
     }
 

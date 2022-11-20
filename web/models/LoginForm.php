@@ -12,6 +12,11 @@ class LoginForm extends Model
     public string $email = '';
     public string $password = '';
 
+    public function attribute(): array
+    {
+        // TODO: Implement attribute() method.
+    }
+
 
     #[ArrayShape(['email' => "array", 'password' => "array"])] public function rules(): array
     {

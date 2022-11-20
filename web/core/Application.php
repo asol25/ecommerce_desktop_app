@@ -1,6 +1,8 @@
 <?php 
 
 namespace app\core;
+use app\services\apis\RestApi;
+
 class Application
 {
     const EVENT_BEFORE_REQUEST = 'beforeRequest';
@@ -8,6 +10,7 @@ class Application
 
     protected array $eventListeners = [];
 
+    public static RestApi $restApi;
     public static Application $app;
     public static string $ROOT_DIR;
     public string $layout = 'main';
@@ -22,6 +25,7 @@ class Application
     {
         self::$ROOT_DIR = $rootDir;
         self::$app = $this;
+        self::$restApi = new RestApi();
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router($this->request, $this->response);

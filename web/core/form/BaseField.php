@@ -12,10 +12,13 @@ abstract class BaseField
     public string $attribute;
     public string $type;
 
-    public function __construct(Model $model, string $attribute)
+    public function __construct($model, string $attribute)
     {
         $this->model = $model;
         $this->attribute = $attribute;
+//        echo "<pre>";
+//        print_r($this->model);
+//        echo "</pre>";
     }
 
     public function __toString()
