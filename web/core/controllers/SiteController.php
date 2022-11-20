@@ -5,6 +5,8 @@ namespace app\core\controllers;
 
 
 use app\core\Controller;
+use app\core\Model;
+use app\models\LoginForm;
 
 class SiteController extends Controller
 {
@@ -16,8 +18,7 @@ class SiteController extends Controller
     public function home(): void
     {
         $this->render('home', [
-            'name' => 'TheCodeholic',
-            'age' => 24
+          'model' => new LoginForm(),
         ]);
     }
 }

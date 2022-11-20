@@ -12,5 +12,4 @@ $app->on(Application::EVENT_BEFORE_REQUEST, function(){
 });
 
 $app->router->get('/', [\app\core\controllers\SiteController::class, 'home']);
-$app->router->get('/example/{id:\d+}/{username}', [\app\core\controllers\SiteController::class, 'home']);
 $app->run();

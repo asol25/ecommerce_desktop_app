@@ -36,7 +36,7 @@ class Model
         return [];
     }
 
-    #[Pure] public function getLabel($attribute)
+    public function getLabel($attribute)
     {
         return $this->labels()[$attribute] ?? $attribute;
     }
@@ -48,6 +48,7 @@ class Model
 
     public function validate(): bool
     {
+        var_dump($this->rules());
         foreach ($this->rules() as $attribute => $rules) {
             $value = $this->{$attribute};
             foreach ($rules as $rule) {
@@ -83,10 +84,11 @@ class Model
             self::RULE_MIN => 'Min length of this field must be {min}',
             self::RULE_MAX => 'Max length of this field must be {max}',
             self::RULE_MATCH => 'This field must be the same as {match}',
+            self::RULE_UNIQUE => 'Record with with this {field} already exists',
         ];
     }
 
-    #[Pure] public function errorMessage($rule): string
+    public function errorMessage($rule): string
     {
         return $this->errorMessages()[$rule];
     }

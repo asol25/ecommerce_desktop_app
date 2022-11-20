@@ -118,7 +118,7 @@ class Router
 
     public function renderView($view, $params = []): void
     {
-         Application::$app->view->renderView($view, $params);
+        Application::$app->view->renderView($view, $params);
     }
 
     public function renderViewOnly($view, $params = []): bool|string
