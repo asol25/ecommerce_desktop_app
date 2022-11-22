@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+# ecommerce_desktop_app
+
+Landing page: https://asol25.github.io/ecommerce_desktop_app/ </br>
+Desktop: https://gist.github.com/asol25/cb65ca1ed2c33eb20e0b7c1621b9dc5c </br>
+Server:
+=======
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -71,3 +78,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+>>>>>>> 721a61d5208882f9c812bd2eec4930480a2cdf95
