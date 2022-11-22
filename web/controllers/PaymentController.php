@@ -23,11 +23,7 @@ class PaymentController extends Controller
     {
         $searchString = "&vnp_ResponseCode=00";
         $string = $_SERVER['QUERY_STRING'];
-        $isChecked = strpos($string, $searchString);
-        if ($isChecked) {
-            # code...
-            $this->render("_paymentReturn", []);
-        }
+        $this->render("_paymentReturn", []);
     }
     public function requestCreatePayment() {
 //         echo "<pre>";

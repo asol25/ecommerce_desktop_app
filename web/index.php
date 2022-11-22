@@ -13,6 +13,7 @@ $app->on(Application::EVENT_BEFORE_REQUEST, function(){
 
 $app->router->get('/', [\app\controllers\SiteController::class, 'home']);
 $app->router->get('/login', [\app\controllers\SiteController::class, 'loginPage']);
+$app->router->get('/courses', [\app\controllers\Courses::class, 'courses']);
 $app->router->get('/payment/course/{id:\d+}/{price}', [\app\controllers\PaymentController::class, 'payment']);
 $app->router->get('/VnPayReturn', [\app\controllers\PaymentController::class, 'paymentCallBack']);
 $app->router->get('/course/{id:\d+}', [\app\controllers\Courses::class, 'course']);

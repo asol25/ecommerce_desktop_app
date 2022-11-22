@@ -126,7 +126,7 @@
 
             <div class="form-group ">
                 <label>Full Name (*)</label>
-                <input class="form-control" id="txt_billing_fullname" name="txt_billing_fullname" type="text" value="<?php echo $params['payment']['username']?>" />
+                <input class="form-control" id="txt_billing_fullname" name="txt_billing_fullname" type="text" value="Dau Thu Chem Ca" />
             </div>
 
             <div class="form-group">

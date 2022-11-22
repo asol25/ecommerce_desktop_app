@@ -34,10 +34,10 @@ use app\services\apis\RestApi;
             <div class="home__btns">
                 <a href="#" class="button button--gray
                                 button--small">
-                    Discover
+                    Payment
                 </a>
 
-                <button class="button home__button">ADD TO CART</button>
+                <button class="button home__button">View Course</button>
             </div>
         </div>
     </div>
