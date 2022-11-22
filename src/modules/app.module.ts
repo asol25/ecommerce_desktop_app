@@ -35,11 +35,17 @@ import { ExampleModule } from './example/example.module';
     TypeOrmModule.forRoot({
       name: "default",
       type: "postgres",
-      url: "postgres://vivujdpcjlhfzx:f934cb6efe435ab61b7e77cd4bbd8f25972317f6e2c32edf0146c5babd971e2f@ec2-44-206-137-96.compute-1.amazonaws.com:5432/d9kfdardffs6dv",
+      host: "ec2-44-206-137-96.compute-1.amazonaws.com",
+      port: 5432,
+      username: "vivujdpcjlhfzx",
+      password: "f934cb6efe435ab61b7e77cd4bbd8f25972317f6e2c32edf0146c5babd971e2f",
+      database: "d9kfdardffs6dv",
       entities: [Accounts, Roles, Categorys, Rating, Orders, Courses, Videos, Analytic , Comments, Area],
-      synchronize: false,
+      synchronize: true,
       autoLoadEntities: true,
-      logging: true,
+      ssl: {
+        rejectUnauthorized: false
+      }
     }),
     AuthModule,
     CoursesModule,
