@@ -9,10 +9,6 @@ use app\core\form\Form;
        <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/_Cart.php"?>
        <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/_IntroduceCourse.php"?>
        <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/_CoursesMostViewsOverview.php"?>
-
-
-
-
             <!--==================== STORY ====================-->
             <section class="story section container">
                 <div class="story__container grid">

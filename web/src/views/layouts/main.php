@@ -1,6 +1,3 @@
-<?php
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,6 +19,7 @@
 
         <title>Fucker Courses</title>
     </head>
+
 <body>
     <div>
         <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/header.php"?>
@@ -29,4 +27,5 @@
         <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/footer.php"?>
     </div>
 </body>
+
 </html>

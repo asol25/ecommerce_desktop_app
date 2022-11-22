@@ -11,6 +11,7 @@ class RestApi
 
     public function fetch($method, $url, $data = false): bool|array
     {
+
         $curl = curl_init($url);
 
         switch ($method)

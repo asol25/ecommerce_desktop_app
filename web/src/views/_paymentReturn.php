@@ -1,5 +1,4 @@
 <?php
-
 /** @var mixed $key $ */
 $vnp_SecureHash = $_GET['vnp_SecureHash'];
 $inputData = array();
