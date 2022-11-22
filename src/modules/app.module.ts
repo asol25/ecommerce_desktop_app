@@ -33,12 +33,11 @@ import { PaymentModule } from './payment/payment.module';
     }),
     TypeOrmModule.forRoot({
       type: "postgres",
-      host: process.env.DATABASE_HOST,
-
-      port: parseInt(process.env.DATABASE_PORT, 10) || 3306,
-      username: process.env.DATABASE_USER || 'root',
+      host: process.env.DATABASE_HOST || "localhost",
+      port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
+      username: process.env.DATABASE_USER || 'postgres',
       password: process.env.DATABASE_PASS || "01284375954",
-      database: process.env.DATABSE_NAME || "web2041",
+      database: process.env.DATABSE_NAME || "123",
       entities: [Accounts, Roles, Categorys, Rating, Orders, Courses, Videos, Analytic , Comments, Area],
       synchronize: true,
       autoLoadEntities: true,
