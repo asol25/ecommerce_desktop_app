@@ -495,7 +495,7 @@ class Payment
     public function setVnpReturnUrl(): void
     {
         
-        $url = "{$_SERVER['HTTP_HOST']}/VnPayReturn";
+        $url = "http://{$_SERVER['HTTP_HOST']}/VnPayReturn";
         $this->vnp_ReturnUrl = $url;
     }
 

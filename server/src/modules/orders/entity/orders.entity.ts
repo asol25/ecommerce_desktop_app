@@ -13,6 +13,9 @@ export class Orders {
     })
     createdDate: Date
 
+    @Column()
+    isActive: boolean
+
     @ManyToOne(() => Accounts, (account) => account.orders)
     accounts: Accounts
 

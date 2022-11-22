@@ -24,6 +24,7 @@ import { AreaModule } from './area/area.module';
 import { Area } from './area/entities/area.entity';
 import { CountryModule } from './country/country.module';
 import { AuthModule } from './auth/auth.module';
+import { PaymentModule } from './payment/payment.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -52,7 +53,8 @@ import { AuthModule } from './auth/auth.module';
     AnnalyticModule,
     OrdersModule,
     AreaModule,
-    CountryModule
+    CountryModule,
+    PaymentModule
   ],
   controllers: [],
   providers: [],

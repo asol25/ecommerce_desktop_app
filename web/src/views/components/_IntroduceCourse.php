@@ -1,7 +1,5 @@
 <?php
-
 use app\services\apis\RestApi;
-
 ?>
 
 <section class="home" id="home">

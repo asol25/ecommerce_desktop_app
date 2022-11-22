@@ -1,4 +1,5 @@
 <?php
+
 /** @var mixed $key $ */
 $vnp_SecureHash = $_GET['vnp_SecureHash'];
 $inputData = array();
@@ -24,11 +25,12 @@ foreach ($inputData as $key => $value) {
 $secureHash = hash_hmac('sha512', $hashData, "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO");
 ?>
 <!--Begin display -->
-    <section class="story section container">
-        <div class="story__data">
-            <p class="story__description">
-            <div class="container">
-                <div class="table-responsive">
+<section class="story section container">
+    <div class="story__data">
+        <p class="story__description">
+        <div class="container">
+            <div class="table-responsive">
+                <form action="" id="create_form">
                     <div class="form-group">
                         <label>Mã đơn hàng:</label>
                         <label><?php echo $_GET['vnp_TxnRef'] ?></label>
@@ -52,7 +54,7 @@ $secureHash = hash_hmac('sha512', $hashData, "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO")
                     </div>
                     <div class="form-group">
                         <label>Thời gian thanh toán:</label>
-                        <label><?php echo(date("Y-m-d", time())); ?></label>
+                        <label><?php echo (date("Y-m-d", time())); ?></label>
                     </div>
                     <div class="form-group">
                         <label>Kết quả:</label>
@@ -60,7 +62,10 @@ $secureHash = hash_hmac('sha512', $hashData, "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO")
                             <?php
                             if ($secureHash == $vnp_SecureHash) {
                                 if ($_GET['vnp_ResponseCode'] == '00') {
-                                    echo "<span style='color:blue'>GD Thanh cong</span>"; 
+                                    echo "<span style='color:blue'>GD Thanh cong</span>";
+                                    $url = "http://localhost:5000/payment/account/:accountId/courses/:courseId";
+//                                    \app\core\Application::$restApi->fetch('GET', $url, false);
+//                                    unset($url);
                                 } else {
                                     echo "<span style='color:red'>GD Khong thanh cong</span>";
                                 }
@@ -71,7 +76,8 @@ $secureHash = hash_hmac('sha512', $hashData, "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO")
 
                         </label>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
-    </section>
+    </div>
+</section>

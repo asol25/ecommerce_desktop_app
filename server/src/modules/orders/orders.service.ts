@@ -12,6 +12,9 @@ export class OrdersService {
         private readonly dataSource: DataSource
     ) { }
 
+    async getOrdersRepository() {
+        return this.ordersRepository;
+    }
     async getTotalBought(): Promise<number> {
         try {
             const response = await this.ordersRepository.count();
