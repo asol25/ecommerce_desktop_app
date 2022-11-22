@@ -16,6 +16,8 @@
   --body-color: #f2f4f7;
   --container-color: #fff;
   --border-color: hsl(0, 0%, 94%);
+  --color-beige: #FFF0E5;
+  --color-text: #10162f;
 
   /*========== Font and typography ==========*/
   --body-font: 'Roboto', sans-serif;
@@ -137,7 +139,8 @@ body.dark-theme {
 .dark-theme .change-theme,
 .dark-theme .nav__toggle,
 .dark-theme .nav__shop,
-.dark-theme .button--gray {
+.dark-theme .button--gray,
+.dark-theme .section__title {
   color: hsl(0, 0%, 15%);
 }
 
@@ -767,6 +770,265 @@ body.dark-theme {
   color: hsl(0, 0%, 15%);
 }
 
+/* COURSE_DETAIL */
+.section__course__detail {
+  border: 1px solid none;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border-radius: 8px;
+  background-color: var(--color-beige)
+}
+
+.section__course__detail span {
+  font-weight: 400;
+  margin: 0.5em;
+  padding: .2em .5em;
+  border: 1px solid none;
+  border-radius: 40px;
+  color: white;
+  background-color: var(--color-text);
+  line-height: 0;
+  font-size: 0.875rem;
+  height: 1.5rem;
+}
+
+.section__course__detail h2 {
+  max-width: 400px;
+  margin-top: .5em;
+  font-size: 2.75rem;
+  text-align: left;
+}
+
+.section__course__detail p {
+  max-width: 600px;
+}
+
+.section__course__detail_btn button {
+  padding: 10px 50px;
+  border-radius: 8px;
+  background-color: black;
+  color: white;
+  margin: 1em 0 0;
+}
+.coursesDetail__container .courseDetail_information, .courseDetail_skill {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+  margin-bottom: 1em;
+}
+
+.courseDetail_information p {
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  font-weight: 400;
+  line-height: 1.5;
+  font-size: 1rem;
+  margin: 0;
+}
+.coursesDetail__container .courseDetail_skill .skill {
+  display: flex;
+  align-items: center;
+  gap: .5em;
+  padding: .2em 0;
+}
+.coursesDetail__container .courseDetail_skill .skill span svg {
+  width: 16px;
+  height: 16px;
+}
+
+.courseDetail_syllabus_list {
+  border: 1px solid black;
+  border-bottom: none;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  row-gap: .5em;
+}
+
+.courseDetail_syllabus_list button {
+  background: none;
+  outline: none;
+  cursor: pointer;
+  color: #5533FF;
+  font-weight: 700;
+}
+
+.courseDetail_syllabus_menu {
+  border: 1px solid black;
+  padding: 30px;
+}
+
+.courseDetail_syllabus_menu_list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+.courseDetail_syllabus_menu_item {
+  display: flex;
+  flex-direction: column;
+  row-gap: .5em;
+}
+.courseDetail_syllabus_menu_item:hover .extra_content {
+  display: block !important;
+  transition: .5s !important;
+}
+
+.extra_content {
+  display: none;
+}
+
+.extra_content_item {
+  margin: 20px 0;
+  display: flex;
+  gap: .5em;
+  align-items: center;
+}
+.gamut-1a3m30j-FlexBox  {
+  display: flex;
+  border: thin solid black;
+  border-radius: 100%;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  flex-shrink: 0;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+}
+
+.gamut-3o0h5k {
+  width: 16px;
+  height: 16px;
+}
+
+/* LOGIN */
+img{
+	width: 100%;
+}
+.login {
+    height: 1000px;
+    width: 100%;
+    position: relative;
+}
+.login_box {
+    width: 1050px;
+    height: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 4px 22px -8px #0004;
+    display: flex;
+    overflow: hidden;
+}
+.login_box .left{
+  width: 41%;
+  height: 100%;
+  padding: 25px 25px;
+  
+}
+.login_box .right{
+  width: 59%;
+  height: 100%  
+}
+.left .top_link a {
+    color: #452A5A;
+    font-weight: 400;
+}
+.left .top_link{
+  height: 20px
+}
+.left .contact{
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    height: 100%;
+    width: 73%;
+    margin: auto;
+}
+.left h3{
+  text-align: center;
+  margin-bottom: 40px;
+}
+.left input {
+    border: none;
+    width: 80%;
+    margin: 15px 0px;
+    border-bottom: 1px solid #4f30677d;
+    padding: 7px 9px;
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    font-weight: 600;
+    font-size: 14px;
+}
+.left{
+	background: linear-gradient(-45deg, #dcd7e0, #fff);
+}
+.submit {
+    border: none;
+    padding: 15px 70px;
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+    margin-top: 120px;
+    background: #583672;
+    color: #fff;
+    font-weight: bold;
+    -webkit-box-shadow: 0px 9px 15px -11px rgba(88,54,114,1);
+    -moz-box-shadow: 0px 9px 15px -11px rgba(88,54,114,1);
+    box-shadow: 0px 9px 15px -11px rgba(88,54,114,1);
+}
+
+
+
+.right {
+	background: linear-gradient(212.38deg, rgba(242, 57, 127, 0.7) 0%, rgba(175, 70, 189, 0.71) 100%),url(https://static.seattletimes.com/wp-content/uploads/2019/01/web-typing-ergonomics-1020x680.jpg);
+	color: #fff;
+	position: relative;
+}
+
+.right .right-text{
+  height: 100%;
+  position: relative;
+  transform: translate(0%, 45%);
+}
+.right-text h2{
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 50px;
+  font-weight: 500;
+}
+.right-text h5{
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 19px;
+  font-weight: 400;
+}
+
+.right .right-inductor{
+  position: absolute;
+  width: 70px;
+  height: 7px;
+  background: #fff0;
+  left: 50%;
+  bottom: 70px;
+  transform: translate(-50%, 0%);
+}
+.top_link img {
+    width: 28px;
+    padding-right: 7px;
+    margin-top: -3px;
+}
+
 /*=============== FOOTER ===============*/
 .footer__container {
   row-gap: 2rem;
@@ -1199,6 +1461,12 @@ body.dark-theme {
   .testimonial__container {
     padding-bottom: 4rem;
   }
+
+  .coursesDetail__container .content{
+    grid-template-columns: 2fr 1fr;
+    column-gap: 10em;
+  }
+
 }
 
 /* For large devices */

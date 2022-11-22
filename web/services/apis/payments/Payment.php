@@ -172,7 +172,7 @@ class Payment
      */
     public function setVnpAmount(string $vnp_Amount): void
     {
-        $this->vnp_Amount = $vnp_Amount * 100;
+        $this->vnp_Amount = (int)$vnp_Amount * 100;
     }
 
     /**

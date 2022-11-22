@@ -43,6 +43,12 @@ export class CoursesService {
         return response;
     }
 
+    
+    async getCourseById(_id): Promise<Courses> {
+        const response = await this.coursesRepository.findOneBy({id: _id});
+        return response;
+    }
+
     getCoursesRepository(): Repository<Courses> {
         return this.coursesRepository;
     }

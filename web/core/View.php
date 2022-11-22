@@ -20,8 +20,6 @@ class View
 
     public function renderViewOnly($view, array $params): bool|string
     {
-        /** @var mixed $key */
-        $$key = $params;
         ob_start();
         include_once Application::$ROOT_DIR."/web/src/views/$view.php";
         return ob_get_clean();

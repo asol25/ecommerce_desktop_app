@@ -2,13 +2,11 @@
 $response = \app\core\Application::$app->session->get('courses');
 ?>
 <!--==================== CART ====================-->
-
-<?php if ($response) : ?>
 <div class="cart" id="cart">
     <i class='bx bx-x cart__close' id="cart-close"></i>
 
     <h2 class="cart__title-center">My Cart</h2>
-
+    <?php if ($response) : ?>
     <div class="cart__container">
         <?php foreach ( $response as $index => $item): ?>
         <article class="cart__card">
@@ -23,6 +21,6 @@ $response = \app\core\Application::$app->session->get('courses');
             </div>
         </article>
         <?php endforeach; ?>
+        <?php endif; ?>
     </div>
 </div>
-<?php endif; ?>

@@ -1,5 +1,8 @@
 <?php
-
+/** @var mixed $params */
+//echo "<pre>";
+//print_r($params);
+//echo "</pre>";
 ?>
 <div class="table-responsive payment">
     <div class="container_payment">
@@ -38,7 +41,7 @@
                 </div>
                 <div class="form-group">
                     <label>Họ tên (*)</label>
-                    <input class="form-control" id="txt_ship_fullname" name="txt_ship_fullname" type="text" value="Nguyễn Thế Vinh" />
+                    <input class="form-control" id="txt_ship_fullname" name="txt_ship_fullname" type="text" value="" />
                 </div>
                 <div class="form-group d-none">
                     <label>Email (*)</label>
@@ -114,23 +117,22 @@
                         <option value="other">Khác - Xem thêm tại VNPAY</option>
                     </select>
                 </div>
-            
+
+                <div class="form-group d-none">
+                    <label for="order_desc">Courses</label>
+                    <input class="form-control" cols="20" id="order_desc" name="order_desc" value="Thanh toan cho khoa hoc online"></input>
+                </div>
             </div>
 
             <div class="form-group ">
                 <label>Full Name (*)</label>
-                <input class="form-control" id="txt_billing_fullname" name="txt_billing_fullname" type="text" value="NGUYEN VAN XO" />
+                <input class="form-control" id="txt_billing_fullname" name="txt_billing_fullname" type="text" value="<?php echo $params['payment']['username']?>" />
             </div>
 
             <div class="form-group">
                 <label for="amount">Cost</label>
-                <input class="form-control" id="amount" name="amount" type="text" value="10000$" />
+                <input class="form-control" id="amount" name="amount" type="text" value="<?php echo $params['payment']['price']?>$" />
             </div>
-
-            <div class="form-group d-none">
-                    <label for="order_desc">Courses</label>
-                    <input class="form-control" cols="20" id="order_desc" name="order_desc" value="Courses Os with Mose"></input>
-                </div>
 
             <div class="form-group">
                 <label for="bank_code">Bank</label>

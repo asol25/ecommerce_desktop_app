@@ -12,6 +12,7 @@
         }
     ],
     "require": {
-      "ext-curl": "*"
+      "ext-curl": "*",
+        "auth0/auth0-php": "2.1"
     }
 }

@@ -9,6 +9,15 @@
 
 <script>
 const app = (() => {
+    const event = () => {
+        const btn = document.querySelectorAll(".featured__button");
+        btn.forEach(node => {
+            node.addEventListener('click', (event) => {
+                event.preventDefault();
+                return window.location = `http://localhost:8000/course/${event.target.dataset.id}`;
+            });
+        });
+    }
     const request = async () => {
         const response = await fetch('https://cryptic-mesa-81897.herokuapp.com/courses/limmit/3');
         const data = await response.json();
@@ -31,10 +40,11 @@ const app = (() => {
                 <h3 class='featured__title'>${node['title']}</h3>
                 <span class='featured__price'>${node['newPrice']}$</span>
             </div>
-            <button class="button featured__button">READING MORE</button>
+            <button class="button featured__button" data-id=${node['id']}>READING MORE</button>
             `;
             nodeContainer.append(article);
         }
+        event();
     };
 
     render();

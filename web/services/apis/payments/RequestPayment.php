@@ -90,7 +90,6 @@ class RequestPayment extends Payment implements InterfacePayments
         $vnpSecureHash =  hash_hmac("sha512", $hashData, $this->getVnpSecureHash());
         $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
 
-        $response = new Response();
-        $response->redirect($vnp_Url);
+        Application::$app->response->redirect($vnp_Url);
     }
 }

@@ -4,6 +4,7 @@
 namespace app\controllers;
 
 
+use app\core\Application;
 use app\core\Controller;
 use app\services\apis\payments\RequestPayment;
 
@@ -12,7 +13,9 @@ class PaymentController extends Controller
 
     public function payment(): void
     {
+        $informationOrder = Application::$app->request->getRouteParams();
         $this->render('payment', [
+            "payment" => $informationOrder
         ]);
     }
 
@@ -27,9 +30,9 @@ class PaymentController extends Controller
         }
     }
     public function requestCreatePayment() {
-        // echo "<pre>";
-        // print_r($_POST);
-        // echo "</pre>";
+//         echo "<pre>";
+//         print_r($_POST);
+//         echo "</pre>";
         $payment = new RequestPayment(
             $_POST['order_type'],
             $_POST['amount'],

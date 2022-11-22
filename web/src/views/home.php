@@ -1,12 +1,10 @@
 <?php
-/** @var mixed $key to route*/
 use app\core\form\Form;
 ?>
 
    <!--==================== MAIN ====================-->
    <main class="main">
             <!--==================== HOME ====================-->
-       <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/_Cart.php"?>
        <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/_IntroduceCourse.php"?>
        <?php include_once \app\core\Application::$ROOT_DIR . "/web/src/views/components/_CoursesMostViewsOverview.php"?>
             <!--==================== STORY ====================-->
