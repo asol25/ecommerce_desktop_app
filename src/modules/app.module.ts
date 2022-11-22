@@ -25,6 +25,7 @@ import { Area } from './area/entities/area.entity';
 import { CountryModule } from './country/country.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
+import { ExampleModule } from './example/example.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -53,6 +54,7 @@ import { PaymentModule } from './payment/payment.module';
     OrdersModule,
     AreaModule,
     CountryModule,
+    ExampleModule,
   ],
   controllers: [],
   providers: [],
