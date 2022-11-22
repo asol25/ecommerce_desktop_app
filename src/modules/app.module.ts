@@ -54,7 +54,6 @@ import { PaymentModule } from './payment/payment.module';
     OrdersModule,
     AreaModule,
     CountryModule,
-    PaymentModule
   ],
   controllers: [],
   providers: [],
