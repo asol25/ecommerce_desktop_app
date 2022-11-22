@@ -1,20 +1,13 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { OrdersService } from '../orders/orders.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
 
 @Injectable()
 export class PaymentService {
   constructor(
-    private readonly ordersService: OrdersService
+    private readonly httpService: HttpService
   ) { }
-  async getAccountPayment(_accountId, _coursesId) {
-    return (await this.ordersService.getOrdersRepository()).save({
-      isActive: true,
-      where: {
-        accountId: _accountId,
-        coursesId: _coursesId,
-      }
-    })
+  async getAccountPayment(url) {
+   const isChecked = await this.httpService.get(url);
+   const payload = isChecked.subscribe();
   }
 }

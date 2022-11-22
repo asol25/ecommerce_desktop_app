@@ -58,16 +58,18 @@ $secureHash = hash_hmac('sha512', $hashData, "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO")
                         <label>Kết quả:</label>
                         <label>
                             <?php
+                            $payment = new \app\services\apis\payments\CheckPayment();
+
                             if ($secureHash == $vnp_SecureHash) {
                                 if ($_GET['vnp_ResponseCode'] == '00') {
-                                    echo "<span style='color:blue'>GD Thanh cong</span>";
-                                    $url = "http://localhost:5000/payment/account/:accountId/courses/:courseId";
-//                                    \app\core\Application::$restApi->fetch('GET', $url, false);
-//                                    unset($url);
+                                    echo "<span id='isChecked' data-check='{$payment->checkAccountPayment( $_GET['vnp_TxnRef'])}' style='color:blue'>GD Thanh cong</span>";
                                 } else {
+                                    $payment->checkAccountPayment( $_GET['vnp_TxnRef']);
                                     echo "<span style='color:red'>GD Khong thanh cong</span>";
+
                                 }
                             } else {
+                                $payment->checkAccountPayment( $_GET['vnp_TxnRef']);
                                 echo "<span style='color:red'>Chu ky khong hop le</span>";
                             }
                             ?>
@@ -79,3 +81,23 @@ $secureHash = hash_hmac('sha512', $hashData, "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO")
         </div>
     </div>
 </section>
+
+<script>
+    const payment = async () => {
+    const isChecked = document.getElementById('isChecked');
+        (async (isChecked) => {
+            const rawResponse = await fetch('http://localhost:33714/payment', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({url: isChecked.dataset.check})
+            });
+            const content = await rawResponse.json();
+
+            console.log(content);
+        })(isChecked);
+    }
+    setTimeout(payment, 2000)
+</script>

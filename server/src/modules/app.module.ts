@@ -59,6 +59,7 @@ import { ExampleModule } from './example/example.module';
     AreaModule,
     CountryModule,
     ExampleModule,
+    PaymentModule
   ],
   controllers: [],
   providers: [],
