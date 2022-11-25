@@ -1,1 +1,11 @@
 import './_Header.js';
+import './_CoursesViews.js';
+import './_Home.js';
+import './_Featured.js';
+import './_Story.js';
+import './_Products.js';
+import './_Header.js';
+import './_Testimoial.js';
+import './_New.js';
+import './_Newsletter.js';
+import './_Footer.js';
