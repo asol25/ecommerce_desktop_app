@@ -5,7 +5,7 @@ use app\services\apis\RestApi;
 <section class="home" id="home">
     <div class="home__container container grid">
         <div class="home__img-bg">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png" alt=""
+            <img src="" alt=""
                  class="home__img">
         </div>
 
