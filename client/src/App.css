@@ -81,7 +81,11 @@ body {
     color: var(--text-color);
     /*For animation dark mode*/
     transition: 0.4s;
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 h1,

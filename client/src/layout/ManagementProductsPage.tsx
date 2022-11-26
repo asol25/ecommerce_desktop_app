@@ -1,6 +1,6 @@
 import * as React from 'react';
+import Products from '../components/_Products';
 import { ProductMock } from '../mock/_ProductMock';
-const Products = React.lazy(() => import('../components/_Products'));
 
 interface IManagementProductsPageProps {}
 
