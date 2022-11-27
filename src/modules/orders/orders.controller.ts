@@ -11,6 +11,13 @@ export class OrdersController {
         const { month } = params;
         return await this.ordersService.getTotalBought();
     }
+
+    @Get('payment/:id')
+    async getAccountPaymentCourse(@Param() params) {
+        const { id } = params;
+        return await this.ordersService.getAccountPaymentCourse(id);
+    }
+
     @Get(':month')
     async getAnalyticOrdersByNowMonth(@Param() params) {
         const { month } = params;

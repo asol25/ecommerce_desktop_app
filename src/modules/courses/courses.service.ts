@@ -30,7 +30,8 @@ export class CoursesService {
     async getCoursesLimmit(_limmit): Promise<Courses[] | Courses> {
         const response = await this.coursesRepository.find({
             relations: {
-                analytic: true
+                analytic: true,
+                category: true,
             },
             order: {
                 id: 'ASC',
@@ -40,6 +41,12 @@ export class CoursesService {
             },
             take: _limmit,
         });
+        return response;
+    }
+
+    
+    async getCourseById(_id): Promise<Courses> {
+        const response = await this.coursesRepository.findOneBy({id: _id});
         return response;
     }
 

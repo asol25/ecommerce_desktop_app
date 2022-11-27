@@ -17,6 +17,13 @@ export class CoursesController {
         return await this.coursesService.getCoursesLimmit(limmit);
     }
 
+    @Get('courseById/:id')
+    async getCourseById(@Param() params) {
+        const { id } = params;
+        return await this.coursesService.getCourseById(id);
+    }
+
+
     @Get('totalCourseCount')
     async getTotalLengthCourses() {
         return await this.coursesService.getTotalLengthCourses();

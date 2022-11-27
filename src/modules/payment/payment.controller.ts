@@ -7,9 +7,9 @@ import { UpdatePaymentDto } from './dto/update-payment.dto';
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) { }
 
-  @Get("account/:accountId/courses/:courseId")
-  getAccountPayment(@Param() params) {
-    const { accountId, courseId } = params;
-    return this.paymentService.getAccountPayment(accountId, courseId) ;
+  @Post("")
+  getAccountPayment(@Body() body) {
+    const {url} = body;
+    return this.paymentService.getAccountPayment(url);
   }
 }

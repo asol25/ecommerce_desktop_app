@@ -12,6 +12,22 @@ export class OrdersService {
         private readonly dataSource: DataSource
     ) { }
 
+    async getAccountPaymentCourse(_id) {
+        const response = await this.ordersRepository.find({
+            relations: {
+                courses: true
+            },
+            where: {
+                accounts: {
+                    id: _id
+                },
+                isActive: true
+            }
+        })
+
+        return response;
+    }
+
     async getOrdersRepository() {
         return this.ordersRepository;
     }

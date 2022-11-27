@@ -1,20 +1,26 @@
+import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { OrdersService } from '../orders/orders.service';
-import { CreatePaymentDto } from './dto/create-payment.dto';
-import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { catchError } from 'rxjs';
+import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
 
 @Injectable()
 export class PaymentService {
   constructor(
-    private readonly ordersService: OrdersService
+    private readonly httpService: HttpService
   ) { }
-  async getAccountPayment(_accountId, _coursesId) {
-    return (await this.ordersService.getOrdersRepository()).save({
-      isActive: true,
-      where: {
-        accountId: _accountId,
-        coursesId: _coursesId,
-      }
-    })
+  async getAccountPayment(url) {
+    const { data } = await firstValueFrom(
+      this.httpService.get(url).pipe(
+        catchError((error) => {
+          console.log(error.response.data);
+          throw 'An error happened!';
+        }),
+      ),
+    );
+    if (data.includes("vnp_TransactionStatus=00")) {
+        console.log("Payment has Received");
+        
+    }
+    return data;
   }
 }
