@@ -1,5 +1,5 @@
-import * as React from "react";
-import { ICourses } from "../type";
+import * as React from 'react';
+import { ICourses } from '../type';
 
 interface IArticleProductProps {
     product: ICourses;

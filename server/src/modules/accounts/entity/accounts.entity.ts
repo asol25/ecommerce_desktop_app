@@ -1,49 +1,82 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { IsEmail, Length } from "class-validator";
-import { Roles } from './roles.entity';
-import { Orders } from '../../orders/entity/orders.entity';
-import { Area } from '../../area/entities/area.entity';
-import { Country } from '../../country/entities/country.entity';
+import { Roles } from "./roles.entity";
+import { Orders } from "../../orders/entity/orders.entity";
+import { Area } from "../../area/entities/area.entity";
+import { Country } from "../../country/entities/country.entity";
+
 @Entity()
 export class Accounts {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ unique: true })
-    @Length(1, 20)
-    username: string;
+  @Column({ unique: true })
+  @Length(1, 20)
+  username: string;
 
-    @Column()
-    @Length(8, 20)
-    password: string;
+  @Column({ nullable: true })
+  password!: string;
 
-    @Column()
-    @Length(1, 3)
-    verified: string;
+  @Column()
+  @Length(1, 3)
+  verified: string;
 
-    @Column()
-    @Length(1, 10)
-    status: string;
+  @Column()
+  @Length(1, 10)
+  status: string;
 
-    @Column({ unique: true })
-    @IsEmail()
-    email: string
+  @Column({ nullable: true })
+  email_verified!: boolean;
 
-    @ManyToOne(() => Roles, (role) => role.id)
-    role: Roles;
+  @Column({ nullable: true })
+  locale!: string;
 
-    @OneToMany(() => Orders, (order) => order.accounts)
-    orders: Orders[];
+  @Column({ nullable: true })
+  picture!: string;
 
-    @ManyToOne(() => Area, (area) => area.accounts)
-    area: Area;
+  @Column({ nullable: true })
+  sub!: string;
 
-    @ManyToOne(() => Country, (country) => country.accounts)
-    country: Country;
+  @CreateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+  })
+  public created_at: Date;
 
-    @Column()
-    accessToken: string;
+  @UpdateDateColumn({
+    type: "timestamp",
+    default: () => "CURRENT_TIMESTAMP(6)",
+    onUpdate: "CURRENT_TIMESTAMP(6)",
+  })
+  public updated_at: Date;
 
-    @Column()
-    refreshToken: string;
+  @Column({ unique: true })
+  @IsEmail()
+  email: string;
+
+  @ManyToOne(() => Roles, (role) => role.id)
+  role: Roles;
+
+  @OneToMany(() => Orders, (order) => order.accounts)
+  orders: Orders[];
+
+  @ManyToOne(() => Area, (area) => area.accounts)
+  area: Area;
+
+  @ManyToOne(() => Country, (country) => country.accounts)
+  country: Country;
+
+  @Column({ nullable: true })
+  accessToken!: string;
+
+  @Column({ nullable: true })
+  refreshToken!: string;
 }

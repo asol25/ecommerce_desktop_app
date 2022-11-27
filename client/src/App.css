@@ -261,6 +261,7 @@ body.dark-theme {
         height: 100%;
         padding: 6rem 2rem 3.5rem;
         transition: 0.3s;
+        z-index: 10;
     }
 }
 
@@ -403,6 +404,10 @@ body.dark-theme {
 }
 
 /*=============== FEATURED ===============*/
+.featured {
+    text-align: center;
+}
+
 .featured__container {
     row-gap: 2.5rem;
 }
@@ -508,6 +513,11 @@ body.dark-theme {
 }
 
 /*=============== PRODUCTS ===============*/
+
+.products {
+    text-align: center;
+}
+
 .products__container {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
@@ -862,6 +872,7 @@ body.dark-theme {
 
 /*=============== CART ===============*/
 .cart {
+    overflow: auto;
     position: fixed;
     background-color: var(--body-color);
     z-index: var(--z-fixed);

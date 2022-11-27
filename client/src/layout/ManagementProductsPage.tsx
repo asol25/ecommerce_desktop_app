@@ -5,26 +5,26 @@ import { ProductMock } from '../mock/_ProductMock';
 interface IManagementProductsPageProps {}
 
 const ManagementProductsPage: React.FunctionComponent<
-    IManagementProductsPageProps
+	IManagementProductsPageProps
 > = (props) => {
-    const { products, handleSetLimit } = ProductMock();
+	const { products, handleSetLimit } = ProductMock();
 
-    React.useEffect(() => {
-        let isChecked = true;
-        if (isChecked) {
-            handleSetLimit(20);
-        }
+	React.useEffect(() => {
+		let isChecked = true;
+		if (isChecked) {
+			handleSetLimit(20);
+		}
 
-        return () => {
-            isChecked = false;
-        };
-    }, []);
+		return () => {
+			isChecked = false;
+		};
+	}, []);
 
-    return (
-        <>
-            <Products products={products} />
-        </>
-    );
+	return (
+		<>
+			<Products products={products} />
+		</>
+	);
 };
 
 export default ManagementProductsPage;

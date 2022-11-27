@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Testimonial from '../components/Testimonial';
+import Testimonial from '../components/_Testimonial';
 import Feature from '../components/_Feature';
 import HomeIntroduce from '../components/_HomeIntroduce';
 import New from '../components/_New';
@@ -11,30 +11,41 @@ import { ProductMock } from '../mock/_ProductMock';
 
 interface IHomeProps {}
 
-const Home: React.FunctionComponent<IHomeProps> = (props) => {
-    const { social, title, description, cost, btn, thumbnail } =
-        HomeIntroduceMock();
+const Home: React.FunctionComponent<
+	IHomeProps
+> = (props) => {
+	const {
+		social,
+		title,
+		description,
+		cost,
+		btn,
+		thumbnail,
+	} = HomeIntroduceMock();
 
-    const { products } = ProductMock();
+	const { products } =
+		ProductMock();
 
-    return (
-        <>
-            <HomeIntroduce
-                social={social}
-                title={title}
-                description={description}
-                cost={cost}
-                btn={btn}
-                thumbnail={thumbnail}
-            />
-            <Feature />
-            <Story />
-            <Products products={products} />
-            <Testimonial />
-            <New />
-            <NewsLetter />
-        </>
-    );
+	return (
+		<>
+			<HomeIntroduce
+				social={social}
+				title={title}
+				description={description}
+				cost={cost}
+				btn={btn}
+				thumbnail={thumbnail}
+			/>
+			<Feature />
+			<Story />
+			<Products
+				products={products}
+			/>
+			<Testimonial />
+			<New />
+			<NewsLetter />
+		</>
+	);
 };
 
 export default Home;

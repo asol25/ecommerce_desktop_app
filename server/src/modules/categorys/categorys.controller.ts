@@ -1,7 +1,6 @@
 import { Categorys } from './type';
 import { CategorysService } from './categorys.service';
 import { Controller, Get, Param, Post } from '@nestjs/common';
-import { constants } from 'buffer';
 
 @Controller('categorys')
 export class CategorysController {

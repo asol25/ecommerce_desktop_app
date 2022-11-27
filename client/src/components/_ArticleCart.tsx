@@ -1,42 +1,32 @@
-import * as React from "react";
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
-interface IArticleCartProps {}
+interface IArticleProductProps {
+	title: string;
+	description: string;
+	thumbnailUrl: string;
+}
 
-const ArticleCart: React.FunctionComponent<IArticleCartProps> = (props) => {
-    return (
-        <>
-            <article className="cart__card">
-                <div className="cart__box">
-                    <img
-                        src="assets/img/featured1.png"
-                        alt=""
-                        className="cart__img"
-                    ></img>
-                </div>
-
-                <div className="cart__details">
-                    <h3 className="cart__title">Jazzmaster</h3>
-                    <span className="cart__price">$1050</span>
-
-                    <div className="cart__amount">
-                        <div className="cart__amount-content">
-                            <span className="cart__amount-box">
-                                <i className="bx bx-minus"></i>
-                            </span>
-
-                            <span className="cart__amount-number">1</span>
-
-                            <span className="cart__amount-box">
-                                <i className="bx bx-plus"></i>
-                            </span>
-                        </div>
-
-                        <i className="bx bx-trash-alt cart__amount-trash"></i>
-                    </div>
-                </div>
-            </article>
-        </>
-    );
-};
-
-export default ArticleCart;
+export default function ArticleCart(props: IArticleProductProps) {
+	return (
+		<Card sx={{ maxWidth: 345 }}>
+			<CardMedia component="img" height="140" image={props.thumbnailUrl} alt="green iguana" />
+			<CardContent>
+				<Typography gutterBottom variant="h5" component="div">
+					{props.title}
+				</Typography>
+				<Typography variant="body2" color="text.secondary">
+					{props.description}
+				</Typography>
+			</CardContent>
+			<CardActions>
+				<Button size="small">Watch</Button>
+				<Button size="small">Report</Button>
+			</CardActions>
+		</Card>
+	);
+}
