@@ -8,9 +8,21 @@ const Cart = React.lazy(() => import('../components/_Cart'));
 function Nav() {
 	const [isCheckedMenu, setIsCheckedMenu] = React.useState<boolean>(false);
 	const [isCheckedCart, setIsCheckedCart] = React.useState<boolean>(false);
-	const [productsCart, setProductsCart] = React.useState([]);
+	const [scrollPosition, setScrollPosition] = React.useState(0);
+	const handleScroll = () => {
+		const position = window.pageYOffset;
+		setScrollPosition(position);
+	};
 
-	const { isAuthenticated, user } = useAuth0();
+	React.useEffect(() => {
+		window.addEventListener('scroll', handleScroll, { passive: true });
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, []);
+
+	const { isAuthenticated } = useAuth0();
 
 	const handleIsCheckedMenu = (): void => {
 		setIsCheckedMenu(!isCheckedMenu);
@@ -22,7 +34,7 @@ function Nav() {
 
 	return (
 		<>
-			<nav className="nav container">
+			<nav className={'nav container ' + (scrollPosition <= 50 ? '' : 'none')}>
 				<Link to={'/'} className="nav__logo">
 					<i className="bx bxs-watch nav__logo-icon"></i> Learning
 				</Link>

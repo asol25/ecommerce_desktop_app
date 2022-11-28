@@ -11,8 +11,6 @@ export const find = async () => {
 };
 
 export const findAllByCoursesBought = async (_email: string | undefined) => {
-	console.log(_email);
-
 	const response = await axios.get(`http://localhost:33714/orders/payment/${_email}`);
 	return response;
 };

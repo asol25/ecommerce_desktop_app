@@ -870,6 +870,16 @@ body.dark-theme {
     background: hsl(0, 0%, 17%);
 }
 
+.none {
+    display: none;
+    transition: .5s;
+}
+
+.block {
+    display: block;
+    transition: .5s;
+}
+
 /*=============== CART ===============*/
 .cart {
     overflow: auto;
