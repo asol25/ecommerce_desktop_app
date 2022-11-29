@@ -8,23 +8,14 @@ import Products from '../components/_Products';
 import Story from '../components/_Story';
 import HomeIntroduceMock from '../mock/_HomeIntroduceMock';
 import { ProductMock } from '../mock/_ProductMock';
+import HtmlEditor from '../components/_HtmlEditer';
 
 interface IHomeProps {}
 
-const Home: React.FunctionComponent<
-	IHomeProps
-> = (props) => {
-	const {
-		social,
-		title,
-		description,
-		cost,
-		btn,
-		thumbnail,
-	} = HomeIntroduceMock();
+const Home: React.FunctionComponent<IHomeProps> = (props) => {
+	const { social, title, description, cost, btn, thumbnail } = HomeIntroduceMock();
 
-	const { products } =
-		ProductMock();
+	const { products } = ProductMock();
 
 	return (
 		<>
@@ -38,11 +29,9 @@ const Home: React.FunctionComponent<
 			/>
 			<Feature />
 			<Story />
-			<Products
-				products={products}
-			/>
-			<Testimonial />
-			<New />
+			<Products products={products} />
+			{/* <Testimonial /> */}
+			{/* <New /> */}
 			<NewsLetter />
 		</>
 	);

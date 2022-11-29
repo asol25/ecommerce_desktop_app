@@ -1,4 +1,5 @@
 import { useRoutes } from 'react-router-dom';
+import { CoursesPage } from './layout/CoursesPage';
 import Home from './layout/HomePage';
 import ApplicationPage from './layout/index';
 import ManagementPaymentPage from './layout/ManagementPaymentPage';
@@ -23,6 +24,10 @@ export default function Router(): ReturnType<typeof useRoutes> {
 				{
 					path: 'payment/checkout',
 					element: <ManagementPaymentPage />,
+				},
+				{
+					path: 'courses',
+					element: <CoursesPage />,
 				},
 			],
 		},

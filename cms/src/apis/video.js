@@ -1,6 +1,6 @@
 import axios from "axios"
 
 export const find = async (courseId) => {
-    const response = await axios.get(`https://cryptic-mesa-81897.herokuapp.com/videos/${courseId}`);
+    const response = await axios.get(`http://localhost:33714/videos/${courseId}`);
     return response;
 }

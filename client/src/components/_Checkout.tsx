@@ -13,6 +13,7 @@ import AddressForm from './_AddressForm';
 import PaymentForm from './_PaymentForm';
 import ReviewForm from './_ReviewForm';
 import * as apis from '../apis/apis';
+import { redirect } from 'react-router-dom';
 
 const steps = ['Information Customer', 'Payment details', 'Review your order'];
 
@@ -37,7 +38,6 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 		}${date.getMinutes()}${date.getSeconds()}`
 	);
 	const [vnp_BankCode, setBankCode] = React.useState<string>('');
-	const [requestPayment, setRequestPayment] = React.useState('');
 
 	function getStepContent(step: number) {
 		switch (step) {
@@ -72,7 +72,7 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 					console.log(data);
 
 					if (status === 200) {
-						setRequestPayment(data);
+						return redirect(data);
 					}
 				};
 				fetchData();

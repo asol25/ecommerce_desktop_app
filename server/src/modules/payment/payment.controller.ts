@@ -47,7 +47,7 @@ export class PaymentController {
     vnp_Params["vnp_Amount"] = vnp_Amount;
     vnp_Params["vnp_ReturnUrl"] = returnUrl;
     vnp_Params["vnp_IpAddr"] = ipAddr;
-    vnp_Params["vnp_CreateDate"] = 20221128124510;
+    vnp_Params["vnp_CreateDate"] = 20221128141510;
     if (vnp_BankCode !== null && vnp_BankCode !== "") {
       vnp_Params["vnp_BankCode"] = vnp_BankCode;
     }

@@ -7,6 +7,7 @@
 
     /*========== Colors ==========*/
     --bg-large: hsl(226deg 85% 54%);
+    --bg-layout-1: hsl(147deg 61% 60%);
     --first-color: hsl(31, 100%, 70%);
     --button-color: hsl(0, 0%, 17%);
     --button-color-alt: hsl(0, 0%, 21%);
@@ -503,7 +504,7 @@ body.dark-theme {
 
 .story__square {
     height: 250px;
-    background-color: var(--first-color);
+    background-color: var(--bg-layout-1);
 }
 
 .story__img {
@@ -999,8 +1000,8 @@ body.dark-theme {
 /* For small devices */
 @media screen and (max-width: 320px) {
     .container {
-        margin-left: var(--mb-1);
-        margin-right: var(--mb-1);
+        margin-left: var(--mb-1) !important;
+        margin-right: var(--mb-1) !important;
     }
 
     .home__img-bg {

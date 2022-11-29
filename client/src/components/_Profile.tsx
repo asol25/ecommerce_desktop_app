@@ -3,11 +3,8 @@ import * as React from 'react';
 
 interface IProfileProps {}
 
-const Profile: React.FunctionComponent<
-	IProfileProps
-> = (props) => {
-	const { user, isAuthenticated, isLoading } =
-		useAuth0();
+const Profile: React.FunctionComponent<IProfileProps> = (props) => {
+	const { user, isAuthenticated, isLoading } = useAuth0();
 
 	if (isLoading) {
 		return <div>Loading ...</div>;
@@ -16,10 +13,7 @@ const Profile: React.FunctionComponent<
 		<>
 			{isAuthenticated && (
 				<div>
-					<img
-						src={user?.picture}
-						alt={user?.name}
-					/>
+					<img src={user?.picture} alt={user?.name} />
 					<h2>{user?.name}</h2>
 					<p>{user?.email}</p>
 				</div>

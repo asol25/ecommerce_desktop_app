@@ -28,14 +28,6 @@ export class UsersService {
         relations: {
           role: true,
         },
-        where: {
-          role: {
-            id: 4,
-            name: "user",
-          },
-        },
-        skip: skip,
-        take: take,
       });
 
       if (!response)
