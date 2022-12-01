@@ -1,3 +1,6 @@
+import * as React from 'react';
+import { DialogProps } from '@mui/material';
+import Policies from './_Policies';
 import {
 	Avatar,
 	Box,
@@ -11,13 +14,13 @@ import {
 	Tabs,
 	Typography,
 } from '@mui/material';
-import * as React from 'react';
 import { ICourses } from '../type';
 import BreadcrumbsForm from './_Beadcrumbs';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import mainLogo from './../assets/getThisSpecialization.png';
 import TabPanelCourses from './_TabPanelCourses';
 import TabPanelFaq from './_TabPanelFaq';
+import ReviewPaymentMock from '../mock/_ReviewPaymen';
 
 interface IHomeProductsProps {
 	course: ICourses;
@@ -34,8 +37,11 @@ const HomeProducts: React.FunctionComponent<
 	IHomeProductsProps
 > = (props) => {
 	const {
+		id,
 		title,
 		description,
+		thumbnailUrl,
+		newPrice,
 		overviews,
 		specialization,
 		syllabus,
@@ -43,6 +49,18 @@ const HomeProducts: React.FunctionComponent<
 	} = props.course;
 	const rating =
 		props.course.rating?.star;
+
+	const [open, setOpen] =
+		React.useState(false);
+	const [scroll, setScroll] =
+		React.useState<DialogProps['scroll']>(
+			'paper'
+		);
+
+	const { handleChangeCart } =
+		ReviewPaymentMock();
+	const descriptionElementRef =
+		React.useRef<HTMLElement>(null);
 
 	const [value, setValue] =
 		React.useState(0);
@@ -53,6 +71,35 @@ const HomeProducts: React.FunctionComponent<
 	) => {
 		setValue(newValue);
 	};
+
+	const handleClickOpen =
+		(scrollType: DialogProps['scroll']) =>
+		() => {
+			setOpen(true);
+			setScroll(scrollType);
+			handleChangeCart({
+				id,
+				title,
+				description,
+				thumbnailUrl,
+				newPrice,
+			});
+		};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	React.useEffect(() => {
+		if (open) {
+			const {
+				current: descriptionElement,
+			} = descriptionElementRef;
+			if (descriptionElement !== null) {
+				descriptionElement.focus();
+			}
+		}
+	}, [open]);
 
 	return (
 		<>
@@ -96,10 +143,26 @@ const HomeProducts: React.FunctionComponent<
 										</Typography>
 									</ListItem>
 
-									<button>
+									<button
+										onClick={handleClickOpen(
+											scroll
+										)}
+									>
 										<span>Enroll for Free </span>
 										<span>Starts Nov 30</span>
 									</button>
+
+									<Policies
+										open={open}
+										scroll={scroll}
+										handleClickOpen={
+											handleClickOpen
+										}
+										handleClose={handleClose}
+										descriptionElementRef={
+											descriptionElementRef
+										}
+									/>
 								</div>
 
 								<div className="courses_home_container_right">

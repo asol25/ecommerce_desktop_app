@@ -13,7 +13,8 @@ import AddressForm from './_AddressForm';
 import PaymentForm from './_PaymentForm';
 import ReviewForm from './_ReviewForm';
 import * as apis from '../apis/apis';
-import { redirect } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const steps = ['Information Customer', 'Payment details', 'Review your order'];
 
@@ -38,15 +39,20 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 		}${date.getMinutes()}${date.getSeconds()}`
 	);
 	const [vnp_BankCode, setBankCode] = React.useState<string>('');
+	const [redirectUri, setRedirectUri] = React.useState<string>('');
+	const { user } = useAuth0();
+	const products = JSON.parse(localStorage.getItem('items') || '{}');
 
 	function getStepContent(step: number) {
 		switch (step) {
 			case 0:
 				return <AddressForm />;
 			case 1:
-				return <PaymentForm Banking={vnp_BankCode} onHandleSetBanking={setBankCode} />;
+				return (
+					<PaymentForm Banking={vnp_BankCode} onHandleSetBanking={setBankCode} />
+				);
 			case 2:
-				return <ReviewForm onHandleAmount={setVnpAmount} />;
+				return <ReviewForm products={products} onHandleAmount={setVnpAmount} />;
 			default:
 				throw new Error('Unknown step');
 		}
@@ -69,13 +75,32 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 					});
 
 					const { data, status } = await res;
-					console.log(data);
 
-					if (status === 200) {
-						return redirect(data);
+					if (status !== 404 || data !== undefined) {
+						return setRedirectUri(data);
 					}
 				};
 				fetchData();
+			}
+			if (
+				window.location.search.includes('vnp_ResponseCode=00') &&
+				user?.name &&
+				products.id
+			) {
+				apis.user
+					.getUser(user?.name)
+					.then((value) => value)
+					.then(async (value) => {
+						const res = await apis.payment.created({
+							accountsId: value.data[0].id,
+							coursesId: products.id,
+						});
+
+						const { data, status } = await res;
+						if (data !== undefined) {
+							setActiveStep(3);
+						}
+					});
 			}
 		}
 
@@ -92,49 +117,63 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 	};
 
 	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
+		<section className="section container">
+			<ThemeProvider theme={theme}>
+				<CssBaseline />
 
-			<Container component="main" maxWidth="sm" sx={{ mb: 4, mt: 10 }}>
-				<Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-					<Typography component="h1" variant="h4" align="center">
-						Checkout
-					</Typography>
-					<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
-						{steps.map((label) => (
-							<Step key={label}>
-								<StepLabel>{label}</StepLabel>
-							</Step>
-						))}
-					</Stepper>
-					{activeStep === steps.length ? (
-						<React.Fragment>
-							<Typography variant="h5" gutterBottom>
-								Thank you for your order.
-							</Typography>
-							<Typography variant="subtitle1">
-								Your order number is #{vnp_TxnRef}. We have emailed your order confirmation, and will send
-								you an update when your order has shipped.
-							</Typography>
-						</React.Fragment>
-					) : (
-						<React.Fragment>
-							{getStepContent(activeStep)}
-							<Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-								{activeStep !== 0 && (
-									<Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-										Back
+				<Container component="main" maxWidth="sm" sx={{ mb: 4, mt: 10 }}>
+					<Paper
+						variant="outlined"
+						sx={{
+							my: { xs: 3, md: 6 },
+							p: { xs: 2, md: 3 },
+						}}
+					>
+						<Typography component="h1" variant="h4" align="center">
+							Checkout
+						</Typography>
+						<Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
+							{steps.map((label) => (
+								<Step key={label}>
+									<StepLabel>{label}</StepLabel>
+								</Step>
+							))}
+						</Stepper>
+						{activeStep === steps.length ? (
+							<React.Fragment>
+								<Typography variant="h5" gutterBottom>
+									Thank you for your order.
+								</Typography>
+								<Typography variant="subtitle1">
+									Your order number is #{vnp_TxnRef}. We have emailed your order
+									confirmation, and will send you an update when your order has shipped.
+								</Typography>
+								<a href={redirectUri}>Click Here To Payment</a>
+							</React.Fragment>
+						) : (
+							<React.Fragment>
+								{getStepContent(activeStep)}
+								<Box
+									sx={{
+										display: 'flex',
+										justifyContent: 'flex-end',
+									}}
+								>
+									{activeStep !== 0 && (
+										<Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
+											Back
+										</Button>
+									)}
+									<Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>
+										{activeStep === steps.length - 1 ? 'Place order' : 'Next'}
 									</Button>
-								)}
-								<Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>
-									{activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-								</Button>
-							</Box>
-						</React.Fragment>
-					)}
-				</Paper>
-			</Container>
-		</ThemeProvider>
+								</Box>
+							</React.Fragment>
+						)}
+					</Paper>
+				</Container>
+			</ThemeProvider>
+		</section>
 	);
 };
 

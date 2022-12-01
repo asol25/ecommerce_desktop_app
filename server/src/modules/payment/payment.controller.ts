@@ -1,6 +1,7 @@
 import { HttpService } from "@nestjs/axios";
 import { Body, Controller, Post, Req } from "@nestjs/common";
 import { PaymentService } from "./payment.service";
+import * as moment from "moment";
 
 @Controller("payment")
 export class PaymentController {
@@ -27,12 +28,13 @@ export class PaymentController {
       vnp_TxnRef,
       vnp_CreateDate,
     } = body;
+
     let tmnCode = "Z3SF12JH";
     let secretKey = "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO";
     let vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    let returnUrl = "http://localhost:3000/payment/";
+    let returnUrl = "http://localhost:3000/payment/checkout/";
 
-    let date = new Date();
+    let time = moment().format("YYYYMMDDHHmmss");
 
     let currCode = "VND";
     let vnp_Params = {};
@@ -41,13 +43,13 @@ export class PaymentController {
     vnp_Params["vnp_TmnCode"] = tmnCode;
     vnp_Params["vnp_Locale"] = vnp_Locale;
     vnp_Params["vnp_CurrCode"] = currCode;
-    vnp_Params["vnp_TxnRef"] = "12312";
+    vnp_Params["vnp_TxnRef"] = vnp_TxnRef;
     vnp_Params["vnp_OrderInfo"] = vnp_OrderInfo;
     vnp_Params["vnp_OrderType"] = vnp_OrderType;
-    vnp_Params["vnp_Amount"] = vnp_Amount;
+    vnp_Params["vnp_Amount"] = vnp_Amount * 100;
     vnp_Params["vnp_ReturnUrl"] = returnUrl;
     vnp_Params["vnp_IpAddr"] = ipAddr;
-    vnp_Params["vnp_CreateDate"] = 20221128141510;
+    vnp_Params["vnp_CreateDate"] = time;
     if (vnp_BankCode !== null && vnp_BankCode !== "") {
       vnp_Params["vnp_BankCode"] = vnp_BankCode;
     }
@@ -61,6 +63,7 @@ export class PaymentController {
     let signed = hmac.update(new Buffer(signData, "utf-8")).digest("hex");
     vnp_Params["vnp_SecureHash"] = signed;
     vnpUrl += "?" + querystring.stringify(vnp_Params, { encode: false });
+
     return vnpUrl;
   }
 

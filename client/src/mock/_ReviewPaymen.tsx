@@ -1,22 +1,24 @@
 import * as React from 'react';
 
 const ReviewPaymentMock = () => {
-	const [product, setProduct] = React.useState({});
+	const [product, setProduct] =
+		React.useState({});
 
 	React.useEffect(() => {
-		localStorage.setItem('items', JSON.stringify(product));
+		localStorage.setItem(
+			'items',
+			JSON.stringify(product)
+		);
 	}, [product]);
 
-	const getProducts = () => {
-		return;
-	};
-
-	const handleChange = (data: object) => {
+	const handleChangeCart = (
+		data: object
+	) => {
 		setProduct(data);
 	};
 
 	return {
-		handleChange,
+		handleChangeCart,
 	};
 };
 export default ReviewPaymentMock;

@@ -12,6 +12,45 @@ export class OrdersService {
     private readonly dataSource: DataSource,
   ) {}
 
+  async creteaAccountBought(account: any) {
+    if (!account) {
+      throw new Error("Missing account and courses");
+    }
+
+    try {
+      const { accountId, coursesId } = account;
+      const isChecked = await this.ordersRepository.findOneBy({
+        accounts: {
+          id: account.id,
+        },
+        courses: {
+          id: coursesId,
+        },
+      });
+
+      if (isChecked) {
+        return "203";
+      }
+
+      const response = await this.dataSource
+        .createQueryBuilder()
+        .insert()
+        .into(Orders)
+        .values({
+          accounts: accountId,
+          courses: coursesId as unknown as () => string,
+          isActive: true,
+        })
+        .execute();
+
+      return response.identifiers
+        ? response.identifiers
+        : "Error when creating orders";
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async getAccountPaymentCourse(_email) {
     try {
       const response = await this.ordersRepository.find({
@@ -47,8 +86,13 @@ export class OrdersService {
       console.error(error.message);
     }
   }
+
   async getAnalyticOrdersByNowMonth(_month: number): Promise<Orders[]> {
     try {
+      if (_month) {
+        throw new Error("Missing month");
+      }
+
       const response = await this.dataSource
         .getRepository(Orders)
         .createQueryBuilder("order")

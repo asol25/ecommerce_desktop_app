@@ -36,12 +36,14 @@ import { VideosModule } from "./videos/videos.module";
       load: [configuration],
     }),
     TypeOrmModule.forRoot({
+      name: "default",
       type: "postgres",
-      host: "localhost",
+      host: "ec2-44-206-137-96.compute-1.amazonaws.com",
       port: 5432,
-      username: "postgres",
-      password: "01284375954",
-      database: "123",
+      username: "vivujdpcjlhfzx",
+      password:
+        "f934cb6efe435ab61b7e77cd4bbd8f25972317f6e2c32edf0146c5babd971e2f",
+      database: "d9kfdardffs6dv",
       entities: [
         Accounts,
         Roles,
@@ -59,9 +61,9 @@ import { VideosModule } from "./videos/videos.module";
       ],
       synchronize: true,
       autoLoadEntities: true,
-      // ssl: {
-      //   rejectUnauthorized: false,
-      // },
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     AuthModule,
     CoursesModule,
