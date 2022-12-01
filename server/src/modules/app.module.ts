@@ -1,31 +1,34 @@
-import { CoursesModule } from "./courses/courses.module";
-import { Videos } from "./videos/entity/video.entity";
-import { Orders } from "./orders/entity/orders.entity";
-import { Roles } from "./accounts/entity/roles.entity";
-import { Accounts } from "./accounts/entity/accounts.entity";
-import { Rating } from "./ratings/entity/rating.entity";
-import configuration from "src/config/configuration";
-import { ConfigModule } from "@nestjs/config";
 import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import configuration from "src/config/configuration";
 import { DataSource } from "typeorm";
-import { Categorys } from "./categorys/entity/categorys.entity";
-import { CategorysModule } from "./categorys/categorys.module";
 import { AccountsModule } from "./accounts/accounts.module";
-import { Comments } from "./comments/entity/comments.entity";
+import { Accounts } from "./accounts/entity/accounts.entity";
+import { Roles } from "./accounts/entity/roles.entity";
+import { AnalyticsModule as AnalyticModule } from "./analytic/analytic.module";
 import { Analytic } from "./analytic/entity/analytic.entity";
-import { Courses } from "./courses/entity/courses.entity";
-import { VideosModule } from "./videos/videos.module";
-import { StreamModule } from "./stream/stream.module";
-import { CommentesModule } from "./comments/commentes.module";
-import { AnnalyticModule } from "./analytic/analytic.module";
-import { OrdersModule } from "./orders/orders.module";
 import { AreaModule } from "./area/area.module";
 import { Area } from "./area/entities/area.entity";
-import { CountryModule } from "./country/country.module";
 import { AuthModule } from "./auth/auth.module";
-import { PaymentModule } from "./payment/payment.module";
+import { CategoriesModule } from "./categorys/categories.module";
+import { Categories } from "./categorys/entity/categories.entity";
+import { CommencesModule } from "./comments/commentes.module";
+import { Comments } from "./comments/entity/comments.entity";
+import { CountryModule } from "./country/country.module";
+import { CoursesModule } from "./courses/courses.module";
+import { Courses } from "./courses/entity/courses.entity";
+import { FAQ } from "./courses/entity/fqa.entity";
+import { Specialization } from "./courses/entity/specialization.entity";
+import { Syllabus } from "./courses/entity/syllabus.entity";
 import { ExampleModule } from "./example/example.module";
+import { Orders } from "./orders/entity/orders.entity";
+import { OrdersModule } from "./orders/orders.module";
+import { PaymentModule } from "./payment/payment.module";
+import { Rating } from "./ratings/entity/rating.entity";
+import { StreamModule } from "./stream/stream.module";
+import { Videos } from "./videos/entity/video.entity";
+import { VideosModule } from "./videos/videos.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -42,7 +45,7 @@ import { ExampleModule } from "./example/example.module";
       entities: [
         Accounts,
         Roles,
-        Categorys,
+        Categories,
         Rating,
         Orders,
         Courses,
@@ -50,6 +53,9 @@ import { ExampleModule } from "./example/example.module";
         Analytic,
         Comments,
         Area,
+        Syllabus,
+        FAQ,
+        Specialization,
       ],
       synchronize: true,
       autoLoadEntities: true,
@@ -60,11 +66,11 @@ import { ExampleModule } from "./example/example.module";
     AuthModule,
     CoursesModule,
     AccountsModule,
-    CategorysModule,
+    CategoriesModule,
     VideosModule,
     StreamModule,
-    CommentesModule,
-    AnnalyticModule,
+    CommencesModule,
+    AnalyticModule,
     OrdersModule,
     AreaModule,
     CountryModule,

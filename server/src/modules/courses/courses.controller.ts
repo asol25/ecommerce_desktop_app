@@ -1,31 +1,29 @@
-import { CoursesService } from './courses.service';
-import { Controller, Get, Param } from '@nestjs/common';
+import { CoursesService } from "./courses.service";
+import { Controller, Get, Param, Query } from "@nestjs/common";
 
-@Controller('courses')
+@Controller("courses")
 export class CoursesController {
-    constructor(
-        private readonly coursesService: CoursesService) { }
+  constructor(private readonly coursesService: CoursesService) {}
 
-    @Get()
-    async findAll() {
-        return await this.coursesService.findAll();
-    }
+  @Get()
+  async findAll() {
+    return await this.coursesService.findAll();
+  }
 
-    @Get('limmit/:limmit')
-    async getCoursesLimmit(@Param() params) {
-        const { limmit } = params;
-        return await this.coursesService.getCoursesLimmit(limmit);
-    }
+  @Get("limmit/:limmit")
+  async getCoursesLimmit(@Param() params) {
+    const { limmit } = params;
+    return await this.coursesService.getCoursesLimmit(limmit);
+  }
 
-    @Get('courseById/:id')
-    async getCourseById(@Param() params) {
-        const { id } = params;
-        return await this.coursesService.getCourseById(id);
-    }
+  @Get("courseById")
+  async getContentCourses(@Query() query) {
+    const { course } = query;
+    return await this.coursesService.getContentCourses(course);
+  }
 
-
-    @Get('totalCourseCount')
-    async getTotalLengthCourses() {
-        return await this.coursesService.getTotalLengthCourses();
-    }
+  @Get("totalCourseCount")
+  async getTotalLengthCourses() {
+    return await this.coursesService.getTotalLengthCourses();
+  }
 }

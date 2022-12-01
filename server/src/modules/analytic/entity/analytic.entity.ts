@@ -1,25 +1,38 @@
 import { Courses } from "../../courses/entity/courses.entity";
 import { Videos } from "../../videos/entity/video.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @Entity()
 export class Analytic {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    viewCount: number
+  @Column()
+  viewCount: number;
 
-    @Column()
-    watchTime: number
+  @Column({ nullable: true })
+  description!: string;
 
-    @Column()
-    bookingCount: number
+  @Column({ nullable: true })
+  videoCount!: number;
 
-    @OneToOne(() => Courses)
-    @JoinColumn()
-    course: Courses
+  @Column()
+  watchTime: number;
 
-    @OneToMany(() => Videos, (video) => video.analytic)
-    videos: Videos[]
+  @Column()
+  bookingCount: number;
+
+  @OneToOne(() => Courses)
+  @JoinColumn()
+  course: Courses;
+
+  @OneToMany(() => Videos, (video) => video.analytic)
+  videos: Videos[];
 }

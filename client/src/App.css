@@ -298,6 +298,14 @@ body.dark-theme {
     right: 0;
 }
 
+.css-uvvswg-MuiButtonBase-root-MuiAccordionSummary-root {
+    background-color: #f7f9fa !important;
+}
+
+.css-uvvswg-MuiButtonBase-root-MuiAccordionSummary-root .MuiAccordionSummary-content {
+    justify-content: space-between !important;
+}
+
 /* Change background header */
 .scroll-header {
     background-color: var(--body-color);
@@ -307,6 +315,145 @@ body.dark-theme {
 /* Active link */
 .active-link {
     color: var(--first-color);
+}
+
+.container__background {
+    font-family: OpenSans-Bold, Arial, sans-serif !important;
+    background-image: linear-gradient(90deg, rgb(0, 57, 116), rgb(29, 104, 179));
+    padding: 3em 2em;
+    color: white !important;
+}
+
+.courses_home_container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+    margin: 2em 0;
+}
+
+.courses_home_container_left {
+    max-width: 620px;
+}
+
+.courses_home_container_left button {
+    background-color: #A78337;
+    color: #FFFFFF;
+    font-weight: bold;
+    border-color: transparent;
+    height: 71px;
+    border-radius: 4px;
+    text-transform: none;
+    text-align: center;
+    max-width: 320px;
+    padding: 0 50px;
+    display: flex;
+    font-size: 14px;
+    font-weight: 600;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 113px;
+    margin: 1em auto 0;
+}
+
+.courses_home_container_left button span:last-child {
+    font-size: 12px !important;
+}
+
+.courses_about {
+    display: flex !important;
+    flex-direction: column !important;
+    row-gap: 1em !important;
+}
+
+.courses_about h2 {
+    font-size: 24px !important;
+    line-height: 30px !important;
+    font-weight: 400 !important;
+}
+
+.courses_about p {
+    font-size: 14px !important;
+    line-height: 21px !important;
+    font-family: OpenSans, Arial, sans-serif !important;
+}
+
+.courses_about ul {
+    display: block !important;
+    text-align: left !important;
+    list-style-type: disc !important;
+    padding: 0 32px !important;
+}
+
+.courses_about ul li {
+    padding: .8em 0;
+}
+
+.courses_skill {
+    border: 1px solid #e3e4e5;
+    border-radius: 4px;
+    padding: 1em;
+}
+
+.courses_skill h2 {
+    font-size: 0.875rem !important;
+    line-height: 1.5rem !important;
+    font-weight: bold !important;
+    margin-bottom: 1.5em !important;
+    font-family: OpenSans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.tittle {
+    font-size: 24px !important;
+    line-height: 30px !important;
+    font-weight: 400 !important;
+    text-align: center !important;
+    margin: 2em 0;
+    font-family: OpenSans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+}
+
+.courses_skill .skills {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    row-gap: 1em !important;
+    column-gap: 1em !important;
+    margin-bottom: 1.5em !important;
+}
+
+.courses_about_bar ul {
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 1em !important;
+}
+
+.courses_about_bar ul li {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 1em !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: left !important;
+}
+
+.courses_about_bar ul li .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgb(225, 225, 225);
+    flex-shrink: 0;
+    padding: 1em;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.courses_about_bar ul li p {
+    font-size: .9rem;
+    color: #6e767f;
 }
 
 /*=============== HOME ===============*/
@@ -996,6 +1143,23 @@ body.dark-theme {
     right: 0;
 }
 
+.MuiTypography-root img {
+    border-radius: 100%;
+    width: 6.4rem;
+    height: 6.4rem;
+    margin: 1em;
+}
+
+.MuiTypography-root ul {
+    list-style: none;
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+    text-align: center;
+    flex-wrap: wrap;
+    padding: 2em;
+}
+
 /*=============== BREAKPOINTS ===============*/
 /* For small devices */
 @media screen and (max-width: 320px) {
@@ -1050,6 +1214,52 @@ body.dark-theme {
     .footer__container {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .courses_information {
+        display: grid !important;
+        grid-template-columns: 2fr 1fr !important;
+    }
+
+    .courses_home_container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .courses_home_container button {
+        padding: 0px 54px;
+        margin: 2em 0 0;
+    }
+
+    .courses_how_it_work .description {
+        display: grid !important;
+        gap: 1em;
+        grid-template-columns: 1fr 1fr;
+        margin-top: 4em;
+    }
+}
+
+.courses_how_it_work {
+    text-align: center !important;
+}
+
+.courses_how_it_work h2 {
+    font-size: 24px !important;
+    line-height: 30px !important;
+    font-weight: 400 !important;
+}
+
+.courses_how_it_work .description {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.courses_how_it_work .description .content {
+    text-align: left;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: OpenSans, Arial, sans-serif;
 }
 
 @media screen and (min-width: 767px) {

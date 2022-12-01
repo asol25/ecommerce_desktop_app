@@ -5,5 +5,13 @@ import 'react-quill/dist/quill.snow.css';
 export default function HtmlEditor() {
 	const [value, setValue] = useState('');
 
-	return <ReactQuill theme="snow" value={value} onChange={setValue} />;
+	console.log(value);
+
+	return (
+		<ReactQuill
+			theme="snow"
+			value={value}
+			onChange={setValue}
+		/>
+	);
 }
