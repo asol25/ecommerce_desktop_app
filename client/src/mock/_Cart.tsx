@@ -2,13 +2,13 @@ import * as React from 'react';
 import * as apis from '../apis/apis';
 import { useAuth0, User } from '@auth0/auth0-react';
 
-const CartMock = () => {
+const CartMock = (isCheckedToggle: boolean) => {
 	const [productsCart, setProductsCart] = React.useState([]);
 	const { user } = useAuth0();
 
 	React.useEffect(() => {
 		let isChecked = true;
-		if (isChecked) {
+		if (isChecked && user?.email) {
 			const fetchData = async (user: User | undefined) => {
 				const response = await apis.products.findAllByCoursesBought(user?.email);
 				const { data, status } = response;
@@ -23,7 +23,7 @@ const CartMock = () => {
 		return () => {
 			isChecked = false;
 		};
-	}, [user]);
+	}, [user, isCheckedToggle]);
 
 	return {
 		productsCart,

@@ -3,43 +3,55 @@ import {
   Controller,
   Delete,
   Get,
-  Inject,
+  Logger,
   Param,
   Post,
   Put,
-  Query,
-  Request,
-  UseGuards,
 } from "@nestjs/common";
 import { UsersService } from "./users.service";
 
 @Controller("user")
 export class UserController {
-  constructor(private readonly usersService: UsersService) {}
+  logger: Logger;
+  constructor(private readonly usersService: UsersService) {
+    this.logger = new Logger(UserController.name);
+  }
 
   @Get("countUsers")
-  async getCountUsers(@Param() params) {
+  async getCountUsers() {
+    this.logger.log("GET countUsers");
     return await this.usersService.getCountUsers();
   }
+
   @Get(":page")
   async findAll(@Param() params) {
+    this.logger.log("GET :page", { params });
     return await this.usersService.findAll(params);
   }
 
   @Post("findOne/:username")
   async findOne(@Param() params) {
     const { username } = params;
+    this.logger.log("POST #findOne/:username", {
+      params,
+    });
+
     return await this.usersService.findOne(username);
   }
 
   @Put("create")
   async creteUser(@Body() body) {
-    console.log(body);
+    this.logger.log("PUT create", {
+      body,
+    });
     return await this.usersService.createUser(body);
   }
 
   @Delete("delete/:id/page/:page")
   async deleteOne(@Param() params) {
+    this.logger.log("DELETE delete/:id/page/:page", {
+      params,
+    });
     return await this.usersService.deleteOne(params);
   }
 }

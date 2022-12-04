@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -9,12 +10,10 @@ import Stepper from '@mui/material/Stepper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import * as React from 'react';
+import * as apis from '../apis/apis';
 import AddressForm from './_AddressForm';
 import PaymentForm from './_PaymentForm';
 import ReviewForm from './_ReviewForm';
-import * as apis from '../apis/apis';
-import { Link, redirect } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 
 const steps = ['Information Customer', 'Payment details', 'Review your order'];
 
@@ -60,7 +59,7 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 
 	React.useEffect(() => {
 		let isChecked = true;
-		if (isChecked) {
+		if (isChecked && user?.name && products.id) {
 			if (activeStep === 3) {
 				const fetchData = async () => {
 					const res = await apis.payment.requestPayment({
@@ -97,7 +96,7 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 						});
 
 						const { data, status } = await res;
-						if (data !== undefined) {
+						if (data !== undefined && status === 200) {
 							setActiveStep(3);
 						}
 					});

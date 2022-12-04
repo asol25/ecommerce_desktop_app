@@ -15,7 +15,7 @@ import React from "react";
 import * as user from "../../apis/user";
 import Iconify from '../iconify/Iconify';
 
-export function NewUser({ setUsers, page }) {
+export function NewUser({ handleSetUser, page }) {
     const [statusSec, setStatus] = React.useState('active');
     const [verified, setVerified] = React.useState('yes');
     const [username, setUsername] = React.useState(null);
@@ -53,7 +53,7 @@ export function NewUser({ setUsers, page }) {
         const response = await user.intertUser(username, password, email, verified, statusSec, page)
         const { data, status } = await response;
         if (status === 200) {
-            setUsers(data);
+            handleSetUser(data);
         }
     };
 

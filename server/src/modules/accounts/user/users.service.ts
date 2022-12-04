@@ -5,6 +5,7 @@ import {
   forwardRef,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
@@ -12,13 +13,16 @@ import { AuthService } from "../../auth/auth.service";
 
 @Injectable()
 export class UsersService {
+  logger: Logger;
   constructor(
     @InjectRepository(Accounts)
     @Inject(forwardRef(() => AuthService))
     private accountsRepository: Repository<Accounts>,
     private dataSource: DataSource,
     private authService: AuthService,
-  ) {}
+  ) {
+    this.logger = new Logger(UsersService.name);
+  }
 
   async findAll({ page }): Promise<Accounts[]> {
     try {
@@ -68,8 +72,16 @@ export class UsersService {
     }
   }
 
-  async findOne(_username): Promise<Accounts> {
+  async findOne(_username: string): Promise<Accounts> {
+    this.logger.log("The Param #_username is already at UsersService", {
+      _username,
+    });
+
+    if (!_username) {
+      throw new Error("Miss _username");
+    }
     try {
+      this.logger.log("Start found user");
       const response = await this.dataSource.getRepository(Accounts).find({
         where: {
           username: _username,
@@ -78,6 +90,7 @@ export class UsersService {
       if (!response)
         throw new NotFoundException(`The action find #${_username} invalid`);
 
+      this.logger.log("The Result already response", response);
       return response as unknown as Promise<Accounts>;
     } catch (error) {
       console.error(error.message);
@@ -86,16 +99,26 @@ export class UsersService {
   }
 
   async deleteOne({ id, page }): Promise<Accounts[] | string> {
+    this.logger.log("The Param is already at UsersService", {
+      id,
+      page,
+    });
     try {
+      this.logger.log(`Start delete user in Accounts Entities #id: ${id}`);
       const deleteQuery = await this.accountsRepository.delete(id);
       if (deleteQuery.affected) {
+        this.logger.log(`Delete user successfully`);
+        this.logger.log(`Start getUsers`);
         const response = await this.findAll({ page: page });
+        this.logger.log(`The Result is already response`, {
+          response,
+        });
         return response;
       }
 
       return "Error delete Account User";
     } catch (error) {
-      console.error(error || error.message?.data || error.data?.message);
+      this.logger.error(error || error.message?.data || error.data?.message);
     }
   }
 
@@ -117,8 +140,11 @@ export class UsersService {
         sub,
       } = options;
 
+      this.logger.log("The Params are: " + JSON.stringify({ options }));
+      this.logger.log("Start checked user exist");
       const user = await this.accountsRepository.findOneBy({ email: email });
       if (user) {
+        this.logger.error("Don't crated new user because it already exists");
         return;
       }
 
@@ -126,6 +152,7 @@ export class UsersService {
         page = 0;
       }
 
+      this.logger.log("User not exist");
       const newRow = this.accountsRepository.create({
         username: username || given_name,
         password: password,
@@ -137,13 +164,24 @@ export class UsersService {
         locale: locale,
         role: 4 as DeepPartial<Accounts>,
       });
+      this.logger.log("Start created new User", {
+        newRow,
+      });
 
       const response = await this.accountsRepository.insert(newRow);
-
       if (!response)
         throw new BadRequestException("The action created have failed");
 
-      return await this.findAll({ page: page });
+      this.logger.log("The Result from insert was: ", {
+        response: response.raw,
+      });
+
+      this.logger.log("Start found users");
+      const found = await this.findAll({ page: page });
+      this.logger.log("The Result is already response: ", {
+        found,
+      });
+      return found;
     } catch (error) {
       console.error(error.message);
       throw error;

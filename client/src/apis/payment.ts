@@ -26,3 +26,17 @@ export const created = async (options: any) => {
 		headers
 	);
 };
+
+export const getOrdersBySlug = async (
+	_id: number,
+	_email: string | undefined
+) => {
+	const headers = {
+		headers: { 'Access-Control-Allow-Origin': '*' },
+	};
+
+	return await axios.get(
+		`http://localhost:33714/orders/getOrdersBySlug/${_id}/${_email}`,
+		headers
+	);
+};

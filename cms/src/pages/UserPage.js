@@ -51,7 +51,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  console.log({order, orderBy});
+  console.log({ order, orderBy });
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -170,7 +170,7 @@ export default function UserPage() {
 
   const filteredUsers = users ? applySortFilter(users, getComparator(order, orderBy), filterusername) : null;
 
-  const isNotFound = !filteredUsers.length && !!filterusername;
+  const isNotFound = !filteredUsers && !filterusername;
 
   return (
     <>
@@ -183,7 +183,7 @@ export default function UserPage() {
           <Typography variant="h4" gutterBottom>
             User
           </Typography>
-          <NewUser handleSetUser={setUsers} page={page}/>
+          <NewUser handleSetUser={setUsers} page={page} />
         </Stack>
 
         <Card>

@@ -38,12 +38,13 @@ import { VideosModule } from "./videos/videos.module";
     TypeOrmModule.forRoot({
       name: "default",
       type: "postgres",
-      host: "ec2-44-206-137-96.compute-1.amazonaws.com",
-      port: 5432,
-      username: "vivujdpcjlhfzx",
-      password:
-        "f934cb6efe435ab61b7e77cd4bbd8f25972317f6e2c32edf0146c5babd971e2f",
-      database: "d9kfdardffs6dv",
+      host: process.env.DATABASE_HOST || process.env.DATABASE_HOST_LOCAL,
+      port:
+        Number(process.env.DATABASE_PORT) ||
+        Number(process.env.DATABASE_PORT_LOCAL),
+      username: process.env.DATABASE_USER || process.env.DATABASE_USER_LOCAL,
+      password: process.env.DATABASE_PASS || process.env.DATABASE_PASS_LOCAL,
+      database: process.env.DATABASE_NAME || process.env.DATABASE_NAME_LOCAL,
       entities: [
         Accounts,
         Roles,
@@ -61,9 +62,9 @@ import { VideosModule } from "./videos/videos.module";
       ],
       synchronize: true,
       autoLoadEntities: true,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      // ssl: {
+      //   rejectUnauthorized: false,
+      // },
     }),
     AuthModule,
     CoursesModule,

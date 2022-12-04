@@ -10,10 +10,10 @@ export class CoursesController {
     return await this.coursesService.findAll();
   }
 
-  @Get("limmit/:limmit")
-  async getCoursesLimmit(@Param() params) {
-    const { limmit } = params;
-    return await this.coursesService.getCoursesLimmit(limmit);
+  @Get("limit/:limit")
+  async getCoursesLimit(@Param() params) {
+    const { limit: limit } = params;
+    return await this.coursesService.getCoursesLimit(limit);
   }
 
   @Get("courseById")

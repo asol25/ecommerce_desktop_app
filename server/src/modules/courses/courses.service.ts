@@ -48,7 +48,7 @@ export class CoursesService {
     return response;
   }
 
-  async getCoursesLimmit(_limit): Promise<Courses[] | Courses> {
+  async getCoursesLimit(_limit: number): Promise<Courses[] | Courses> {
     const response = await this.coursesRepository.find({
       relations: {
         analytic: true,

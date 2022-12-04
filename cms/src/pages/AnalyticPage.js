@@ -1,12 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect, React } from 'react';
 // @mui
-import { Container, Typography, styled, InputAdornment, OutlinedInput, alpha } from '@mui/material';
+import { alpha, Container, InputAdornment, OutlinedInput, styled, Typography } from '@mui/material';
 // components
 // mock
+import * as apis from '../apis/apis';
 import AnalyticCourse from '../components/analytic/AnalyticCourse';
 import Iconify from '../components/iconify/Iconify';
-import * as apis from '../apis/apis';
 // ----------------------------------------------------------------------
 const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -72,7 +72,7 @@ export default function AnalyticPage() {
         />
 
         {
-          analytic.length > 0 ? <AnalyticCourse analytic={analytic} search={searchNameCourse}/> : null
+          analytic.length > 0 ? <AnalyticCourse analytic={analytic} search={searchNameCourse} /> : null
         }
       </Container>
     </>
