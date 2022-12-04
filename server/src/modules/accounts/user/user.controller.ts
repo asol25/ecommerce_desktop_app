@@ -47,7 +47,7 @@ export class UserController {
     return await this.usersService.createUser(body);
   }
 
-  @Delete("delete/:id/page/:page")
+  @Delete("delete/:_id/page/:page/status/:status")
   async deleteOne(@Param() params) {
     this.logger.log("DELETE delete/:id/page/:page", {
       params,

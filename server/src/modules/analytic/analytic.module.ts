@@ -8,5 +8,6 @@ import { Analytic } from "./entity/analytic.entity";
   imports: [TypeOrmModule.forFeature([Analytic])],
   controllers: [AnalyticsController],
   providers: [AnalyticsService],
+  exports: [AnalyticsModule, AnalyticsService],
 })
 export class AnalyticsModule {}

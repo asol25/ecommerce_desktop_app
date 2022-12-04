@@ -51,7 +51,6 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  console.log({ order, orderBy });
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -82,6 +81,7 @@ export default function UserPage() {
   const [orderBy, setOrderBy] = useState('username');
   const [filterusername, setFilterusername] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [isCheckedBannedOrActive, setIsCheckedBannedOrActive] = useState('');
 
   useEffect(() => {
     let isChecked = true;
@@ -91,17 +91,27 @@ export default function UserPage() {
         const response = await apis.user.find(page);
         const { data, status } = response;
         if (status === 200 && data.length > 0) {
-          setUsers(data.map(({ id, username, password, email, verified, status }) => ({ id, username, password, email, verified, status })));
+          setUsers(
+            data.map(({ id, username, password, email, verified, status }) => ({
+              id,
+              username,
+              password,
+              email,
+              verified,
+              status,
+            }))
+          );
         }
-      }
+      };
       fetchData();
     }
     return () => {
       isChecked = false;
-    }
+    };
   }, [page]);
 
-  const handleOpenMenu = (event, id) => {
+  const handleOpenMenu = (event, id, isCheckedBannedOrActive) => {
+    setIsCheckedBannedOrActive(isCheckedBannedOrActive);
     setKeyRow(id);
     setOpen(event.currentTarget);
   };
@@ -111,7 +121,7 @@ export default function UserPage() {
   };
 
   const handleDeleteById = async (id, page) => {
-    const response = await apis.user.deleteById(id, page);
+    const response = await apis.user.deleteById(id, page, isCheckedBannedOrActive);
     const { data, status } = response;
     if (status === 200) {
       handleCloseMenu();
@@ -119,7 +129,7 @@ export default function UserPage() {
     }
 
     return 0;
-  }
+  };
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -148,7 +158,6 @@ export default function UserPage() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
-    console.log(newSelected);
     setSelected(newSelected);
   };
 
@@ -187,7 +196,11 @@ export default function UserPage() {
         </Stack>
 
         <Card>
-          <UserListToolbar numSelected={selected.length} filterusername={filterusername} onFilterusername={handleFilterByusername} />
+          <UserListToolbar
+            numSelected={selected.length}
+            filterusername={filterusername}
+            onFilterusername={handleFilterByusername}
+          />
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -230,7 +243,11 @@ export default function UserPage() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <IconButton size="large" color="inherit" onClick={(event) => handleOpenMenu(event, id)}>
+                          <IconButton
+                            size="large"
+                            color="inherit"
+                            onClick={(event) => handleOpenMenu(event, id, status.includes('banned'))}
+                          >
                             <Iconify icon={'eva:more-vertical-fill'} />
                           </IconButton>
                         </TableCell>
@@ -289,16 +306,23 @@ export default function UserPage() {
               },
             }}
           >
-            <MenuItem>
-              <Iconify icon={'eva:edit-fill'} sx={{ mr: 2 }} />
-              Edit
-            </MenuItem>
-
-            <MenuItem sx={{ color: 'error.main' }} onClick={() => {
-              handleDeleteById(keyRow, page)
-            }}>
-              <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-              Delete
+            <MenuItem
+              sx={{ color: 'error.main' }}
+              onClick={() => {
+                handleDeleteById(keyRow, page);
+              }}
+            >
+              {isCheckedBannedOrActive ? (
+                <>
+                  <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+                  Active
+                </>
+              ) : (
+                <>
+                  <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+                  Banned
+                </>
+              )}
             </MenuItem>
           </Popover>
 

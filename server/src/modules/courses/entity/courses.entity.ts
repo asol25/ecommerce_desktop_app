@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -7,6 +8,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Videos } from "./../../videos/entity/video.entity";
 import { Analytic } from "./../../analytic/entity/analytic.entity";
 import { Categories } from "./../../categorys/entity/categories.entity";
 import { Orders } from "./../../orders/entity/orders.entity";
@@ -16,7 +18,7 @@ import { Specialization } from "./specialization.entity";
 import { Syllabus } from "./syllabus.entity";
 
 @Entity()
-export class Courses {
+export class Courses extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -51,6 +53,9 @@ export class Courses {
 
   @OneToMany(() => Syllabus, (syllabus) => syllabus.course)
   syllabus: Syllabus[];
+
+  @OneToMany(() => Videos, (video) => video.course)
+  video: Videos[];
 
   @OneToMany(() => FAQ, (FAQ) => FAQ.course)
   faq: FAQ[];

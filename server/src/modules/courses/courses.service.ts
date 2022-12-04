@@ -1,14 +1,26 @@
-import { Injectable } from "@nestjs/common";
+import { CreateVideoDto } from "./../videos/dto/create-video.dto";
+import { AnalyticsService } from "./../analytic/analytic.service";
+import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { Analytic } from "../analytic/entity/analytic.entity";
+import { Videos } from "../videos/entity/video.entity";
+import { CreateCourseDto } from "./dto/create-course.dto";
 import { Courses } from "./entity/courses.entity";
+import { VideosService } from "../videos/videos.service";
+import { CreateAnalyticDto } from "../analytic/dto/create-analytic.dto";
 
 @Injectable()
 export class CoursesService {
+  logger: Logger;
   constructor(
     @InjectRepository(Courses)
     private coursesRepository: Repository<Courses>,
-  ) {}
+    private analyticService: AnalyticsService,
+    private videosService: VideosService,
+  ) {
+    this.logger = new Logger(CoursesService.name);
+  }
 
   async findAll(): Promise<Courses[]> {
     const response = await this.coursesRepository.find({
@@ -37,7 +49,7 @@ export class CoursesService {
       });
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error);
     }
   }
 
@@ -81,5 +93,75 @@ export class CoursesService {
 
   getCoursesRepository(): Repository<Courses> {
     return this.coursesRepository;
+  }
+
+  async createCourse(course: CreateCourseDto): Promise<boolean> {
+    this.logger.log("Parameters", {
+      course,
+    });
+    try {
+      this.logger.log("Start created object Course");
+      this.logger.log("Start created object Analytic");
+      this.logger.log("Start created object Videos");
+      const newCourse = new Courses();
+      const newAnalytic = new Analytic();
+
+      let isCheckedSaveCourse: Courses;
+      let isCheckedSaveAnalytic: Analytic;
+
+      await this.saveCourse(newCourse, course, isCheckedSaveCourse);
+      this.logger.log("SAVE Course successfully saved");
+      await this.saveAnalytic(
+        newAnalytic,
+        isCheckedSaveCourse.id,
+        isCheckedSaveAnalytic,
+      );
+      this.logger.log("SAVE Analytic successfully saved");
+
+      this.logger.log("Response");
+      return true;
+    } catch (error) {
+      this.logger.log(error);
+      return false;
+    }
+  }
+
+  async saveCourse(
+    newCourse: Courses,
+    createDto: CreateCourseDto,
+    isCheckedSave: Courses,
+  ) {
+    newCourse.title = createDto.title;
+    newCourse.description = createDto.description;
+    newCourse.overviews = createDto.overviews;
+    newCourse.thumbnailUrl = createDto.thumbnailUrl;
+    newCourse.oddPrice = createDto.oddPrice;
+    newCourse.newPrice = createDto.newPrice;
+    isCheckedSave = await this.coursesRepository.save(newCourse);
+    this.exceptionFalseSave(isCheckedSave);
+  }
+
+  async saveAnalytic(
+    newObject: Analytic,
+    courseId: number,
+    isCheckedSave: Analytic,
+  ) {
+    newObject.bookingCount = 0;
+    newObject.videoCount = 0;
+    newObject.viewCount = 0;
+    newObject.watchTime = 0;
+    newObject.course = courseId as unknown as Courses;
+    isCheckedSave = await this.analyticService
+      .getAnalyticsRepository()
+      .save(newObject);
+    this.exceptionFalseSave(isCheckedSave);
+  }
+
+  exceptionFalseSave(isCheckedSave: Courses | Analytic | Videos) {
+    if (
+      Object.keys(isCheckedSave).length === 0 &&
+      isCheckedSave.constructor === Object
+    )
+      throw new BadRequestException("Have error when saving");
   }
 }

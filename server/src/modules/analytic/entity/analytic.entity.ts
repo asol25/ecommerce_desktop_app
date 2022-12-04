@@ -1,6 +1,7 @@
 import { Courses } from "../../courses/entity/courses.entity";
 import { Videos } from "../../videos/entity/video.entity";
 import {
+  BaseEntity,
   Column,
   Entity,
   JoinColumn,
@@ -10,7 +11,7 @@ import {
 } from "typeorm";
 
 @Entity()
-export class Analytic {
+export class Analytic extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

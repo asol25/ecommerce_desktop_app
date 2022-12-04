@@ -11,6 +11,10 @@ export class AnalyticsService {
     private dataSourse: DataSource,
   ) {}
 
+  getAnalyticsRepository() {
+    return this.analyticsRepository;
+  }
+
   async getListInformationAnalytic() {
     try {
       const response = await this.dataSourse

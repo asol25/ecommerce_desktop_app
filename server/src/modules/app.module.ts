@@ -62,9 +62,9 @@ import { VideosModule } from "./videos/videos.module";
       ],
       synchronize: true,
       autoLoadEntities: true,
-      // ssl: {
-      //   rejectUnauthorized: false,
-      // },
+      ssl: {
+        rejectUnauthorized: false,
+      },
     }),
     AuthModule,
     CoursesModule,

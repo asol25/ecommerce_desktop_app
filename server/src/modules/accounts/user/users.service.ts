@@ -25,9 +25,14 @@ export class UsersService {
   }
 
   async findAll({ page }): Promise<Accounts[]> {
+    this.logger.log("Param", {
+      page,
+    });
     try {
       const skip = Number(page) === 0 ? 0 : Number(page + 1) + 24;
       const take = skip + 25;
+
+      this.logger.log("Start found user from Accounts Entities");
       const response = await this.dataSource.getRepository(Accounts).find({
         relations: {
           role: true,
@@ -36,10 +41,11 @@ export class UsersService {
 
       if (!response)
         throw new NotFoundException("The action was not found users");
+
+      this.logger.log("Response Account Entities");
       return response;
     } catch (error) {
-      console.error(error.message);
-      throw error;
+      this.logger.error(error);
     }
   }
 
@@ -67,8 +73,7 @@ export class UsersService {
 
       return user.affected ? true : false;
     } catch (error) {
-      console.error(error.message);
-      throw error;
+      this.logger.error(error);
     }
   }
 
@@ -93,30 +98,32 @@ export class UsersService {
       this.logger.log("The Result already response", response);
       return response as unknown as Promise<Accounts>;
     } catch (error) {
-      console.error(error.message);
-      throw error;
+      this.logger.error(error);
     }
   }
 
-  async deleteOne({ id, page }): Promise<Accounts[] | string> {
+  async deleteOne({ _id, page, status }): Promise<Accounts[] | string> {
     this.logger.log("The Param is already at UsersService", {
-      id,
+      _id,
       page,
+      status,
     });
     try {
-      this.logger.log(`Start delete user in Accounts Entities #id: ${id}`);
-      const deleteQuery = await this.accountsRepository.delete(id);
-      if (deleteQuery.affected) {
-        this.logger.log(`Delete user successfully`);
-        this.logger.log(`Start getUsers`);
-        const response = await this.findAll({ page: page });
-        this.logger.log(`The Result is already response`, {
-          response,
-        });
-        return response;
+      this.logger.log(`Start ban user in Accounts Entities #id: ${_id}`);
+      const user = await this.accountsRepository.findOneBy({ id: _id });
+      if (!user.id) {
+        throw new NotFoundException("The user is not found");
       }
 
-      return "Error delete Account User";
+      this.logger.log(`Update user`);
+      user.status = status ? "active" : "banned";
+      await this.accountsRepository.save(user);
+      this.logger.log(`Ban user in Accounts Entities #id: ${_id}`);
+
+      this.logger.log(`Start getUsers`);
+      const response = await this.findAll({ page: page });
+      this.logger.log("Response successfully from Accounts Entities");
+      return response;
     } catch (error) {
       this.logger.error(error || error.message?.data || error.data?.message);
     }
@@ -183,8 +190,7 @@ export class UsersService {
       });
       return found;
     } catch (error) {
-      console.error(error.message);
-      throw error;
+      this.logger.error(error);
     }
   }
 
