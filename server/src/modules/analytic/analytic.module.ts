@@ -1,12 +1,13 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AnalyticController } from './analytic.controller';
-import { Module } from '@nestjs/common';
-import { Analytic } from './entity/analytic.entity';
-import { AnnalyticService } from './analytic.service';
+import { Module } from "@nestjs/common";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AnalyticsController } from "./analytic.controller";
+import { AnalyticsService } from "./analytic.service";
+import { Analytic } from "./entity/analytic.entity";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Analytic])],
-    controllers: [AnalyticController],
-    providers: [AnnalyticService]
+  imports: [TypeOrmModule.forFeature([Analytic])],
+  controllers: [AnalyticsController],
+  providers: [AnalyticsService],
+  exports: [AnalyticsModule, AnalyticsService],
 })
-export class AnnalyticModule {}
+export class AnalyticsModule {}

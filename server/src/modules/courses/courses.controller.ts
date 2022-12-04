@@ -1,24 +1,38 @@
-import { CoursesService } from './courses.service';
-import { Controller, Get, Param } from '@nestjs/common';
+import { CoursesService } from "./courses.service";
+import { Body, Controller, Get, Param, Put, Query } from "@nestjs/common";
+import { CreateCourseDto } from "./dto/create-course.dto";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 
-@Controller('courses')
+@ApiTags("courses")
+@Controller("courses")
 export class CoursesController {
-    constructor(
-        private readonly coursesService: CoursesService) { }
+  constructor(private readonly coursesService: CoursesService) {}
 
-    @Get()
-    async findAll() {
-        return await this.coursesService.findAll();
-    }
+  @Get()
+  async findAll() {
+    return await this.coursesService.findAll();
+  }
 
-    @Get('limmit/:limmit')
-    async getCoursesLimmit(@Param() params) {
-        const { limmit } = params;
-        return await this.coursesService.getCoursesLimmit(limmit);
-    }
+  @Get("limit/:limit")
+  async getCoursesLimit(@Param() params) {
+    const { limit: limit } = params;
+    return await this.coursesService.getCoursesLimit(limit);
+  }
 
-    @Get('totalCourseCount')
-    async getTotalLengthCourses() {
-        return await this.coursesService.getTotalLengthCourses();
-    }
+  @Get("courseById")
+  async getContentCourses(@Query() query) {
+    const { course } = query;
+    return await this.coursesService.getContentCourses(course);
+  }
+
+  @Get("totalCourseCount")
+  async getTotalLengthCourses() {
+    return await this.coursesService.getTotalLengthCourses();
+  }
+
+  @ApiOperation({ summary: "Create course" })
+  @Put("createdCourse")
+  createCourse(@Body() course: CreateCourseDto) {
+    return this.coursesService.createCourse(course);
+  }
 }

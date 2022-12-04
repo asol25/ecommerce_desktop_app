@@ -1,4 +1,5 @@
 {
-    "screencastMode.keyboardOverlayTimeout": 800,
-    "search.searchOnTypeDebouncePeriod": 0
+	"screencastMode.keyboardOverlayTimeout": 800,
+	"search.searchOnTypeDebouncePeriod": 0,
+	"cSpell.words": ["sussecfuly"]
 }
