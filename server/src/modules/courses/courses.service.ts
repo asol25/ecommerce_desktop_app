@@ -109,15 +109,35 @@ export class CoursesService {
       let isCheckedSaveCourse: Courses;
       let isCheckedSaveAnalytic: Analytic;
 
-      await this.saveCourse(newCourse, course, isCheckedSaveCourse);
+      isCheckedSaveCourse = await this.saveCourse(
+        newCourse,
+        course,
+        isCheckedSaveCourse,
+      );
       this.logger.log("SAVE Course successfully saved");
-      await this.saveAnalytic(
+      isCheckedSaveAnalytic = await this.saveAnalytic(
         newAnalytic,
-        isCheckedSaveCourse.id,
         isCheckedSaveAnalytic,
       );
-      this.logger.log("SAVE Analytic successfully saved");
 
+      this.logger.log("SAVE Analytic successfully saved");
+      this.logger.log("SAVE Relationship");
+      this.logger.log({
+        isCheckedSaveCourse,
+        isCheckedSaveAnalytic,
+      });
+      isCheckedSaveCourse.analytic =
+        isCheckedSaveAnalytic.id as unknown as Analytic;
+
+      isCheckedSaveAnalytic.course =
+        isCheckedSaveCourse.id as unknown as Courses;
+
+      await this.coursesRepository.save(isCheckedSaveCourse);
+      await this.analyticService
+        .getAnalyticsRepository()
+        .save(isCheckedSaveAnalytic);
+
+      this.logger.log("SAVE Relationship successfully saved");
       this.logger.log("Response");
       return true;
     } catch (error) {
@@ -139,25 +159,22 @@ export class CoursesService {
     newCourse.newPrice = createDto.newPrice;
     isCheckedSave = await this.coursesRepository.save(newCourse);
     this.exceptionFalseSave(isCheckedSave);
+    return isCheckedSave;
   }
 
-  async saveAnalytic(
-    newObject: Analytic,
-    courseId: number,
-    isCheckedSave: Analytic,
-  ) {
+  async saveAnalytic(newObject: Analytic, isCheckedSave: Analytic) {
     newObject.bookingCount = 0;
     newObject.videoCount = 0;
     newObject.viewCount = 0;
     newObject.watchTime = 0;
-    newObject.course = courseId as unknown as Courses;
     isCheckedSave = await this.analyticService
       .getAnalyticsRepository()
       .save(newObject);
     this.exceptionFalseSave(isCheckedSave);
+    return isCheckedSave;
   }
 
-  exceptionFalseSave(isCheckedSave: Courses | Analytic | Videos) {
+  exceptionFalseSave(isCheckedSave: Courses | Analytic) {
     if (
       Object.keys(isCheckedSave).length === 0 &&
       isCheckedSave.constructor === Object
