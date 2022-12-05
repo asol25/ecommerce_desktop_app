@@ -22,8 +22,8 @@ ShopProductCard.propTypes = {
   product: PropTypes.object,
 };
 
-export default function ShopProductCard({ product, handleClickOpenVideoContainerList}) {
-  const { id,title, description, thumbnailUrl, newPrice, oddPrice } = product;
+export default function ShopProductCard({ product, handleClickOpenVideoContainerList }) {
+  const { id, title, description, thumbnailUrl, newPrice, oddPrice } = product;
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -31,7 +31,7 @@ export default function ShopProductCard({ product, handleClickOpenVideoContainer
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
-        <Link color="inherit" underline="hover" sx={{cursor: 'pointer'}} onClick={() => handleClickOpenVideoContainerList(id)}>
+        <Link color="inherit" underline="hover" sx={{ cursor: 'pointer' }} onClick={() => handleClickOpenVideoContainerList(id)}>
           <Typography variant="h5" noWrap>
             {title}
           </Typography>

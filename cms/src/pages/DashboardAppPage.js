@@ -1,45 +1,52 @@
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import React, { useState } from 'react';
-import { faker } from '@faker-js/faker';
 // @mui
+import { Container, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Grid, Container, Typography } from '@mui/material';
 // components
 import axios from 'axios';
 import Iconify from '../components/iconify';
 // sections
+import * as apis from '../apis/apis';
 import {
-  AppNewsUpdate,
-  AppOrderTimeline,
-  AppCurrentVisits,
-  AppWebsiteVisits,
-  AppTrafficBySite,
-  AppWidgetSummary,
-  AppCurrentSubject,
-  AppConversionRates,
+  AppConversionRates, AppCurrentVisits, AppTrafficBySite, AppWebsiteVisits, AppWidgetSummary
 } from '../sections/@dashboard/app';
-import * as apis from '../apis/apis'
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
   const [chartLabelsFlowMonth, setChartLabelsFlowMonth] = React.useState([]);
+  const [chartLabelsFlowYear, setChartLabelsFlowYear] = React.useState([]);
+
   const [chartDataIntoChartLabelsFlowMonth, setChartDataIntoChartLabelsFlowMonth] = React.useState([]);
+  const [chartDataIntoChartLabelsFlowYear, setChartDataIntoChartLabelsFlowYear] = React.useState([]);
+
   const [chartInformation, setChartInformation] = React.useState({});
 
   React.useEffect(() => {
     let isChecked = true;
+    const month = new Date().getMonth() + 1;
 
     if (isChecked) {
       const fetchData = async () => {
-        const month = new Date().getMonth();
         const response = await apis.analytic.getAnalyticFlowNowMonth(month);
+        const result = await apis.analytic.getAnalyticFlowNowYear(1);
         const { data, status } = await response;
-        if (status === 200 && data.length > 0) {
-          data.map((node) => {
+        if (response.status === 200 && response.data.length > 0) {
+          response.data.map((node) => {
             const convertDate = new Date(node.date).toLocaleDateString("en-US");
             return [
               setChartLabelsFlowMonth(oldArray => [...oldArray, convertDate]),
               setChartDataIntoChartLabelsFlowMonth(oldArray => [...oldArray, node.sales])
+            ];
+          })
+        }
+
+        if (result.data.length > 0 && result.status === 200) {
+          result.data.map((node) => {
+            const convertDate = new Date(node.date).toLocaleDateString("en-US");
+            return [
+              setChartLabelsFlowYear(oldArray => [...oldArray, convertDate]),
+              setChartDataIntoChartLabelsFlowYear(oldArray => [...oldArray, node.sales])
             ];
           })
         }
@@ -74,17 +81,16 @@ export default function DashboardAppPage() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
-
         <Grid container spacing={3}>
           {
             chartInformation[0] && chartInformation[1] && chartInformation[2] ?
               <>
                 <Grid item xs={12} sm={6} md={3}>
-                  <AppWidgetSummary title="Weekly Sales" total={chartInformation[0]} icon={'ant-design:android-filled'} />
+                  <AppWidgetSummary title="Total Users" total={chartInformation[0]} icon={'ant-design:android-filled'} />
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                  <AppWidgetSummary title="New Users" total={chartInformation[1]} color="info" icon={'ant-design:apple-filled'} />
+                  <AppWidgetSummary title="Total Courses" total={chartInformation[1]} color="info" icon={'ant-design:apple-filled'} />
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
@@ -92,7 +98,7 @@ export default function DashboardAppPage() {
                 </Grid>
 
                 <Grid item xs={12} sm={6} md={3}>
-                  <AppWidgetSummary title="Bug Reports" total={234} color="error" icon={'ant-design:bug-filled'} />
+                  <AppWidgetSummary title="Total Money Earn" total={chartInformation[chartInformation.length - 1].totalPrices} color="error" icon={'ant-design:bug-filled'} />
                 </Grid>
               </>
               : null
@@ -136,10 +142,19 @@ export default function DashboardAppPage() {
 
           {
             chartInformation[4] ? <Grid item xs={12} md={6} lg={8}>
-              <AppConversionRates
-                title="Conversion Rates"
+              <AppWebsiteVisits
+                title="Bought Courses Flow Year"
                 subheader="(+43%) than last year"
-                chartData={chartInformation[4]}
+                chartData={[
+                  {
+                    name: 'Month',
+                    type: 'column',
+                    fill: 'solid',
+                    data: chartDataIntoChartLabelsFlowYear,
+                  },
+                ]}
+                chartLabels={chartLabelsFlowYear}
+
               />
             </Grid> : null
           }
