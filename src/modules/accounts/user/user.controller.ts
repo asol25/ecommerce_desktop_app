@@ -1,35 +1,57 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put, Query, Request, UseGuards } from '@nestjs/common';
-import { UsersService } from './users.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Logger,
+  Param,
+  Post,
+  Put,
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
 
-
-@Controller('user')
+@Controller("user")
 export class UserController {
-    constructor(
-        private readonly usersService: UsersService) { }
+  logger: Logger;
+  constructor(private readonly usersService: UsersService) {
+    this.logger = new Logger(UserController.name);
+  }
 
-    @Get("countUsers")
-    async getCountUsers(@Param() params) {
-        return await this.usersService.getCountUsers();
-    }
-    @Get(":page")
-    async findAll(@Param() params) {
-        return await this.usersService.findAll(params);
-    }
+  @Get("countUsers")
+  async getCountUsers() {
+    this.logger.log("GET countUsers");
+    return await this.usersService.getCountUsers();
+  }
 
-    @Post("findOne/:username")
-    async findOne(@Param() params) {
-        const { username } = params;
-        return await this.usersService.findOne(username);
-    }
+  @Get(":page")
+  async findAll(@Param() params) {
+    this.logger.log("GET :page", { params });
+    return await this.usersService.findAll(params);
+  }
 
-    @Put("create")
-    async creteUser(@Body() body) {
-        console.log(body);
-        return await this.usersService.createUser(body);
-    }
+  @Post("findOne/:username")
+  async findOne(@Param() params) {
+    const { username } = params;
+    this.logger.log("POST #findOne/:username", {
+      params,
+    });
 
-    @Delete("delete/:id/page/:page")
-    async deleteOne(@Param() params) {
-        return await this.usersService.deleteOne(params);
-    }
+    return await this.usersService.findOne(username);
+  }
+
+  @Put("create")
+  async creteUser(@Body() body) {
+    this.logger.log("PUT create", {
+      body,
+    });
+    return await this.usersService.createUser(body);
+  }
+
+  @Delete("delete/:_id/page/:page/status/:status")
+  async deleteOne(@Param() params) {
+    this.logger.log("DELETE delete/:id/page/:page", {
+      params,
+    });
+    return await this.usersService.deleteOne(params);
+  }
 }

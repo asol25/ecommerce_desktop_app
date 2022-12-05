@@ -1,13 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
-import { AnnalyticService } from './analytic.service';
-import { Analytic } from './entity/analytic.entity';
+import { ApiTags } from "@nestjs/swagger";
+import { Controller, Get } from "@nestjs/common";
+import { AnalyticsService } from "./analytic.service";
 
-@Controller('analytic')
-export class AnalyticController {
-    constructor(private analyticsServices: AnnalyticService) { }
+@ApiTags("analytic")
+@Controller("analytic")
+export class AnalyticsController {
+  constructor(private analyticsServices: AnalyticsService) {}
 
-    @Get()
-    async findAll() {
-        return await this.analyticsServices.getListInformationAnalytic();
-    }
+  @Get()
+  async findAll() {
+    return await this.analyticsServices.getListInformationAnalytic();
+  }
+}
+function ApiOperation(arg0: { summary: string }) {
+  throw new Error("Function not implemented.");
 }
