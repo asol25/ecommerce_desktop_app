@@ -1,12 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useState, useEffect, React } from 'react';
 // @mui
-import { Container, Typography, styled, InputAdornment, OutlinedInput, alpha } from '@mui/material';
+import { alpha, Container, InputAdornment, OutlinedInput, styled, Typography } from '@mui/material';
 // components
 // mock
+import * as apis from '../apis/apis';
 import AnalyticCourse from '../components/analytic/AnalyticCourse';
 import Iconify from '../components/iconify/Iconify';
-import * as apis from '../apis/apis';
 // ----------------------------------------------------------------------
 const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
   width: 240,
@@ -27,7 +27,6 @@ export default function AnalyticPage() {
   const [analytic, setAnalytic] = useState([]);
   const [searchNameCourse, setSearchCourse] = useState('');
 
-
   const handleFilterByusername = (event) => {
     setSearchCourse(event.target.value);
   };
@@ -39,15 +38,15 @@ export default function AnalyticPage() {
       const fetchData = async () => {
         const response = await apis.analytic.find();
         const { data, status } = response;
-        if (status === 200 && data.length > 0) {
+        if (status === 200) {
           setAnalytic(data);
         }
-      }
+      };
       fetchData();
     }
     return () => {
       isChecked = false;
-    }
+    };
   }, []);
   return (
     <>
@@ -55,12 +54,13 @@ export default function AnalyticPage() {
         <title> Dashboard: Analytic | Minimal UI </title>
       </Helmet>
 
-      <Container sx={{ p: 3 }} >
+      <Container sx={{ p: 3 }}>
         <Typography variant="h4" sx={{ mb: 5 }}>
           Analytic
         </Typography>
 
-        <StyledSearch sx={{ mb: 3 }}
+        <StyledSearch
+          sx={{ mb: 3 }}
           value={searchNameCourse}
           onChange={handleFilterByusername}
           placeholder="Search course..."
@@ -71,9 +71,7 @@ export default function AnalyticPage() {
           }
         />
 
-        {
-          analytic.length > 0 ? <AnalyticCourse analytic={analytic} search={searchNameCourse}/> : null
-        }
+        {analytic.length > 0 ? <AnalyticCourse analytic={analytic} search={searchNameCourse} /> : null}
       </Container>
     </>
   );
