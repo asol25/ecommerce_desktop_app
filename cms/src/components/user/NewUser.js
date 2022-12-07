@@ -12,6 +12,8 @@ import {
   MenuItem,
 } from '@mui/material';
 import React from 'react';
+import Alert from '@mui/material/Alert'
+import * as validate from '../../_mock/validation'
 import * as user from '../../apis/user';
 import Iconify from '../iconify/Iconify';
 
@@ -22,7 +24,7 @@ export function NewUser({ handleSetUser, page }) {
   const [password, setPassword] = React.useState(null);
   const [email, setEmail] = React.useState(null);
   const [open, setOpen] = React.useState(false);
-
+  const [error, setError] = React.useState(false);
   const handleChangeVerified = (event) => {
     setVerified(event.target.value);
   };
@@ -44,17 +46,33 @@ export function NewUser({ handleSetUser, page }) {
   };
 
   const handleClickOpen = () => {
+    setError(false)
     setOpen(true);
   };
 
   const handleClose = async (status) => {
-    setOpen(false);
+    if (status === false) {
+      setOpen(false)
+      return;
+    }
 
+    if (!validate.validEmail.test(email)) {
+      setError("Email is not valid")
+      return;
+    }
+
+    if (!validate.validPassword.test(password)) {
+      setError("Password is not valid")
+      return;
+    }
+
+    setError(false)
     if (status) {
       const response = await user.intertUser(username, password, email, verified, statusSec, page);
       const { data, status } = await response;
       if (status === 200) {
         handleSetUser(data);
+        setOpen(false)
       }
     }
   };
@@ -64,23 +82,32 @@ export function NewUser({ handleSetUser, page }) {
       <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleClickOpen}>
         New User
       </Button>
+
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New User</DialogTitle>
         <DialogContent>
+          {error ?
+            <Alert variant="outlined" severity="error">
+              {error}
+            </Alert>
+            : null}
           <Typography variant="h6" component="h2">
             Username
           </Typography>
           <TextField id="filled-basic" label="Username" variant="filled" onChange={handleUsername} />
-          <Typography variant="h6" component="h2">
-            Password
-          </Typography>
-          <Divider />
-          <TextField id="filled-basic" label="Filled" variant="filled" onChange={handleChangePassword} />
+
           <Typography variant="h6" component="h2">
             Email
           </Typography>
           <TextField id="filled-basic" label="Filled" variant="filled" onChange={handleChangeEmail} />
           <Divider />
+
+          <Typography variant="h6" component="h2">
+            Password
+          </Typography>
+          <TextField id="filled-basic" label="Filled" variant="filled" onChange={handleChangePassword} />
+          <Divider />
+
           <FormControl>
             <Typography variant="h6" component="h2">
               Verified

@@ -1,28 +1,46 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import {
+	AppBar,
 	Avatar,
 	Box,
+	Button,
 	Chip,
 	CircularProgress,
 	DialogProps,
+	IconButton,
 	ImageListItem,
 	ListItem,
 	ListItemAvatar,
 	Rating,
 	Tab,
 	Tabs,
+	Toolbar,
 	Typography,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import Dialog from '@mui/material/Dialog';
+import Slide from '@mui/material/Slide';
+import { TransitionProps } from '@mui/material/transitions';
 import * as React from 'react';
 import ReviewPaymentMock from '../mock/_ReviewPaymen';
+import { ICourses } from '../type';
+import * as apis from './../apis/apis';
 import mainLogo from './../assets/getThisSpecialization.png';
 import BreadcrumbsForm from './_Beadcrumbs';
+import YouTube from './_ListContainerVideo';
 import Policies from './_Policies';
 import TabPanelCourses from './_TabPanelCourses';
 import TabPanelFaq from './_TabPanelFaq';
-import * as apis from './../apis/apis';
-import { ICourses } from '../type';
-import { useAuth0 } from '@auth0/auth0-react';
+
+const Transition = React.forwardRef(function Transition(
+	props: TransitionProps & {
+		children: React.ReactElement;
+	},
+	ref: React.Ref<unknown>
+) {
+	return <Slide direction="up" ref={ref} {...props} />;
+});
 
 interface IHomeProductsProps {
 	course: ICourses;
@@ -35,7 +53,9 @@ interface TabPanelProps {
 	value: number;
 }
 
-const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
+const HomeProducts: React.FunctionComponent<
+	IHomeProductsProps
+> = (props) => {
 	const {
 		id,
 		title,
@@ -48,32 +68,49 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 		faq,
 	} = props.course;
 	const rating = props.course.rating?.star;
-
 	const [open, setOpen] = React.useState(false);
-	const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
-
+	const [scroll, setScroll] =
+		React.useState<DialogProps['scroll']>('paper');
 	const { handleChangeCart } = ReviewPaymentMock();
-	const descriptionElementRef = React.useRef<HTMLElement>(null);
-
+	const descriptionElementRef =
+		React.useRef<HTMLElement>(null);
 	const [value, setValue] = React.useState(0);
 	const { user } = useAuth0();
-	const [isCheckedCustomerWasBought, setIsCheckedCustomerWasBought] =
-		React.useState<boolean>(false);
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	const [
+		isCheckedCustomerWasBought,
+		setIsCheckedCustomerWasBought,
+	] = React.useState<boolean>(false);
+
+	const [openListVideo, setOpenListVideo] =
+		React.useState(false);
+
+	const handleClickOpenListVideo = () => {
+		setOpenListVideo(true);
+	};
+
+	const handleCloseListVideo = () => {
+		setOpenListVideo(false);
+	};
+
+	const handleChange = (
+		event: React.SyntheticEvent,
+		newValue: number
+	) => {
 		setValue(newValue);
 	};
 
-	const handleClickOpen = (scrollType: DialogProps['scroll']) => () => {
-		setOpen(true);
-		setScroll(scrollType);
-		handleChangeCart({
-			id,
-			title,
-			description,
-			thumbnailUrl,
-			newPrice,
-		});
-	};
+	const handleClickOpen =
+		(scrollType: DialogProps['scroll']) => () => {
+			setOpen(true);
+			setScroll(scrollType);
+			handleChangeCart({
+				id,
+				title,
+				description,
+				thumbnailUrl,
+				newPrice,
+			});
+		};
 
 	const handleClose = () => {
 		setOpen(false);
@@ -84,10 +121,16 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 		if (isChecked && user?.email) {
 			const isCheckedCustomerWasBought = async () => {
 				const courseId = parseInt(
-					window.location.search.slice(window.location.search.indexOf('=') + 1)
+					window.location.search.slice(
+						window.location.search.indexOf('=') + 1
+					)
 				);
+
 				const email = user?.email;
-				const found = await apis.payment.getOrdersBySlug(courseId, email);
+				const found = await apis.payment.getOrdersBySlug(
+					courseId,
+					email
+				);
 				const { data, status } = await found;
 				if (status === 200 && data !== undefined) {
 					setIsCheckedCustomerWasBought(true);
@@ -101,9 +144,11 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 			isChecked = false;
 		};
 	}, [user?.email]);
+
 	React.useEffect(() => {
 		if (open) {
-			const { current: descriptionElement } = descriptionElementRef;
+			const { current: descriptionElement } =
+				descriptionElementRef;
 			if (descriptionElement !== null) {
 				descriptionElement.focus();
 			}
@@ -114,7 +159,45 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 		<>
 			<section className="section container courses__content">
 				<div className="container__background">
-					<BreadcrumbsForm course={'course'} title={'Full Stack'} />
+					<BreadcrumbsForm
+						course={'course'}
+						title={'Full Stack'}
+					/>
+
+					<Dialog
+						fullScreen
+						open={openListVideo}
+						onClose={handleCloseListVideo}
+						TransitionComponent={Transition}
+					>
+						<AppBar sx={{ position: 'relative' }}>
+							<Toolbar>
+								<IconButton
+									edge="start"
+									color="inherit"
+									onClick={handleCloseListVideo}
+									aria-label="close"
+								>
+									<CloseIcon />
+								</IconButton>
+								<Typography
+									sx={{ ml: 2, flex: 1 }}
+									variant="h6"
+									component="div"
+								>
+									Sound
+								</Typography>
+								<Button
+									autoFocus
+									color="inherit"
+									onClick={handleCloseListVideo}
+								>
+									save
+								</Button>
+							</Toolbar>
+						</AppBar>
+						<YouTube />
+					</Dialog>
 
 					{props.course.id || isCheckedCustomerWasBought ? (
 						<>
@@ -141,7 +224,7 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 									</ListItem>
 
 									{isCheckedCustomerWasBought ? (
-										<button>
+										<button onClick={handleClickOpenListVideo}>
 											<span>Watch</span>
 											<span>Starts Nov 30</span>
 										</button>
@@ -222,7 +305,9 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 									</div>
 									<div className="content">
 										<h3>Flexible deadlines</h3>
-										<p>Reset deadlines in accordance to your schedule.</p>
+										<p>
+											Reset deadlines in accordance to your schedule.
+										</p>
 									</div>
 								</li>
 
@@ -242,7 +327,9 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 									</div>
 									<div className="content">
 										<h3>100% online</h3>
-										<p>Start instantly and learn at your own schedule</p>
+										<p>
+											Start instantly and learn at your own schedule
+										</p>
 									</div>
 								</li>
 
@@ -271,8 +358,9 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 									<div className="content">
 										<h3>English</h3>
 										<p>
-											Subtitles: Arabic, French, Portuguese (European), Italian,
-											Vietnamese, German, Russian, English, Spanish
+											Subtitles: Arabic, French, Portuguese (European),
+											Italian, Vietnamese, German, Russian, English,
+											Spanish
 										</p>
 									</div>
 								</li>
@@ -311,7 +399,12 @@ const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 					<TabPanelFaq faq={faq} />
 				</TabPanel>
 				<ImageListItem>
-					<img src={mainLogo} width="100%" height="100%" loading="lazy" />
+					<img
+						src={mainLogo}
+						width="100%"
+						height="100%"
+						loading="lazy"
+					/>
 				</ImageListItem>
 			</section>
 		</>

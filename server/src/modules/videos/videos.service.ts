@@ -27,7 +27,7 @@ export class VideosService {
 
   async findAll(id: number) {
     try {
-      console.log(`This action returns all #${id} video`);
+      this.logger.log(`This action returns all #${id} video`);
       const response = await this.videosRepository.find({
         where: {
           course: {
@@ -40,7 +40,7 @@ export class VideosService {
       });
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
     }
   }
 
@@ -63,7 +63,7 @@ export class VideosService {
 
       return url;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -74,13 +74,14 @@ export class VideosService {
         "C:/Users/Thinh/Desktop/ecommerce_exe_app/ecommerce_desktop_app/server/src/modules/videos/entity/314991201_6440002129365721_7220200907466328562_n.mp4";
       return fs.statSync(path).size;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       return undefined;
     }
   }
+
   async findOne(id: number) {
     try {
-      console.log(`This action returns a #${id} video`);
+      this.logger.log(`This action returns a #${id} video`);
       const response = await this.videosRepository.findOneBy({ id: id });
 
       if (!response) {
@@ -91,7 +92,7 @@ export class VideosService {
 
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -100,7 +101,7 @@ export class VideosService {
     try {
       return fs.createReadStream(path, { start, end });
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -145,7 +146,7 @@ export class VideosService {
 
   async remove(id: number) {
     try {
-      console.log(`This action removes a #${id} video`);
+      this.logger.log(`This action removes a #${id} video`);
       const response = await this.videosRepository.delete({ id: id });
 
       if (!response.affected) {
@@ -154,7 +155,7 @@ export class VideosService {
 
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }

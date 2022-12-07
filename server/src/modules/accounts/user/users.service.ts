@@ -108,18 +108,21 @@ export class UsersService {
       page,
       status,
     });
+    let isStatus;
+    status !== "false" ? (isStatus = "active") : (isStatus = "banned");
+
     try {
       this.logger.log(`Start ban user in Accounts Entities #id: ${_id}`);
-      const user = await this.accountsRepository.findOneBy({ id: _id });
-      if (!user.id) {
-        throw new NotFoundException("The user is not found");
-      }
-
       this.logger.log(`Update user`);
-      user.status = status ? "active" : "banned";
-      await this.accountsRepository.save(user);
+      const user = await this.dataSource
+        .createQueryBuilder()
+        .update(Accounts)
+        .set({
+          status: isStatus,
+        })
+        .where("id = :id", { id: _id })
+        .execute();
       this.logger.log(`Ban user in Accounts Entities #id: ${_id}`);
-
       this.logger.log(`Start getUsers`);
       const response = await this.findAll({ page: page });
       this.logger.log("Response successfully from Accounts Entities");

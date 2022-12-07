@@ -8,12 +8,16 @@ export const getProductByLimit = async (_limit: number) => {
 };
 
 export const find = async () => {
-	const response = await axios.get('http://localhost:33714/courses/');
+	const response = await axios.get(
+		'http://localhost:33714/courses/'
+	);
 	return response;
 };
 
 export const findOne = async (id: string) => {
-	console.log(`http://localhost:33714/courses/courseById${id}`);
+	console.log(
+		`http://localhost:33714/courses/courseById${id}`
+	);
 
 	const response = await axios.get(
 		`http://localhost:33714/courses/courseById${id}`
@@ -21,7 +25,18 @@ export const findOne = async (id: string) => {
 	return response;
 };
 
-export const findAllByCoursesBought = async (_email: string | undefined) => {
+export const getVideosByCourseId = async (
+	courseId: number
+) => {
+	const response = await axios.get(
+		`http://localhost:33714/videos/${courseId}`
+	);
+	return response;
+};
+
+export const findAllByCoursesBought = async (
+	_email: string | undefined
+) => {
 	const response = await axios.get(
 		`http://localhost:33714/orders/payment/${_email}`
 	);

@@ -85,3 +85,12 @@ export interface IFAQ {
 	title: string;
 	description: string;
 }
+
+export interface IVideo {
+	createdDate: string;
+	title: string;
+	description: string;
+	id: number;
+	thumbanailUrl: string;
+	videoUrl: string;
+}

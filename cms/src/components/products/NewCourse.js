@@ -1,4 +1,6 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
 import React from 'react';
 import * as apis from '../../apis/apis';
 import Iconify from '../iconify/Iconify';
@@ -12,6 +14,14 @@ export default function NewCourse(props) {
   const [oldPrice, setOldPrice] = React.useState(null);
   const [newPrice, setNewPrice] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [age, setAge] = React.useState([]);
+  const [category, setCategory] = React.useState(null);
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+
   const handleChangeTitle = (event) => {
     setTitle(event.target.value);
   };
@@ -54,6 +64,23 @@ export default function NewCourse(props) {
     setOpen(false);
   };
 
+
+  React.useEffect(() => {
+    let isChecked = true;
+    if (isChecked) {
+      const fetchData = async () => {
+        const res = await apis.categorys.find();
+        const { data, status } = res;
+        setAge(data);
+      }
+
+      fetchData();
+    }
+
+    return () => {
+      isChecked = false;
+    }
+  }, [open])
   return (
     <>
       <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleClickOpen}>
@@ -99,7 +126,27 @@ export default function NewCourse(props) {
             id="fullWidth"
             onChange={(event) => handleChangeNewPrice(event)}
           />
+
+          <Select
+            labelId="demo-select-small"
+            id="demo-select-small"
+            value={category}
+            label="Category"
+            fullWidth
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+
+            {
+              age.length > 0 ?
+                age.map((node) => <MenuItem key={node.id} value={node.id}>{node.name}</MenuItem>) : null
+            }
+          </Select>
         </DialogContent>
+
+
         <DialogActions>
           <Button onClick={() => handleClose(false)}>Cancel</Button>
           <Button onClick={() => handleClose(true)}>Add</Button>

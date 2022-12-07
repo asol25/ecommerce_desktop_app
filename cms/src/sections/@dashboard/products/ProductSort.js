@@ -16,7 +16,6 @@ const SORT_BY_OPTIONS = [
 export default function ShopProductSort({ handleSort }) {
   const [selectedSort, setSelectedSort] = useState(SORT_BY_OPTIONS[0].label);
 
-
   const [open, setOpen] = useState(null);
   const caseSortProducts = {
     featured: "featured",

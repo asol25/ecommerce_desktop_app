@@ -9,6 +9,8 @@ import { CreateCourseDto } from "./dto/create-course.dto";
 import { Courses } from "./entity/courses.entity";
 import { VideosService } from "../videos/videos.service";
 import { CreateAnalyticDto } from "../analytic/dto/create-analytic.dto";
+import { Rating } from "../ratings/entity/rating.entity";
+import { RatingService } from "../ratings/rating.service";
 
 @Injectable()
 export class CoursesService {
@@ -17,7 +19,7 @@ export class CoursesService {
     @InjectRepository(Courses)
     private coursesRepository: Repository<Courses>,
     private analyticService: AnalyticsService,
-    private videosService: VideosService,
+    private ratingService: RatingService,
   ) {
     this.logger = new Logger(CoursesService.name);
   }
@@ -108,6 +110,7 @@ export class CoursesService {
 
       let isCheckedSaveCourse: Courses;
       let isCheckedSaveAnalytic: Analytic;
+      let isCheckedSaveRating: Rating;
 
       isCheckedSaveCourse = await this.saveCourse(
         newCourse,
@@ -131,6 +134,8 @@ export class CoursesService {
 
       isCheckedSaveAnalytic.course =
         isCheckedSaveCourse.id as unknown as Courses;
+
+      isCheckedSaveCourse.rating = isCheckedSaveRating.id as unknown as Rating;
 
       await this.coursesRepository.save(isCheckedSaveCourse);
       await this.analyticService
@@ -174,7 +179,19 @@ export class CoursesService {
     return isCheckedSave;
   }
 
-  exceptionFalseSave(isCheckedSave: Courses | Analytic) {
+  async saveRating(newObject: Rating, isCheckedSave: Rating) {
+    newObject.flag = 0;
+    newObject.love = 0;
+    newObject.star = 0;
+    newObject.like = 0;
+    isCheckedSave = await this.ratingService
+      .getRatingResponse()
+      .save(newObject);
+    this.exceptionFalseSave(isCheckedSave);
+    return isCheckedSave;
+  }
+
+  exceptionFalseSave(isCheckedSave: Courses | Analytic | Rating) {
     if (
       Object.keys(isCheckedSave).length === 0 &&
       isCheckedSave.constructor === Object

@@ -111,6 +111,7 @@ export default function UserPage() {
   }, [page]);
 
   const handleOpenMenu = (event, id, isCheckedBannedOrActive) => {
+    console.log(isCheckedBannedOrActive);
     setIsCheckedBannedOrActive(isCheckedBannedOrActive);
     setKeyRow(id);
     setOpen(event.currentTarget);

@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button, Typography } from '@mui/material';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import Alert from '@mui/material/Alert'
 import Iconify from '../iconify';
 import storage from '../../apis/firebaseConfig';
 import * as apis from '../../apis/apis';
+import * as validate from '../../_mock/validation';
 
 export default function NewVideos(props) {
   const [open, setOpen] = React.useState(false);
@@ -12,7 +14,7 @@ export default function NewVideos(props) {
   const [videoUrl, setVideoUrl] = React.useState('');
   const [videoThumbnail, setVideoThumbnail] = React.useState('');
   const [percent, setPercent] = React.useState(0);
-
+  const [errors, setErrors] = React.useState(false);
   const thumbnailRef = `/files/images/`;
   const videoRef = `/files/videos/`;
 
@@ -60,6 +62,33 @@ export default function NewVideos(props) {
   };
 
   const handleClose = async (status) => {
+    if (status === false) {
+      setOpen(false);
+      setErrors(false);
+      return;
+    }
+
+    if (!validate.validStringLimit.test(title)) {
+      setErrors('Title invalid limit 5 to 50 character')
+      return;
+    }
+
+    if (!validate.validStringLimit.test(description)) {
+      setErrors('Title invalid limit 5 to 50 character')
+      return;
+    }
+
+    if (videoUrl === undefined || videoUrl === null || videoUrl === '') {
+      setErrors('Must provide a video')
+      return;
+    }
+
+    if (videoThumbnail === undefined || videoUrl === null || videoUrl === '') {
+      setErrors('Must provide a image of video');
+      return;
+    }
+
+    setErrors('');
     if (status) {
       await apis.videos.createVideo({ title, description, videoThumbnail, videoUrl }, props.courseId);
     }
@@ -67,11 +96,17 @@ export default function NewVideos(props) {
   };
   return (
     <>
+      {
+        errors ? <Alert variant="outlined" severity="error" sx={{ marginRight: "20px" }}>
+          {errors}
+        </Alert> : null
+      }
+
       <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleClickOpen}>
         New Courses
       </Button>
-
       <Dialog open={open} onClose={handleClose} fullWidth>
+
         <DialogTitle>New Course</DialogTitle>
         <DialogContent sx={{ py: 3 }}>
           {percent ? <Typography>progress: {percent}%</Typography> : null}
