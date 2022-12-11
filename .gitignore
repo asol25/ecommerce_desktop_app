@@ -299,7 +299,7 @@ FakesAssemblies/
 .ntvs_analysis.dat
 node_modules/
 src/app.module.ts
-.evn
+.env
 # Typescript v1 declaration files
 typings/
 
