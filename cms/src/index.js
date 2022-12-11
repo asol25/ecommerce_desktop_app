@@ -17,7 +17,7 @@ root.render(
   <Auth0Provider
     domain={"dev-i3evj9rk.us.auth0.com"}
     clientId={"KcGx7uqt2ZapLK6f8rtlnRs87k55ZMrT"}
-    redirectUri={`http://localhost:3006/dashboard/app`}
+    redirectUri={`${window.location.origin}/dashboard/app`}
   >
     <HelmetProvider>
       <BrowserRouter>
