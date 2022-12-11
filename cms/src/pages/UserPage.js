@@ -196,7 +196,7 @@ export default function UserPage() {
 
 
 
-      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") && <>
+      {(isAuthenticated && user.email === (process.env.EMAIL || "usool.203@gmail.com")) && <>
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>

@@ -145,7 +145,7 @@ export default function ProductsPage() {
 
 
 
-      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") && <>
+      {(isAuthenticated && user.email === (process.env.EMAIL || "usool.203@gmail.com")) && <>
         <Container>
           <Typography variant="h4" sx={{ mb: 5 }}>
             Courses
