@@ -12,6 +12,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import * as fs from "fs";
 import { Analytic } from "../analytic/entity/analytic.entity";
+
 @Injectable()
 export class VideosService {
   logger: Logger;
@@ -27,8 +28,12 @@ export class VideosService {
 
   async findAll(id: number) {
     try {
-      console.log(`This action returns all #${id} video`);
+      this.logger.log(`This action returns all #${id} video`);
       const response = await this.videosRepository.find({
+        relations: {
+          analytic: true,
+          comments: true,
+        },
         where: {
           course: {
             id: id,
@@ -40,8 +45,16 @@ export class VideosService {
       });
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
     }
+  }
+
+  async incrementVideoViewCount(videoId: number) {
+    const video = await this.videosRepository.findOneBy({ id: videoId });
+    if (video) {
+      video.views = video.views + 1;
+    }
+    return await this.videosRepository.save(video);
   }
 
   async getVideoPathById(id: string): Promise<string> {
@@ -63,7 +76,7 @@ export class VideosService {
 
       return url;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -74,13 +87,14 @@ export class VideosService {
         "C:/Users/Thinh/Desktop/ecommerce_exe_app/ecommerce_desktop_app/server/src/modules/videos/entity/314991201_6440002129365721_7220200907466328562_n.mp4";
       return fs.statSync(path).size;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       return undefined;
     }
   }
+
   async findOne(id: number) {
     try {
-      console.log(`This action returns a #${id} video`);
+      this.logger.log(`This action returns a #${id} video`);
       const response = await this.videosRepository.findOneBy({ id: id });
 
       if (!response) {
@@ -91,7 +105,7 @@ export class VideosService {
 
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -100,7 +114,7 @@ export class VideosService {
     try {
       return fs.createReadStream(path, { start, end });
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
@@ -145,7 +159,7 @@ export class VideosService {
 
   async remove(id: number) {
     try {
-      console.log(`This action removes a #${id} video`);
+      this.logger.log(`This action removes a #${id} video`);
       const response = await this.videosRepository.delete({ id: id });
 
       if (!response.affected) {
@@ -154,12 +168,22 @@ export class VideosService {
 
       return response;
     } catch (error) {
-      console.error(error.message);
+      this.logger.error(error.message);
       throw error;
     }
   }
 
   getVideosRepository() {
     return this.videosRepository;
+  }
+
+  async updateLikeVideo(videoId: number) {
+    const video = await this.videosRepository.findOneBy({ id: videoId });
+    if (video) {
+      video.like = video.like + 1;
+    }
+
+    await this.videosRepository.save(video);
+    return video;
   }
 }

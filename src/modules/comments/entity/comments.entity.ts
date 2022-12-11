@@ -1,16 +1,15 @@
-import { Accounts } from "./../../accounts/entity/accounts.entity";
-import { Videos } from "./../../videos/entity/video.entity";
 import {
+  BaseEntity,
   Column,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Analytic } from "src/modules/analytic/entity/analytic.entity";
+import { Accounts } from "./../../accounts/entity/accounts.entity";
+import { Videos } from "./../../videos/entity/video.entity";
 
 @Entity()
-export class Comments {
+export class Comments extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

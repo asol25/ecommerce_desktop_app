@@ -29,8 +29,6 @@ export class CreateCourseDto {
   readonly newPrice: number;
 
   @ApiProperty()
-  readonly analytic: CreateAnalyticDto;
-
-  @ApiProperty()
-  readonly videos: CreateVideoDto[];
+  @IsNumber()
+  readonly category: number;
 }

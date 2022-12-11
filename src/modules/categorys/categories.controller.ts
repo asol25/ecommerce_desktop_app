@@ -1,4 +1,3 @@
-import { Categories } from "./type";
 import { CategoriesService } from "./categories.service";
 import { Controller, Get, Param, Post } from "@nestjs/common";
 
@@ -7,7 +6,7 @@ export class CategoriesController {
   constructor(private categoryServices: CategoriesService) {}
 
   @Get()
-  async findAll(): Promise<Categories[]> {
+  async findAll() {
     return await this.categoryServices.find();
   }
 

@@ -24,6 +24,21 @@ export class UsersService {
     this.logger = new Logger(UsersService.name);
   }
 
+  async login(_user): Promise<Accounts> {
+    try {
+      const user = await this.accountsRepository.findOneBy({
+        email: _user.email,
+        password: _user.password,
+      });
+
+      if (!user)
+        throw new NotFoundException(`The user does not exist #${+user}`);
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
+
   async findAll({ page }): Promise<Accounts[]> {
     this.logger.log("Param", {
       page,
@@ -108,18 +123,21 @@ export class UsersService {
       page,
       status,
     });
+    let isStatus;
+    status !== "false" ? (isStatus = "active") : (isStatus = "banned");
+
     try {
       this.logger.log(`Start ban user in Accounts Entities #id: ${_id}`);
-      const user = await this.accountsRepository.findOneBy({ id: _id });
-      if (!user.id) {
-        throw new NotFoundException("The user is not found");
-      }
-
       this.logger.log(`Update user`);
-      user.status = status ? "active" : "banned";
-      await this.accountsRepository.save(user);
+      const user = await this.dataSource
+        .createQueryBuilder()
+        .update(Accounts)
+        .set({
+          status: isStatus,
+        })
+        .where("id = :id", { id: _id })
+        .execute();
       this.logger.log(`Ban user in Accounts Entities #id: ${_id}`);
-
       this.logger.log(`Start getUsers`);
       const response = await this.findAll({ page: page });
       this.logger.log("Response successfully from Accounts Entities");
@@ -161,7 +179,7 @@ export class UsersService {
 
       this.logger.log("User not exist");
       const newRow = this.accountsRepository.create({
-        username: username || given_name,
+        username: username || given_name || email,
         password: password,
         email: email,
         verified: verified || email_verified,
@@ -185,9 +203,7 @@ export class UsersService {
 
       this.logger.log("Start found users");
       const found = await this.findAll({ page: page });
-      this.logger.log("The Result is already response: ", {
-        found,
-      });
+      this.logger.log("The Result is already response: ");
       return found;
     } catch (error) {
       this.logger.error(error);

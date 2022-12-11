@@ -1,27 +1,34 @@
-import { CoursesService } from './../courses/courses.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Rating } from './entity/rating.entity';
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { Rating } from "./entity/rating.entity";
 
 @Injectable()
 export class RatingService {
-    constructor(
-        @InjectRepository(Rating)
-        private ratingRepository: Repository<Rating>,
-        private coursesService: CoursesService,
-    ) { }
+  constructor(
+    @InjectRepository(Rating)
+    private ratingRepository: Repository<Rating>,
+  ) {}
 
-    async getRatingForCourse(id: number) {
-        try {
-            const response = await this.ratingRepository.findOneBy({ id: id });
-            if (!response)
-                throw new NotFoundException(`the action getRatingForCourse #${id} invalid`);
+  getRatingResponse() {
+    return this.ratingRepository;
+  }
 
-            return response;
-        } catch (error) {
-            console.error(error.message);
-            throw error;
-        }
+  async getRatingForCourse(id: number) {
+    try {
+      const response = await this.ratingRepository.findOneBy({ id: id });
+      if (!response)
+        throw new NotFoundException(
+          `the action getRatingForCourse #${id} invalid`,
+        );
+
+      return response;
+    } catch (error) {
+      console.error(error.message);
+      throw error;
     }
+  }
+}
+function forwardRef(arg0: () => typeof RatingService): any {
+  throw new Error("Function not implemented.");
 }

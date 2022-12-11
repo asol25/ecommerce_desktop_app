@@ -23,6 +23,15 @@ export class UserController {
     return await this.usersService.getCountUsers();
   }
 
+  @Post("login")
+  login(@Body() body) {
+    console.log(
+      "🚀 ~ file: user.controller.ts:28 ~ UserController ~ login ~ body",
+      body,
+    );
+    return this.usersService.login(body);
+  }
+
   @Get(":page")
   async findAll(@Param() params) {
     this.logger.log("GET :page", { params });
