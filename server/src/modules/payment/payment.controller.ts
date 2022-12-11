@@ -30,7 +30,7 @@ export class PaymentController {
     let tmnCode = "Z3SF12JH";
     let secretKey = "KXSRPFCZENOOUEEVZOCHSGOOIONAHSGO";
     let vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    let returnUrl = "http://localhost:3000/payment/checkout/";
+    let returnUrl = `${process.env.PAYMENT_CALLBACK_URL}/payment/checkout/`;
 
     let time = moment().format("YYYYMMDDHHmmss");
 
