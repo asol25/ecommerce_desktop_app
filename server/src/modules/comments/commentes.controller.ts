@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
 import { CommencesService } from "./commentes.service";
 import { Comments } from "./entity/comments.entity";
 
@@ -10,5 +10,13 @@ export class CommencesController {
   async getComments(@Param() params): Promise<Comments[]> {
     const { id } = params;
     return await this.commentsService.getComments(id);
+  }
+
+  @Post("create/:videoId")
+  async createComment(@Param() params, @Body() comment) {
+    const { videoId } = params;
+    const { userId, message } = comment.options;
+    console.log({ videoId, userId, message });
+    return this.commentsService.createComment(videoId, message, userId);
   }
 }

@@ -1,4 +1,5 @@
 import ReactDOM from 'react-dom/client';
+import { Auth0Provider } from "@auth0/auth0-react";
 import { BrowserRouter } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 
@@ -12,11 +13,19 @@ import reportWebVitals from './reportWebVitals';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-  <HelmetProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </HelmetProvider>
+
+  <Auth0Provider
+    domain={"dev-i3evj9rk.us.auth0.com"}
+    clientId={"KcGx7uqt2ZapLK6f8rtlnRs87k55ZMrT"}
+    redirectUri={`http://localhost:3006/dashboard/app`}
+  >
+    <HelmetProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HelmetProvider >
+  </Auth0Provider>,
+
 );
 
 // If you want to enable client cache, register instead.

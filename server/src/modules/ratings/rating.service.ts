@@ -1,5 +1,4 @@
-import { CoursesService } from "./../courses/courses.service";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Rating } from "./entity/rating.entity";
@@ -9,8 +8,11 @@ export class RatingService {
   constructor(
     @InjectRepository(Rating)
     private ratingRepository: Repository<Rating>,
-    private coursesService: CoursesService,
   ) {}
+
+  getRatingResponse() {
+    return this.ratingRepository;
+  }
 
   async getRatingForCourse(id: number) {
     try {
@@ -26,8 +28,7 @@ export class RatingService {
       throw error;
     }
   }
-
-  getRatingResponse() {
-    return this.ratingRepository;
-  }
+}
+function forwardRef(arg0: () => typeof RatingService): any {
+  throw new Error("Function not implemented.");
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useAuth0 } from "@auth0/auth0-react";
+
 // @mui
 import { Container, Grid, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -14,6 +16,7 @@ import {
 // ----------------------------------------------------------------------
 
 export default function DashboardAppPage() {
+  const { isAuthenticated, user } = useAuth0();
   const [chartLabelsFlowMonth, setChartLabelsFlowMonth] = React.useState([]);
   const [chartLabelsFlowYear, setChartLabelsFlowYear] = React.useState([]);
 
@@ -77,7 +80,8 @@ export default function DashboardAppPage() {
       <Helmet>
         <title> Dashboard | Minimal UI </title>
       </Helmet>
-      <Container maxWidth="xl">
+
+      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") ? <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
@@ -231,7 +235,10 @@ export default function DashboardAppPage() {
             />
           </Grid>
         </Grid>
-      </Container>
+      </Container> : <>
+        <h1>You login invalid</h1>
+        <p>Please login incorrect account to using CMS Dashboard</p>
+      </>}
     </>
   );
 }

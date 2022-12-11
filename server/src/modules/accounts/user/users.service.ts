@@ -24,6 +24,21 @@ export class UsersService {
     this.logger = new Logger(UsersService.name);
   }
 
+  async login(_user): Promise<Accounts> {
+    try {
+      const user = await this.accountsRepository.findOneBy({
+        email: _user.email,
+        password: _user.password,
+      });
+
+      if (!user)
+        throw new NotFoundException(`The user does not exist #${+user}`);
+      return user;
+    } catch (error) {
+      this.logger.error(error);
+    }
+  }
+
   async findAll({ page }): Promise<Accounts[]> {
     this.logger.log("Param", {
       page,
@@ -164,7 +179,7 @@ export class UsersService {
 
       this.logger.log("User not exist");
       const newRow = this.accountsRepository.create({
-        username: username || given_name,
+        username: username || given_name || email,
         password: password,
         email: email,
         verified: verified || email_verified,
@@ -188,9 +203,7 @@ export class UsersService {
 
       this.logger.log("Start found users");
       const found = await this.findAll({ page: page });
-      this.logger.log("The Result is already response: ", {
-        found,
-      });
+      this.logger.log("The Result is already response: ");
       return found;
     } catch (error) {
       this.logger.error(error);

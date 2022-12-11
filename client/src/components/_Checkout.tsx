@@ -42,16 +42,21 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 	const { user } = useAuth0();
 	const products = JSON.parse(localStorage.getItem('items') || '{}');
 
+	React.useEffect(() => {
+		let isChecked = true;
+		if (isChecked) {
+			setVnpAmount(Number(products.newPrice));
+		}
+	}, []);
+
 	function getStepContent(step: number) {
 		switch (step) {
 			case 0:
 				return <AddressForm />;
 			case 1:
-				return (
-					<PaymentForm Banking={vnp_BankCode} onHandleSetBanking={setBankCode} />
-				);
+				return <PaymentForm Banking={vnp_BankCode} onHandleSetBanking={setBankCode} />;
 			case 2:
-				return <ReviewForm products={products} onHandleAmount={setVnpAmount} />;
+				return <ReviewForm products={products} />;
 			default:
 				throw new Error('Unknown step');
 		}
@@ -60,7 +65,7 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 	React.useEffect(() => {
 		let isChecked = true;
 		if (isChecked && user?.name && products.id) {
-			if (activeStep === 3) {
+			if (activeStep === 2) {
 				const fetchData = async () => {
 					const res = await apis.payment.requestPayment({
 						vnp_Amount,
@@ -81,11 +86,7 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 				};
 				fetchData();
 			}
-			if (
-				window.location.search.includes('vnp_ResponseCode=00') &&
-				user?.name &&
-				products.id
-			) {
+			if (window.location.search.includes('vnp_ResponseCode=00') && user?.name && products.id) {
 				apis.user
 					.getUser(user?.name)
 					.then((value) => value)
@@ -94,12 +95,10 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 							accountsId: value.data[0].id,
 							coursesId: products.id,
 						});
-
-						const { data, status } = await res;
-						if (data !== undefined && status === 200) {
-							setActiveStep(3);
-						}
+						setActiveStep(3);
 					});
+			} else if (window.location.search.includes('vnp_ResponseCode')) {
+				setActiveStep(3);
 			}
 		}
 
@@ -144,10 +143,15 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 									Thank you for your order.
 								</Typography>
 								<Typography variant="subtitle1">
-									Your order number is #{vnp_TxnRef}. We have emailed your order
-									confirmation, and will send you an update when your order has shipped.
+									{window.location.search.includes('vnp_ResponseCode=00')
+										? `Your order number is #{vnp_TxnRef}. We
+									have emailed your order confirmation, and
+									will send you an update when your order
+									has shipped.`
+										: `Your order number is #${vnp_TxnRef}. The
+									process payment have error please try
+									again.`}
 								</Typography>
-								<a href={redirectUri}>Click Here To Payment</a>
 							</React.Fragment>
 						) : (
 							<React.Fragment>
@@ -164,7 +168,11 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 										</Button>
 									)}
 									<Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>
-										{activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+										{activeStep === steps.length - 1 ? (
+											<a href={redirectUri}>Click Here To Payment</a>
+										) : (
+											'Next'
+										)}
 									</Button>
 								</Box>
 							</React.Fragment>
@@ -177,6 +185,3 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 };
 
 export default Checkout;
-function moment(dateTo: any) {
-	throw new Error('Function not implemented.');
-}

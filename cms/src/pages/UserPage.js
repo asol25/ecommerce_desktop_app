@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+
 // @mui
 import {
   Card,
@@ -72,6 +74,8 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function UserPage() {
+  const { isAuthenticated, user } = useAuth0();
+
   const [keyRow, setKeyRow] = useState();
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);
@@ -110,8 +114,10 @@ export default function UserPage() {
     };
   }, [page]);
 
-  const handleOpenMenu = (event, id, isCheckedBannedOrActive) => {
-    console.log(isCheckedBannedOrActive);
+  const handleOpenMenu = (event, id, isCheckedBannedOrActive, email) => {
+    if (email === (process.env.EMAIL || "usool.203@gmail.com")) {
+      return;
+    }
     setIsCheckedBannedOrActive(isCheckedBannedOrActive);
     setKeyRow(id);
     setOpen(event.currentTarget);
@@ -188,156 +194,159 @@ export default function UserPage() {
         <title> User | Minimal UI </title>
       </Helmet>
 
-      <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            User
-          </Typography>
-          <NewUser handleSetUser={setUsers} page={page} />
-        </Stack>
 
-        <Card>
-          <UserListToolbar
-            numSelected={selected.length}
-            filterusername={filterusername}
-            onFilterusername={handleFilterByusername}
-          />
-          <Scrollbar>
-            <TableContainer sx={{ minWidth: 800 }}>
-              <Table>
-                <UserListHead
-                  order={order}
-                  orderBy={orderBy}
-                  headLabel={TABLE_HEAD}
-                  rowCount={users.length}
-                  numSelected={selected.length}
-                  onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
-                />
-                <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, username, password, email, verified, status } = row;
-                    const selectedUser = selected.indexOf(username) !== -1;
-                    return (
-                      <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, username)} />
-                        </TableCell>
 
-                        <TableCell component="th" scope="row" padding="none">
-                          <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={username} src={avatarUrl} /> */}
-                            <Typography variant="subtitle2" noWrap>
-                              {username}
-                            </Typography>
-                          </Stack>
-                        </TableCell>
+      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") && <>
+        <Container>
+          <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+            <Typography variant="h4" gutterBottom>
+              User
+            </Typography>
+            <NewUser handleSetUser={setUsers} page={page} />
+          </Stack>
+          <Card>
+            <UserListToolbar
+              numSelected={selected.length}
+              filterusername={filterusername}
+              onFilterusername={handleFilterByusername}
+            />
+            <Scrollbar>
+              <TableContainer sx={{ minWidth: 800 }}>
+                <Table>
+                  <UserListHead
+                    order={order}
+                    orderBy={orderBy}
+                    headLabel={TABLE_HEAD}
+                    rowCount={users.length}
+                    numSelected={selected.length}
+                    onRequestSort={handleRequestSort}
+                    onSelectAllClick={handleSelectAllClick}
+                  />
+                  <TableBody>
+                    {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                      const { id, username, password, email, verified, status } = row;
+                      const selectedUser = selected.indexOf(username) !== -1;
+                      return (
+                        <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                          <TableCell padding="checkbox">
+                            <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, username)} />
+                          </TableCell>
 
-                        <TableCell align="left">{password}</TableCell>
+                          <TableCell component="th" scope="row" padding="none">
+                            <Stack direction="row" alignItems="center" spacing={2}>
+                              {/* <Avatar alt={username} src={avatarUrl} /> */}
+                              <Typography variant="subtitle2" noWrap>
+                                {username}
+                              </Typography>
+                            </Stack>
+                          </TableCell>
 
-                        <TableCell align="left">{email}</TableCell>
+                          <TableCell align="left">{password}</TableCell>
 
-                        <TableCell align="left">{verified ? 'Yes' : 'No'}</TableCell>
+                          <TableCell align="left">{email}</TableCell>
 
-                        <TableCell align="left">
-                          <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
-                        </TableCell>
+                          <TableCell align="left">{verified ? 'Yes' : 'No'}</TableCell>
 
-                        <TableCell align="right">
-                          <IconButton
-                            size="large"
-                            color="inherit"
-                            onClick={(event) => handleOpenMenu(event, id, status.includes('banned'))}
+                          <TableCell align="left">
+                            <Label color={(status === 'banned' && 'error') || 'success'}>{sentenceCase(status)}</Label>
+                          </TableCell>
+
+                          <TableCell align="right">
+                            <IconButton
+                              size="large"
+                              color="inherit"
+                              onClick={(event) => handleOpenMenu(event, id, status.includes('banned'), email)}
+                            >
+                              <Iconify icon={'eva:more-vertical-fill'} />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: 53 * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+
+                  {isNotFound && (
+                    <TableBody>
+                      <TableRow>
+                        <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                          <Paper
+                            sx={{
+                              textAlign: 'center',
+                            }}
                           >
-                            <Iconify icon={'eva:more-vertical-fill'} />
-                          </IconButton>
+                            <Typography variant="h6" paragraph>
+                              Not found
+                            </Typography>
+
+                            <Typography variant="body2">
+                              No results found for &nbsp;
+                              <strong>&quot;{filterusername}&quot;</strong>.
+                              <br /> Try checking for typos or using complete words.
+                            </Typography>
+                          </Paper>
                         </TableCell>
                       </TableRow>
-                    );
-                  })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
+                    </TableBody>
                   )}
-                </TableBody>
+                </Table>
+              </TableContainer>
+            </Scrollbar>
 
-                {isNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <Paper
-                          sx={{
-                            textAlign: 'center',
-                          }}
-                        >
-                          <Typography variant="h6" paragraph>
-                            Not found
-                          </Typography>
-
-                          <Typography variant="body2">
-                            No results found for &nbsp;
-                            <strong>&quot;{filterusername}&quot;</strong>.
-                            <br /> Try checking for typos or using complete words.
-                          </Typography>
-                        </Paper>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
-
-          <Popover
-            open={Boolean(open)}
-            anchorEl={open}
-            onClose={handleCloseMenu}
-            anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            PaperProps={{
-              sx: {
-                p: 1,
-                width: 140,
-                '& .MuiMenuItem-root': {
-                  px: 1,
-                  typography: 'body2',
-                  borderRadius: 0.75,
+            <Popover
+              open={Boolean(open)}
+              anchorEl={open}
+              onClose={handleCloseMenu}
+              anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              PaperProps={{
+                sx: {
+                  p: 1,
+                  width: 140,
+                  '& .MuiMenuItem-root': {
+                    px: 1,
+                    typography: 'body2',
+                    borderRadius: 0.75,
+                  },
                 },
-              },
-            }}
-          >
-            <MenuItem
-              sx={{ color: 'error.main' }}
-              onClick={() => {
-                handleDeleteById(keyRow, page);
               }}
             >
-              {isCheckedBannedOrActive ? (
-                <>
-                  <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-                  Active
-                </>
-              ) : (
-                <>
-                  <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
-                  Banned
-                </>
-              )}
-            </MenuItem>
-          </Popover>
+              <MenuItem
+                sx={{ color: 'error.main' }}
+                onClick={() => {
+                  handleDeleteById(keyRow, page);
+                }}
+              >
+                {isCheckedBannedOrActive ? (
+                  <>
+                    <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+                    Active
+                  </>
+                ) : (
+                  <>
+                    <Iconify icon={'eva:trash-2-outline'} sx={{ mr: 2 }} />
+                    Banned
+                  </>
+                )}
+              </MenuItem>
+            </Popover>
 
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={users.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </Card>
-      </Container>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25]}
+              component="div"
+              count={users.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Card>
+        </Container>
+      </>}
     </>
   );
 }

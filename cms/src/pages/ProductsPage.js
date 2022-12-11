@@ -1,6 +1,8 @@
 import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { useState, useEffect, React } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
+
 // @mui
 import { alpha, Container, InputAdornment, OutlinedInput, Stack, styled, Typography, Grid } from '@mui/material';
 // components
@@ -28,12 +30,15 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
 }));
 
 export default function ProductsPage() {
+  const { isAuthenticated, user } = useAuth0();
+
   const [products, setProducts] = useState([]);
   const [openFilter, setOpenFilter] = useState(false);
   const [filterProductCategory, setFilterCategoryOptions] = useState(null);
   const [filterProductPrice, setFilterProductPriceOptions] = useState(null);
   const [filterProductRating, setFilterProductRatingOptions] = useState(null);
   const [searchNameCourse, setSearchCourse] = useState('');
+  const [isCheckedNewCoursesSussecfuly, setIsCheckedNewCoursesSussecfuly] = useState(true);
 
   const applySortFilter = (array, price, rating, search, course) => {
     let stabilizedThis = array;
@@ -74,7 +79,7 @@ export default function ProductsPage() {
     return () => {
       isChecked = false;
     };
-  }, []);
+  }, [isCheckedNewCoursesSussecfuly]);
 
   const handleOpenFilter = () => {
     setOpenFilter(true);
@@ -138,43 +143,46 @@ export default function ProductsPage() {
         <title> Dashboard: Courses | Minimal UI </title>
       </Helmet>
 
-      <Container>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Courses
-        </Typography>
 
-        <Stack direction="row" alignItems="center" justifyContent={'space-between'}>
-          <StyledSearch
-            value={searchNameCourse}
-            onChange={handleFilterByusername}
-            placeholder="Search user..."
-            startAdornment={
-              <InputAdornment position="start">
-                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-              </InputAdornment>
-            }
-          />
-          <NewCourse />
-        </Stack>
 
-        <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
-          <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
-            <ProductFilterSidebar
-              openFilter={openFilter}
-              onOpenFilter={handleOpenFilter}
-              onCloseFilter={handleCloseFilter}
-              handleFilter={{
-                setFilterCategoryOptions,
-                setFilterProductPriceOptions,
-                setFilterProductRatingOptions,
-              }}
+      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") && <>
+        <Container>
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Courses
+          </Typography>
+          <Stack direction="row" alignItems="center" justifyContent={'space-between'}>
+            <StyledSearch
+              value={searchNameCourse}
+              onChange={handleFilterByusername}
+              placeholder="Search user..."
+              startAdornment={
+                <InputAdornment position="start">
+                  <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+                </InputAdornment>
+              }
             />
-            <ProductSort handleSort={filteredProducts} />
+            <NewCourse isCheckedNewCoursesSussecfuly={isCheckedNewCoursesSussecfuly} onChange={setIsCheckedNewCoursesSussecfuly} />
           </Stack>
-        </Stack>
 
-        <ProductList products={filterProducts} />
-      </Container>
+          <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
+            <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+              <ProductFilterSidebar
+                openFilter={openFilter}
+                onOpenFilter={handleOpenFilter}
+                onCloseFilter={handleCloseFilter}
+                handleFilter={{
+                  setFilterCategoryOptions,
+                  setFilterProductPriceOptions,
+                  setFilterProductRatingOptions,
+                }}
+              />
+              <ProductSort handleSort={filteredProducts} />
+            </Stack>
+          </Stack>
+
+          <ProductList products={filterProducts} />
+        </Container>
+      </>}
     </>
   );
 }

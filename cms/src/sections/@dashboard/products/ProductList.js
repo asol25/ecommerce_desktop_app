@@ -29,9 +29,9 @@ export default function ProductList({ products, ...other }) {
   useEffect(() => {
     let isChecked = true;
 
+    setCourseVideos([]);
     if (isChecked) {
       const fetchData = async () => {
-        console.log(`#courseId: ${courseId}`);
         const response = await apis.videos.find(courseId);
         const { data, status } = await response;
         if (status === 200) {

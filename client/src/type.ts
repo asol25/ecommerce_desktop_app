@@ -93,4 +93,12 @@ export interface IVideo {
 	id: number;
 	thumbanailUrl: string;
 	videoUrl: string;
+	like: number;
+	views: number;
+	comments: IComments[] | null;
+}
+
+export interface IComments {
+	id: number;
+	name: string;
 }

@@ -4,8 +4,10 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 
 interface IArticleProductProps {
+	id: number;
 	title: string;
 	description: string;
 	thumbnailUrl: string;
@@ -24,7 +26,9 @@ export default function ArticleCart(props: IArticleProductProps) {
 				</Typography>
 			</CardContent>
 			<CardActions>
-				<Button size="small">Watch</Button>
+				<Button size="small">
+					<Link to={`/courses?course=${props.id}`}>Watch</Link>
+				</Button>
 				<Button size="small">Report</Button>
 			</CardActions>
 		</Card>

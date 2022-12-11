@@ -21,12 +21,10 @@ export class PaymentController {
     const {
       vnp_Amount,
       vnp_BankCode,
-      vnp_IpAddr,
       vnp_Locale,
       vnp_OrderInfo,
       vnp_OrderType,
       vnp_TxnRef,
-      vnp_CreateDate,
     } = body;
 
     let tmnCode = "Z3SF12JH";
@@ -46,7 +44,8 @@ export class PaymentController {
     vnp_Params["vnp_TxnRef"] = vnp_TxnRef;
     vnp_Params["vnp_OrderInfo"] = vnp_OrderInfo;
     vnp_Params["vnp_OrderType"] = vnp_OrderType;
-    vnp_Params["vnp_Amount"] = vnp_Amount * 100;
+    vnp_Params["vnp_Amount"] = vnp_Amount * 20000 * 100;
+    console.log(vnp_Params["vnp_Amount"]);
     vnp_Params["vnp_ReturnUrl"] = returnUrl;
     vnp_Params["vnp_IpAddr"] = ipAddr;
     vnp_Params["vnp_CreateDate"] = time;

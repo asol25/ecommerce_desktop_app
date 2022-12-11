@@ -29,6 +29,12 @@ export class VideosController {
     return this.videosService.findAll(id);
   }
 
+  @Get("incrementVideoViewCount/:videoId")
+  async incrementVideoViewCount(@Param() pram) {
+    const { videoId } = pram;
+    return this.videosService.incrementVideoViewCount(videoId);
+  }
+
   @Get("courseVideo/:id")
   findOne(@Param("id") params) {
     const { id } = params;
@@ -49,5 +55,11 @@ export class VideosController {
   @Put("createVideo/:id")
   createVideo(@Param("id") id: number, @Body() createVideoDto: CreateVideoDto) {
     return this.videosService.createVideo(createVideoDto, id);
+  }
+
+  @Patch("like/:videoId")
+  updateLikeVideo(@Param() params) {
+    const { videoId } = params;
+    return this.videosService.updateLikeVideo(videoId);
   }
 }

@@ -61,8 +61,8 @@ export function NewUser({ handleSetUser, page }) {
       return;
     }
 
-    if (!validate.validPassword.test(password)) {
-      setError("Password is not valid")
+    if (password.length < 8) {
+      setError("Password is must larger then be at least 8 characters")
       return;
     }
 
@@ -83,7 +83,7 @@ export function NewUser({ handleSetUser, page }) {
         New User
       </Button>
 
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose} fullWidth>
         <DialogTitle>New User</DialogTitle>
         <DialogContent>
           {error ?

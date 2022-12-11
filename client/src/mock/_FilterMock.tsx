@@ -3,7 +3,8 @@ import { ICategories } from '../type';
 import * as apis from '../apis/apis';
 
 const FilterMock = () => {
-	const [categorys, setCategorys] = React.useState<ICategories[]>([]);
+	const [categories, setCategories] =
+		React.useState<ICategories[]>([]);
 
 	React.useEffect(() => {
 		let isChecked = true;
@@ -12,7 +13,7 @@ const FilterMock = () => {
 				const response = await apis.categorys.find();
 				const { data, status } = await response;
 				if (status === 200 && data.length > 0) {
-					setCategorys(data);
+					setCategories(data);
 				}
 			};
 
@@ -25,7 +26,7 @@ const FilterMock = () => {
 	}, []);
 
 	return {
-		categorys,
+		categories,
 	};
 };
 

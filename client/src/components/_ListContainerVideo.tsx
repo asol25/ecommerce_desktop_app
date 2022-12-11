@@ -12,9 +12,7 @@ interface MediaProps {}
 function Media(props: MediaProps) {
 	const [loading, setLoading] = React.useState(true);
 	const [index, setIndex] = React.useState<number>(0);
-	const [dataListVideo, setDataListVideo] = React.useState<
-		IVideo[]
-	>([] as unknown as IVideo[]);
+	const [dataListVideo, setDataListVideo] = React.useState<IVideo[]>([] as unknown as IVideo[]);
 
 	const handleChangeCurrVideo = (index: number) => {
 		setIndex(index);
@@ -24,14 +22,10 @@ function Media(props: MediaProps) {
 		if (isChecked) {
 			const fetchDataVideos = async () => {
 				const courseId = parseInt(
-					window.location.search.slice(
-						window.location.search.indexOf('=') + 1
-					)
+					window.location.search.slice(window.location.search.indexOf('=') + 1)
 				);
 
-				const videos = await apis.products.getVideosByCourseId(
-					courseId
-				);
+				const videos = await apis.products.getVideosByCourseId(courseId);
 
 				const { data, status } = await videos;
 
@@ -50,17 +44,15 @@ function Media(props: MediaProps) {
 	}, []);
 	return (
 		<>
-			<Grid container spacing={2}>
-				<Grid item xs={12} md={8} sx={{ my: 5 }}>
-					{loading === false ? (
-						<VideoLive video={dataListVideo[index]} />
-					) : null}
-				</Grid>
-				<Grid item xs={12} md={4}>
-					<Grid container wrap="nowrap">
-						{loading === false
-							? dataListVideo.map(
-									(item: IVideo, index: number) => (
+			{dataListVideo.length > 0 ? (
+				<Grid container spacing={2}>
+					<Grid item xs={12} md={7} sx={{ my: 5, ml: 2 }}>
+						{loading === false ? <VideoLive video={dataListVideo[index]} /> : null}
+					</Grid>
+					<Grid item xs={12} md={4}>
+						<Grid container wrap="wrap">
+							{loading === false
+								? dataListVideo.map((item: IVideo, index: number) => (
 										<Box
 											key={index}
 											sx={{
@@ -68,38 +60,31 @@ function Media(props: MediaProps) {
 												marginRight: 0.5,
 												my: 5,
 												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												flexWrap: 'wrap',
 											}}
 											onClick={() => handleChangeCurrVideo(index)}
 										>
 											{item ? (
-												<img
-													style={{ width: 210, height: 118 }}
-													alt={item.title}
-													src={item.thumbanailUrl}
-												/>
+												<img style={{ width: 210, height: 118 }} alt={item.title} src={item.thumbanailUrl} />
 											) : (
-												<Skeleton
-													variant="rectangular"
-													width={210}
-													height={118}
-												/>
+												<Skeleton variant="rectangular" width={210} height={118} />
 											)}
 											{item ? (
-												<Box sx={{ pr: 2 }}>
+												<Box
+													sx={{
+														pr: 2,
+													}}
+												>
 													<Typography gutterBottom variant="body2">
 														{item.title}
 													</Typography>
-													<Typography
-														display="block"
-														variant="caption"
-														color="text.secondary"
-													>
+													<Typography display="block" variant="caption" color="text.secondary">
 														{item.createdDate}
 													</Typography>
-													<Typography
-														variant="caption"
-														color="text.secondary"
-													>
+													<Typography variant="caption" color="text.secondary">
 														{`${item.id} • ${item.createdDate}`}
 													</Typography>
 												</Box>
@@ -110,12 +95,14 @@ function Media(props: MediaProps) {
 												</Box>
 											)}
 										</Box>
-									)
-							  )
-							: null}
+								  ))
+								: null}
+						</Grid>
 					</Grid>
 				</Grid>
-			</Grid>
+			) : (
+				<h1>Videos are updating</h1>
+			)}
 		</>
 	);
 }

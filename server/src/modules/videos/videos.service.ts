@@ -12,6 +12,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import * as fs from "fs";
 import { Analytic } from "../analytic/entity/analytic.entity";
+
 @Injectable()
 export class VideosService {
   logger: Logger;
@@ -29,6 +30,10 @@ export class VideosService {
     try {
       this.logger.log(`This action returns all #${id} video`);
       const response = await this.videosRepository.find({
+        relations: {
+          analytic: true,
+          comments: true,
+        },
         where: {
           course: {
             id: id,
@@ -42,6 +47,14 @@ export class VideosService {
     } catch (error) {
       this.logger.error(error.message);
     }
+  }
+
+  async incrementVideoViewCount(videoId: number) {
+    const video = await this.videosRepository.findOneBy({ id: videoId });
+    if (video) {
+      video.views = video.views + 1;
+    }
+    return await this.videosRepository.save(video);
   }
 
   async getVideoPathById(id: string): Promise<string> {
@@ -162,5 +175,15 @@ export class VideosService {
 
   getVideosRepository() {
     return this.videosRepository;
+  }
+
+  async updateLikeVideo(videoId: number) {
+    const video = await this.videosRepository.findOneBy({ id: videoId });
+    if (video) {
+      video.like = video.like + 1;
+    }
+
+    await this.videosRepository.save(video);
+    return video;
   }
 }

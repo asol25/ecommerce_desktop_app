@@ -108,12 +108,22 @@ a {
 img {
     max-width: 100%;
     height: auto;
+    object-fit: contain;
 }
 
 button {
     cursor: pointer;
     border: none;
     outline: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.span__login {
+    color: cornflowerblue;
+    cursor: pointer;
 }
 
 /*=============== THEME ===============*/

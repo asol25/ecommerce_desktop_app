@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useAuth0 } from "@auth0/auth0-react";
 import { Helmet } from 'react-helmet-async';
 // @mui
 import { alpha, Container, InputAdornment, OutlinedInput, styled, Typography } from '@mui/material';
@@ -26,7 +27,7 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
 export default function AnalyticPage() {
   const [analytic, setAnalytic] = useState([]);
   const [searchNameCourse, setSearchCourse] = useState('');
-
+  const { isAuthenticated, user } = useAuth0();
   const handleFilterByusername = (event) => {
     setSearchCourse(event.target.value);
   };
@@ -54,25 +55,29 @@ export default function AnalyticPage() {
         <title> Dashboard: Analytic | Minimal UI </title>
       </Helmet>
 
-      <Container sx={{ p: 3 }}>
-        <Typography variant="h4" sx={{ mb: 5 }}>
-          Analytic
-        </Typography>
 
-        <StyledSearch
-          sx={{ mb: 3 }}
-          value={searchNameCourse}
-          onChange={handleFilterByusername}
-          placeholder="Search course..."
-          startAdornment={
-            <InputAdornment position="start">
-              <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
-            </InputAdornment>
-          }
-        />
 
-        {analytic.length > 0 ? <AnalyticCourse analytic={analytic} search={searchNameCourse} /> : null}
-      </Container>
+      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") && <>
+        <Container sx={{ p: 3 }}>
+          <Typography variant="h4" sx={{ mb: 5 }}>
+            Analytic
+          </Typography>
+          <StyledSearch
+            sx={{ mb: 3 }}
+            value={searchNameCourse}
+            onChange={handleFilterByusername}
+            placeholder="Search course..."
+            startAdornment={
+              <InputAdornment position="start">
+                <Iconify icon="eva:search-fill" sx={{ color: 'text.disabled', width: 20, height: 20 }} />
+              </InputAdornment>
+            }
+          />
+
+          {analytic.length > 0 ? <AnalyticCourse analytic={analytic} search={searchNameCourse} /> : null}
+        </Container>
+      </>
+      }
     </>
   );
 }

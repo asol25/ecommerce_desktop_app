@@ -13,7 +13,7 @@ const SORT_BY_OPTIONS = [
   { value: 'priceAsc', label: 'Price: Low-High', },
 ];
 
-export default function ShopProductSort({ handleSort }) {
+export default function ShopProductSort(props) {
   const [selectedSort, setSelectedSort] = useState(SORT_BY_OPTIONS[0].label);
 
   const [open, setOpen] = useState(null);
@@ -59,7 +59,7 @@ export default function ShopProductSort({ handleSort }) {
             selected={option.value === 'A - Z'}
             onClick={() => {
               setSelectedSort(option.label);
-              handleSort(caseSortProducts, option.value)
+              props.handleSort(caseSortProducts, option.value)
             }}
             sx={{ typography: 'body2' }}
           >

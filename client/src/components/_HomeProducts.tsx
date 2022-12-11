@@ -1,10 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import CloseIcon from '@mui/icons-material/Close';
 import {
 	AppBar,
 	Avatar,
 	Box,
-	Button,
 	Chip,
 	CircularProgress,
 	DialogProps,
@@ -18,11 +18,11 @@ import {
 	Toolbar,
 	Typography,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import * as React from 'react';
+import { useLocation } from 'react-router-dom';
 import ReviewPaymentMock from '../mock/_ReviewPaymen';
 import { ICourses } from '../type';
 import * as apis from './../apis/apis';
@@ -53,9 +53,7 @@ interface TabPanelProps {
 	value: number;
 }
 
-const HomeProducts: React.FunctionComponent<
-	IHomeProductsProps
-> = (props) => {
+const HomeProducts: React.FunctionComponent<IHomeProductsProps> = (props) => {
 	const {
 		id,
 		title,
@@ -66,23 +64,17 @@ const HomeProducts: React.FunctionComponent<
 		specialization,
 		syllabus,
 		faq,
+		category,
 	} = props.course;
 	const rating = props.course.rating?.star;
 	const [open, setOpen] = React.useState(false);
-	const [scroll, setScroll] =
-		React.useState<DialogProps['scroll']>('paper');
+	const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
 	const { handleChangeCart } = ReviewPaymentMock();
-	const descriptionElementRef =
-		React.useRef<HTMLElement>(null);
+	const descriptionElementRef = React.useRef<HTMLElement>(null);
 	const [value, setValue] = React.useState(0);
 	const { user } = useAuth0();
-	const [
-		isCheckedCustomerWasBought,
-		setIsCheckedCustomerWasBought,
-	] = React.useState<boolean>(false);
-
-	const [openListVideo, setOpenListVideo] =
-		React.useState(false);
+	const [isCheckedCustomerWasBought, setIsCheckedCustomerWasBought] = React.useState<boolean>(false);
+	const [openListVideo, setOpenListVideo] = React.useState(false);
 
 	const handleClickOpenListVideo = () => {
 		setOpenListVideo(true);
@@ -92,25 +84,21 @@ const HomeProducts: React.FunctionComponent<
 		setOpenListVideo(false);
 	};
 
-	const handleChange = (
-		event: React.SyntheticEvent,
-		newValue: number
-	) => {
+	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
 
-	const handleClickOpen =
-		(scrollType: DialogProps['scroll']) => () => {
-			setOpen(true);
-			setScroll(scrollType);
-			handleChangeCart({
-				id,
-				title,
-				description,
-				thumbnailUrl,
-				newPrice,
-			});
-		};
+	const handleClickOpen = (scrollType: DialogProps['scroll']) => () => {
+		setOpen(true);
+		setScroll(scrollType);
+		handleChangeCart({
+			id,
+			title,
+			description,
+			thumbnailUrl,
+			newPrice,
+		});
+	};
 
 	const handleClose = () => {
 		setOpen(false);
@@ -120,15 +108,9 @@ const HomeProducts: React.FunctionComponent<
 		let isChecked = true;
 		if (isChecked && user?.email) {
 			const isCheckedCustomerWasBought = async () => {
-				const courseId = parseInt(
-					window.location.search.slice(
-						window.location.search.indexOf('=') + 1
-					)
-				);
-
 				const email = user?.email;
 				const found = await apis.payment.getOrdersBySlug(
-					courseId,
+					Number(window.location.search.slice(window.location.search.indexOf('=') + 1)),
 					email
 				);
 				const { data, status } = await found;
@@ -147,8 +129,7 @@ const HomeProducts: React.FunctionComponent<
 
 	React.useEffect(() => {
 		if (open) {
-			const { current: descriptionElement } =
-				descriptionElementRef;
+			const { current: descriptionElement } = descriptionElementRef;
 			if (descriptionElement !== null) {
 				descriptionElement.focus();
 			}
@@ -159,10 +140,7 @@ const HomeProducts: React.FunctionComponent<
 		<>
 			<section className="section container courses__content">
 				<div className="container__background">
-					<BreadcrumbsForm
-						course={'course'}
-						title={'Full Stack'}
-					/>
+					{category && <BreadcrumbsForm course={'Course'} title={category.name} />}
 
 					<Dialog
 						fullScreen
@@ -172,28 +150,12 @@ const HomeProducts: React.FunctionComponent<
 					>
 						<AppBar sx={{ position: 'relative' }}>
 							<Toolbar>
-								<IconButton
-									edge="start"
-									color="inherit"
-									onClick={handleCloseListVideo}
-									aria-label="close"
-								>
+								<IconButton edge="start" color="inherit" onClick={handleCloseListVideo} aria-label="close">
 									<CloseIcon />
 								</IconButton>
-								<Typography
-									sx={{ ml: 2, flex: 1 }}
-									variant="h6"
-									component="div"
-								>
-									Sound
+								<Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+									Videos
 								</Typography>
-								<Button
-									autoFocus
-									color="inherit"
-									onClick={handleCloseListVideo}
-								>
-									save
-								</Button>
 							</Toolbar>
 						</AppBar>
 						<YouTube />
@@ -203,12 +165,7 @@ const HomeProducts: React.FunctionComponent<
 						<>
 							<div className="courses_home_container">
 								<div className="courses_home_container_left">
-									<Typography
-										fontSize="32px"
-										fontWeight={700}
-										lineHeight="46px"
-										sx={{ mt: 3 }}
-									>
+									<Typography fontSize="32px" fontWeight={700} lineHeight="46px" sx={{ mt: 3 }}>
 										{title}
 									</Typography>
 									<Typography>{description}</Typography>
@@ -305,9 +262,7 @@ const HomeProducts: React.FunctionComponent<
 									</div>
 									<div className="content">
 										<h3>Flexible deadlines</h3>
-										<p>
-											Reset deadlines in accordance to your schedule.
-										</p>
+										<p>Reset deadlines in accordance to your schedule.</p>
 									</div>
 								</li>
 
@@ -327,9 +282,7 @@ const HomeProducts: React.FunctionComponent<
 									</div>
 									<div className="content">
 										<h3>100% online</h3>
-										<p>
-											Start instantly and learn at your own schedule
-										</p>
+										<p>Start instantly and learn at your own schedule</p>
 									</div>
 								</li>
 
@@ -358,9 +311,8 @@ const HomeProducts: React.FunctionComponent<
 									<div className="content">
 										<h3>English</h3>
 										<p>
-											Subtitles: Arabic, French, Portuguese (European),
-											Italian, Vietnamese, German, Russian, English,
-											Spanish
+											Subtitles: Arabic, French, Portuguese (European), Italian, Vietnamese, German, Russian,
+											English, Spanish
 										</p>
 									</div>
 								</li>
@@ -381,12 +333,7 @@ const HomeProducts: React.FunctionComponent<
 							</div>
 							<div className="picture">
 								<ImageListItem>
-									<img
-										src={specialization?.description}
-										width="100%"
-										height="100%"
-										loading="lazy"
-									/>
+									<img src={specialization?.description} width="100%" height="100%" loading="lazy" />
 								</ImageListItem>
 							</div>
 						</div>
@@ -399,12 +346,7 @@ const HomeProducts: React.FunctionComponent<
 					<TabPanelFaq faq={faq} />
 				</TabPanel>
 				<ImageListItem>
-					<img
-						src={mainLogo}
-						width="100%"
-						height="100%"
-						loading="lazy"
-					/>
+					<img src={mainLogo} width="100%" height="100%" loading="lazy" />
 				</ImageListItem>
 			</section>
 		</>

@@ -103,11 +103,11 @@ export default function NewVideos(props) {
       }
 
       <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />} onClick={handleClickOpen}>
-        New Courses
+        New Video
       </Button>
       <Dialog open={open} onClose={handleClose} fullWidth>
 
-        <DialogTitle>New Course</DialogTitle>
+        <DialogTitle>New Video</DialogTitle>
         <DialogContent sx={{ py: 3 }}>
           {percent ? <Typography>progress: {percent}%</Typography> : null}
           <TextField

@@ -1,6 +1,6 @@
 import { VideosModule } from "./../videos/videos.module";
 import { CoursesService } from "./courses.service";
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { CoursesController } from "./courses.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Courses } from "./entity/courses.entity";
@@ -12,10 +12,9 @@ import { RatingModule } from "../ratings/rating.module";
 
 @Module({
   imports: [
-    AnalyticsModule,
-    VideosModule,
-    RatingModule,
     TypeOrmModule.forFeature([Courses, Syllabus, FAQ, Specialization]),
+    AnalyticsModule,
+    RatingModule,
   ],
   controllers: [CoursesController],
   providers: [CoursesService],

@@ -1,4 +1,6 @@
 import { Helmet } from 'react-helmet-async';
+import { useAuth0 } from "@auth0/auth0-react";
+
 // @mui
 import { Grid, Button, Container, Stack, Typography } from '@mui/material';
 // components
@@ -18,13 +20,15 @@ const SORT_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function BlogPage() {
+  const { isAuthenticated, user } = useAuth0();
+
   return (
     <>
       <Helmet>
         <title> Dashboard: Blog | Minimal UI </title>
       </Helmet>
 
-      <Container>
+      {(isAuthenticated && user.email === process.env.EMAIL || "usool.203@gmail.com") && <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             Blog
@@ -44,7 +48,7 @@ export default function BlogPage() {
             <BlogPostCard key={post.id} post={post} index={index} />
           ))}
         </Grid>
-      </Container>
+      </Container>}
     </>
   );
 }

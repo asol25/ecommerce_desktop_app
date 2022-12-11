@@ -11,9 +11,9 @@ import { ProductMock } from '../mock/_ProductMock';
 
 interface IHomeProps {}
 
-const Home: React.FunctionComponent<IHomeProps> = (
-	props
-) => {
+const Home: React.FunctionComponent<
+	IHomeProps
+> = (props) => {
 	const {
 		social,
 		title,
@@ -38,8 +38,6 @@ const Home: React.FunctionComponent<IHomeProps> = (
 			<Feature />
 			<Story />
 			<Products products={products} />
-			{/* <Testimonial /> */}
-			{/* <New /> */}
 			<NewsLetter />
 		</>
 	);

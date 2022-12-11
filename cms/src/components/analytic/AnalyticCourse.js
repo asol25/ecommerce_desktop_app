@@ -102,17 +102,17 @@ function Row(props) {
                   {filterVideos === null
                     ? null
                     : filterVideos.map((video) => {
-                        return (
-                          <TableRow key={video.id} onClick={() => () => handleRequestSort(isCheckedOrder, 'title')}>
-                            <TableCell component="th" scope="row">
-                              {video.createdDate}
-                            </TableCell>
-                            <TableCell>{video.title}</TableCell>
-                            <TableCell align="right">{video.comments}</TableCell>
-                            <TableCell align="right">{993}</TableCell>
-                          </TableRow>
-                        );
-                      })}
+                      return (
+                        <TableRow key={video.id} onClick={() => () => handleRequestSort(isCheckedOrder, 'title')}>
+                          <TableCell component="th" scope="row">
+                            {video.createdDate}
+                          </TableCell>
+                          <TableCell>{video.title}</TableCell>
+                          <TableCell align="right">{video.comments}</TableCell>
+                          <TableCell align="right">{993}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             </Box>

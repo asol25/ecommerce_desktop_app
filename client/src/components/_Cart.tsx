@@ -13,19 +13,13 @@ function Cart(props: IProps): JSX.Element {
 	return (
 		<>
 			{productsCart.length > 0 ? (
-				<div
-					className={'cart' + ' ' + (props.isCheckedToggle ? 'show-cart' : '')}
-					id="cart"
-				>
-					<i
-						className="bx bx-x cart__close"
-						id="cart-close"
-						onClick={props.handleToggle}
-					></i>
+				<div className={'cart' + ' ' + (props.isCheckedToggle ? 'show-cart' : '')} id="cart">
+					<i className="bx bx-x cart__close" id="cart-close" onClick={props.handleToggle}></i>
 					<h2 className="cart__title-center">My Cart</h2>
 					<div className="cart__container">
 						{productsCart.map((node: ICourses) => (
 							<ArticleCart
+								id={node.courses.id}
 								description={node.courses.description}
 								thumbnailUrl={node.courses.thumbnailUrl}
 								title={node.courses.title}
@@ -35,15 +29,8 @@ function Cart(props: IProps): JSX.Element {
 					</div>
 				</div>
 			) : (
-				<div
-					className={'cart' + ' ' + (props.isCheckedToggle ? 'show-cart' : '')}
-					id="cart"
-				>
-					<i
-						className="bx bx-x cart__close"
-						id="cart-close"
-						onClick={props.handleToggle}
-					></i>
+				<div className={'cart' + ' ' + (props.isCheckedToggle ? 'show-cart' : '')} id="cart">
+					<i className="bx bx-x cart__close" id="cart-close" onClick={props.handleToggle}></i>
 					<h2 className="cart__title-center">Courses Bought</h2>
 					<h3>Entity</h3>
 				</div>
