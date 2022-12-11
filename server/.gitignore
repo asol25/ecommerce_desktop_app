@@ -300,6 +300,7 @@ FakesAssemblies/
 node_modules/
 src/app.module.ts
 .env
+.evn
 # Typescript v1 declaration files
 typings/
 
