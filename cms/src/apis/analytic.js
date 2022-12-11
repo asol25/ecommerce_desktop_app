@@ -6,7 +6,6 @@ export const find = async () => {
 }
 
 export const getAnalyticFlowNowMonth = async (month) => {
-    console.log(month);
     const response = await axios.get(`${process.env.SERVER_API || 'http://localhost:33714'}/orders/${month}`);
     return response;
 }

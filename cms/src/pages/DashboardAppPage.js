@@ -74,6 +74,7 @@ export default function DashboardAppPage() {
       isChecked = false;
     }
   }, []);
+  console.log("🚀 ~ file: DashboardAppPage.js:244 ~ DashboardAppPage ~  process.env.EMAIL", process.env.EMAIL)
   const theme = useTheme();
   return (
     <>

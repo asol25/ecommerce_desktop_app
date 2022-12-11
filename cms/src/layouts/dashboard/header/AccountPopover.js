@@ -34,7 +34,6 @@ export default function AccountPopover() {
     setOpen(event.currentTarget);
   };
   const { user, isAuthenticated, isLoading, logout } = useAuth0();
-  console.log("🚀 ~ file: AccountPopover.js:38 ~ AccountPopover ~ isAuthenticated", isAuthenticated)
   const handleClose = () => {
     setOpen(null);
   };
