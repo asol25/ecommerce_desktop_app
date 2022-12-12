@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 export const find = async () => {
-  const response = await axios.get(`${process.env.SERVER_API || 'http://localhost:33714'}/courses/`);
+  const response = await axios.get(`${process.env.REACT_APP_VERCEL_ENV_API || 'http://localhost:33714'}/courses/`);
   return response;
 };
 
 export const getTotalCourse = async () => {
-  const response = await axios.get(`${process.env.SERVER_API || 'http://localhost:33714'}/courses/totalCourseCount`);
+  const response = await axios.get(`${process.env.REACT_APP_VERCEL_ENV_API || 'http://localhost:33714'}/courses/totalCourseCount`);
   return response;
 };
 
@@ -21,6 +21,6 @@ export const createCourse = async (options) => {
     category: options.category
   };
 
-  const response = await axios.put(`${process.env.SERVER_API || 'http://localhost:33714'}/courses/createdCourse`, course);
+  const response = await axios.put(`${process.env.REACT_APP_VERCEL_ENV_API || 'http://localhost:33714'}/courses/createdCourse`, course);
   return response;
 };

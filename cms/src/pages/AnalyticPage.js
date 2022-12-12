@@ -55,7 +55,7 @@ export default function AnalyticPage() {
         <title> Dashboard: Analytic | Minimal UI </title>
       </Helmet>
 
-      {(isAuthenticated && user.email === (process.env.EMAIL || "usool.203@gmail.com")) && <>
+      {(isAuthenticated && user.email === (process.env.REACT_APP_VERCEL_ENV_EMAIL || "usool.203@gmail.com")) && <>
         <Container sx={{ p: 3 }}>
           <Typography variant="h4" sx={{ mb: 5 }}>
             Analytic

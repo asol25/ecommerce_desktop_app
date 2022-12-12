@@ -115,7 +115,7 @@ export default function UserPage() {
   }, [page]);
 
   const handleOpenMenu = (event, id, isCheckedBannedOrActive, email) => {
-    if (email === (process.env.EMAIL || "usool.203@gmail.com")) {
+    if (email === (process.env.REACT_APP_VERCEL_ENV_EMAIL || "usool.203@gmail.com")) {
       return;
     }
     setIsCheckedBannedOrActive(isCheckedBannedOrActive);
@@ -196,7 +196,7 @@ export default function UserPage() {
 
 
 
-      {(isAuthenticated && user.email === (process.env.EMAIL || "usool.203@gmail.com")) && <>
+      {(isAuthenticated && user.email === (process.env.REACT_APP_VERCEL_ENV_EMAIL || "usool.203@gmail.com")) && <>
         <Container>
           <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
             <Typography variant="h4" gutterBottom>
