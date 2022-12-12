@@ -74,7 +74,7 @@ export default function DashboardAppPage() {
       isChecked = false;
     }
   }, []);
-  console.log("🚀 ~ file: DashboardAppPage.js:244 ~ DashboardAppPage ~  process.env.EMAIL", process.env.EMAIL)
+  console.log("🚀 ~ file: DashboardAppPage.js:244 ~ DashboardAppPage ~  process.env.EMAIL", process.env.NEXT_PUBLIC_EMAIL)
   const theme = useTheme();
   return (
     <>
@@ -82,7 +82,7 @@ export default function DashboardAppPage() {
         <title> Dashboard | Minimal UI </title>
       </Helmet>
 
-      {(isAuthenticated && user.email === (process.env.EMAIL || "usool.203@gmail.com")) ? <Container maxWidth="xl">
+      {(isAuthenticated && user.email === (process.env.NEXT_PUBLIC_EMAIL || "usool.203@gmail.com")) ? <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
