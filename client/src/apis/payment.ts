@@ -7,7 +7,7 @@ export const requestPayment = async (options: any) => {
 		headers: { 'Access-Control-Allow-Origin': '*' },
 	};
 	const res = await axios.post(
-		`${process.env.REACT_APP_VERCEL_ENV_API || 'http://localhost:33714'}/payment/create_payment_url`,
+		`${process.env.REACT_APP_VERCEL_ENV_API}/payment/create_payment_url`,
 		options,
 		headers
 	);
@@ -24,9 +24,7 @@ export const created = async (options: any) => {
 	};
 
 	return await axios.get(
-		`${
-			process.env.REACT_APP_VERCEL_ENV_API || 'http://localhost:33714'
-		}/orders/created/account/${accountsId}/course/${coursesId}`,
+		`${process.env.REACT_APP_VERCEL_ENV_API}/orders/created/account/${accountsId}/course/${coursesId}`,
 		headers
 	);
 };
@@ -37,9 +35,7 @@ export const getOrdersBySlug = async (_id: number, _email: string | undefined) =
 	};
 
 	return await axios.get(
-		`${
-			process.env.REACT_APP_VERCEL_ENV_API || 'http://localhost:33714'
-		}/orders/getOrdersBySlug/${_id}/${_email}`,
+		`${process.env.REACT_APP_VERCEL_ENV_API}/orders/getOrdersBySlug/${_id}/${_email}`,
 		headers
 	);
 };

@@ -69,7 +69,7 @@ export default function Nav({ openNav, onCloseNav }) {
               </Typography>
 
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                {user?.email === "usool.203@gmail.com" ? "Administer" : "Incorrect"}
+                {user?.email === process.env.REACT_APP_VERCEL_ENV_EMAIL ? "Administer" : "User"}
               </Typography>
             </Box>
           </StyledAccount>

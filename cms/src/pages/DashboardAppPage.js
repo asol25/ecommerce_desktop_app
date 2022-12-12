@@ -81,7 +81,7 @@ export default function DashboardAppPage() {
         <title> Dashboard | Minimal UI </title>
       </Helmet>
 
-      {(isAuthenticated && user.email === (process.env.NEXT_PUBLIC_EMAIL || "usool.203@gmail.com")) ? <Container maxWidth="xl">
+      {(isAuthenticated && user.email === (process.env.REACT_APP_VERCEL_ENV_EMAIL || "usool.203@gmail.com")) ? <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
           Hi, Welcome back
         </Typography>
