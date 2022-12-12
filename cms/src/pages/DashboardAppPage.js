@@ -74,7 +74,7 @@ export default function DashboardAppPage() {
       isChecked = false;
     }
   }, []);
-  console.log("🚀 ~ file: DashboardAppPage.js:244 ~ DashboardAppPage ~  process.env.EMAIL", process.env.NEXT_PUBLIC_EMAIL)
+  console.log("🚀 ~ file: DashboardAppPage.js:244 ~ DashboardAppPage ~  process.env.EMAIL", process.env.REACT_APP_VERCEL_ENV_EMAIL)
   const theme = useTheme();
   return (
     <>

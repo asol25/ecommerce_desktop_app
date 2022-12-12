@@ -12,28 +12,14 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useAuth0 } from '@auth0/auth0-react';
 import * as apis from '../apis/apis';
+import { Link } from 'react-router-dom';
 
 export default function LogoutButton() {
-	const {
-		logout,
-		user,
-		isAuthenticated,
-	} = useAuth0();
-	const [
-		anchorEl,
-		setAnchorEl,
-	] = React.useState<null | HTMLElement>(
-		null
-	);
-	const open = Boolean(
-		anchorEl
-	);
-	const handleClick = (
-		event: React.MouseEvent<HTMLElement>
-	) => {
-		setAnchorEl(
-			event.currentTarget
-		);
+	const { logout, user, isAuthenticated } = useAuth0();
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
@@ -43,9 +29,7 @@ export default function LogoutButton() {
 		let isChecked = true;
 		if (isChecked) {
 			const sendData = () => {
-				return apis.user.sendUser(
-					user
-				);
+				return apis.user.sendUser(user);
 			};
 
 			sendData();
@@ -68,17 +52,9 @@ export default function LogoutButton() {
 						onClick={handleClick}
 						size="small"
 						sx={{ ml: 2 }}
-						aria-controls={
-							open
-								? 'account-menu'
-								: undefined
-						}
+						aria-controls={open ? 'account-menu' : undefined}
 						aria-haspopup="true"
-						aria-expanded={
-							open
-								? 'true'
-								: undefined
-						}
+						aria-expanded={open ? 'true' : undefined}
 					>
 						<Avatar
 							sx={{
@@ -100,8 +76,7 @@ export default function LogoutButton() {
 					elevation: 0,
 					sx: {
 						overflow: 'visible',
-						filter:
-							'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+						filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
 						mt: 1.5,
 						'& .MuiAvatar-root': {
 							width: 32,
@@ -117,10 +92,8 @@ export default function LogoutButton() {
 							right: 14,
 							width: 10,
 							height: 10,
-							bgcolor:
-								'background.paper',
-							transform:
-								'translateY(-50%) rotate(45deg)',
+							bgcolor: 'background.paper',
+							transform: 'translateY(-50%) rotate(45deg)',
 							zIndex: 0,
 						},
 					},
@@ -135,18 +108,10 @@ export default function LogoutButton() {
 				}}
 			>
 				<MenuItem>
-					<Avatar /> Profile
-				</MenuItem>
-				<MenuItem>
-					<Avatar /> My account
+					<Avatar />
+					<Link to="profile">Profile</Link>
 				</MenuItem>
 				<Divider />
-				<MenuItem>
-					<ListItemIcon>
-						<PersonAdd fontSize="small" />
-					</ListItemIcon>
-					Add another account
-				</MenuItem>
 				<MenuItem>
 					<ListItemIcon>
 						<Settings fontSize="small" />
@@ -156,9 +121,7 @@ export default function LogoutButton() {
 				<MenuItem
 					onClick={() =>
 						logout({
-							returnTo:
-								window.location
-									.origin,
+							returnTo: window.location.origin,
 						})
 					}
 				>

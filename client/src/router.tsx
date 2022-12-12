@@ -1,4 +1,5 @@
 import { useRoutes } from 'react-router-dom';
+import Profile from './components/_Profile';
 import { CoursesPage } from './layout/CoursesPage';
 import Home from './layout/HomePage';
 import ApplicationPage from './layout/index';
@@ -28,6 +29,10 @@ export default function Router(): ReturnType<typeof useRoutes> {
 				{
 					path: 'courses',
 					element: <CoursesPage />,
+				},
+				{
+					path: 'profile',
+					element: <Profile />,
 				},
 			],
 		},
