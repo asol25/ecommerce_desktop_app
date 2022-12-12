@@ -144,7 +144,7 @@ const Checkout: React.FunctionComponent<ICheckoutProps> = (props) => {
 								</Typography>
 								<Typography variant="subtitle1">
 									{window.location.search.includes('vnp_ResponseCode=00')
-										? `Your order number is #{vnp_TxnRef}. We
+										? `Your order number is #${vnp_TxnRef}. We
 									have emailed your order confirmation, and
 									will send you an update when your order
 									has shipped.`
